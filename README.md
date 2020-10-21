@@ -5,5 +5,5 @@
 
 **_Preview:_**
 
-![Screenshot 2020-10-21 at 5 08 54 PM] (https://github.com/Oussamazz/21sh/blob/main/Screen%20Shot%202020-10-21%20at%202.21.50%20PM.png?raw=true)
+![Screenshot 2020-10-21 at 5 08 54 PM] (https://raw.githubusercontent.com/Oussamazz/21sh/main/Screen%20Shot%202020-10-21%20at%202.21.50%20PM.png?token=AJUOFSWDNJCIN7NM6E3KGOK7TFZVCvv)
 
