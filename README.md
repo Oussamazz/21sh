@@ -5,5 +5,5 @@
 
 **_Preview:_**
 
-![Screenshot 2020-10-21 at 5 08 54 PM](https://drive.google.com/file/d/1GW9yYwFBbtPCCLAq1c7hxvhvnpNm4ZJe/view?usp=sharing)
+![Screenshot 2020-10-21 at 5 08 54 PM] ()
 
