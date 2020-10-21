@@ -5,5 +5,5 @@
 
 **_Preview:_**
 
-![Screenshot2020] (https://raw.githubusercontent.com/Oussamazz/21sh/main/screenshot.png?token=AJUOFSQ7GS3M5JN5RZVEME27TF2I4?raw=true)
+![Screenshot2020] (https://raw.githubusercontent.com/Oussamazz/21sh/main/screenshot.png?token=AJUOFSQ7GS3M5JN5RZVEME27TF2I4)
 
