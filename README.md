@@ -5,5 +5,5 @@
 
 **_Preview:_**
 
-![Screenshot 2020-10-21 at 5 08 54 PM] (Screen Shot 2020-10-21 at 2.21.50 PM.png)
+![Screenshot 2020-10-21 at 5 08 54 PM] (screenshot.png)
 
