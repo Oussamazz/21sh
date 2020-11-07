@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/11/07 03:37:43 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/07 23:20:20 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "../includes/21sh.h"
 
 void    print_env_list(t_env *env_list)
 {

@@ -1,6 +1,6 @@
 NAME= 21sh
 LIBFT_PATH= ./libft/
-INCLUDE= -I ./includes/ -I $(LIBFT_PATH)
+INCLUDE= -I ./includes/ -I . -I $(LIBFT_PATH)
 SRC_DIR_PARSE= ./src/
 SRC_DIR_READLINE= ./readline/
 OBJ_DIR= ./obj/

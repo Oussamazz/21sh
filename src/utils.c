@@ -1,5 +1,5 @@
 
-#include "21sh.h"
+#include "../includes/21sh.h"
 
 bool    is_quote(int c)
 {

@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/11/05 11:41:28 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/07 23:03:45 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "../includes/21sh.h"
 
 
 static void redirection_varname(char ***arr, char *str, int *j, int *i)

@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/11/07 01:42:09 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/07 23:03:45 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "../includes/21sh.h"
 
 void    append_list(t_lexer **root, char *data, t_type type)
 {

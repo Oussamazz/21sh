@@ -5,16 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/26 05:46:44 by macos             #+#    #+#             */
-/*   Updated: 2020/11/07 18:57:41 by macos            ###   ########.fr       */
+/*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
+/*   Updated: 2020/11/07 23:17:26 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef SH_H
 #define SH_H
 
 # include "libft.h"
+# include "21sh_r.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <stdbool.h>

@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 23:33:30 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/10/28 00:43:20 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/07 23:15:00 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/21sh.h"
+#include "./includes/21sh.h"
 
 void alt_cgoto(t_line *line)
 {

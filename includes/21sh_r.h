@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21sh.h                                             :+:      :+:    :+:   */
+/*   ../includes/21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -95,6 +95,7 @@ typedef struct s_line
 
 t_line *g_line;
 char *g_str;
+
 void ft_stock(char *str, t_node **list, t_line *line);
 int ft_output(int str);
 void cur_goto(t_line *line, int cursor);

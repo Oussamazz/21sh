@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/10/28 00:40:39 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/07 23:20:07 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/21sh.h"
+#include "./includes/21sh.h"
 
 int ft_output(int str)
 {
@@ -212,7 +212,7 @@ int keyshendle1(t_line *line, char **str, t_node **current)
 	return (r);
 }
 
-char *ft_readline()
+char *ft_readline() // finahya l prompt!!
 {
 	t_node *current;
 	char buff[1024];

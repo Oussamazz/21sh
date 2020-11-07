@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../includes/21sh.h"
+#include "./includes/21sh.h"
 
 int main(int argc, char **argv, char **envp)
 {
