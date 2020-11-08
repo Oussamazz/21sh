@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ../includes/21sh.h                                             :+:      :+:    :+:   */
+/*   21sh_r.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:55:33 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/06 12:35:45 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/08 00:33:21 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <sys/ioctl.h>
-#include "libft/libft.h"
+#include "../libft/libft.h"
 
 #define UP 4283163
 #define DOWN 4348699
@@ -31,15 +31,15 @@
 #define DEL 127
 #define END 10
 #define ESC 27
-#define alt_rth 1130044187
-#define alt_lft 1146821403
+#define ALT_RTH 1130044187
+#define ALT_LFT 1146821403
 #define HOME 4741915
 #define DEEP 4610843
 #define alt_C 42947
 #define alt_V 10127586
 #define alt_S 40899
-#define page_down 1113266971
-#define page_up 1096489755
+#define PAGE_DOWN 1113266971
+#define PAGE_UP 1096489755
 #define ALT_D 4
 #define ALT_S 40899
 #define ALT_V 10127586
@@ -94,7 +94,14 @@ typedef struct s_line
 } t_line;
 
 t_line *g_line;
+
 char *g_str;
+
+
+/*
+** readline function
+*/
+char *ft_readline(void);
 
 void ft_stock(char *str, t_node **list, t_line *line);
 int ft_output(int str);
@@ -106,14 +113,14 @@ void ft_delet(char **str, t_line *line);
 void ft_next(t_node **head, t_node **list, char **str, t_line *line);
 void ft_prev(t_node **head, t_node **list, char **str, t_line *line);
 void get_cursor_position(t_line *line);
-void ft_end(t_node **list, t_node **head, t_line *line, char **str);
+char *ft_end(t_node **current, t_line *line);
 void print_porompte(t_line *line);
 void move_left(t_line *line, char *str);
 void move_right(t_line *line, char *str);
 void home_deep(t_line *line, char *str);
 void esc(void);
 void esc1(void);
-void ft_init(t_line *line);
+void ft_init(t_line *line, t_node **current);
 void ft_multi(char **str, t_line *line, char **tmp);
 void multilne(char *str, t_line *line);
 void move_up(t_line *line);
@@ -131,4 +138,4 @@ void ft_unselect(t_line *line, char *str);
 void ft_clear(t_line *line, char *str);
 void ft_copie(t_line *line, char *str);
 void ft_porompte(void);
-void koko(char **str, t_line *line);
+// void koko(char **str, t_line *line);

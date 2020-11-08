@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/07 23:20:07 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/08 00:34:40 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/21sh.h"
+#include "../includes/21sh.h"
 
 int ft_output(int str)
 {
@@ -61,16 +61,16 @@ void handle_sigwindch(int sig)
 	ioctl(0, TIOCGWINSZ, &w);
 	if (sig == SIGWINCH)
 	{
-		g_env.line.col = w.ws_col;
-		g_env.line.row = w.ws_row;
-		tputs(tgoto(tgetstr("cm", 0), 0, g_env.line.c_o.y), 0, ft_output);
+		g_line->col = w.ws_col;
+		g_line->row = w.ws_row;
+		tputs(tgoto(tgetstr("cm", 0), 0, g_line->c_o.y), 0, ft_output);
 		tputs(tgetstr("cd", 0), 0, ft_output);
 		ft_porompte();
-		ft_clear(&(g_env.line), g_str);
+		ft_clear(&(g_line), g_str);
 	}
 }
 
-void ft_ctl_l(t_line *line,char *str)
+void ft_ctl_l(t_line *line, char *str)
 {
 	tputs(tgoto(tgetstr("cm", 0), 0, 0), 0, ft_output);
 	tputs(tgetstr("cd", 0), 0, ft_output);
@@ -212,31 +212,32 @@ int keyshendle1(t_line *line, char **str, t_node **current)
 	return (r);
 }
 
-char *ft_readline() // finahya l prompt!!
+char *ft_readline(void)
 {
 	t_node *current;
 	char buff[1024];
-	
-	ft_init(&(g_env.line), &current);
+	t_line  line;
+	ft_init(&(line), &current);
 	while (TRUE)
 	{
+		g_line = &line;
 		g_str = current->tmp;
-		g_env.line.r = 0;
+		line.r = 0;
 		ft_bzero(buff, 1024);
 		if (read(0, buff, 1023) > 0)
 		{
-			g_env.line.r = (*(int *)buff);
-			if (keyshendle(&(g_env.line),&current->tmp))
+			line.r = (*(int *)buff);
+			if (keyshendle(&(line),&current->tmp))
 				continue ;
-			else if (keyshendle1(&g_env.line, &current->tmp,  &current))
+			else if (keyshendle1(&line, &current->tmp,  &current))
 				continue ;
-			else if (keyshendle2(&(g_env.line), &current->tmp))
+			else if (keyshendle2(&(line), &current->tmp))
 				continue ;
-			else if (g_env.line.r == END && g_env.line.slct == 0)
+			else if (line.r == END && line.slct == 0)
 				break ;
-			else if (g_env.line.slct == 0)
-				ft_print_print(&current->tmp, &(g_env.line), buff);
+			else if (line.slct == 0)
+				ft_print_print(&current->tmp, &(line), buff);
 		}
 	}
-	return (ft_end(&current, &g_env.line));
+	return (ft_end(&current, &line));
 }

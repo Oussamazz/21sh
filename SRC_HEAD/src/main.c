@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/11/07 23:20:20 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/08 00:46:43 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void    source_sh(t_env *env_list)
 
     while (1)
     {
-        buffer = readline("$> ");
+        buffer = ft_readline();
         print_list((tokenz = lexer(buffer)));
         if (ft_strequ(buffer, "exit"))
             exit(0);

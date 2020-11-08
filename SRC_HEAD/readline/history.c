@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 23:59:46 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/07 22:56:04 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/08 00:32:03 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_../includes/21sh.h"
+#include "../includes/21sh.h"
 
 static t_node *history_head;
 

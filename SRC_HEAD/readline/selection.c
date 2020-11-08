@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/08 03:00:47 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/07 23:15:00 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/08 00:32:03 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/21sh.h"
+#include "../includes/21sh.h"
 
 void ft_copie(t_line *line, char *str)
 {
