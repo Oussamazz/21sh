@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:19:30 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/08 00:32:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/13 21:20:09 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void move_cursor_v(t_line *line)
 {
-	t_point point;
+	t_pointt point;
 	int i;
 	point = line->c_o;
 	i = line->i;

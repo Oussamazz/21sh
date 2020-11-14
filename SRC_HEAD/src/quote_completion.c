@@ -6,11 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 18:58:18 by macos             #+#    #+#             */
-/*   Updated: 2020/11/08 00:34:16 by macos            ###   ########.fr       */
+/*   Updated: 2020/07/19 19:10:46 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/21sh.h"
+#include "21sh.h"
 
 void    quote_completion(t_quote **quot, char quote)
 {
