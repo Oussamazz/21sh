@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 23:59:46 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/08 00:32:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/21 19:43:20 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void ft_history_goto(t_node **current, t_node *new, t_line *line)
 			(*current)->len = (*current)->content_len;
 		}
 		line->r = DEEP;
-		multilne((*current)->tmp, line);
+		ft_multilne((*current)->tmp, line);
 		ft_clear(line, (*current)->tmp);
 		home_deep(line, (*current)->tmp);
 	}
@@ -35,20 +35,20 @@ void ft_history_goto(t_node **current, t_node *new, t_line *line)
 		ft_putstr(tgetstr("bl", NULL));
 }
 
-void load_hsitory(const char *file)
-{
-	char *line;
+// void load_hsitory(const char *file)
+// {
+// 	char *line;
 
-	line = NULL;
-	int fd = open(file, O_RDONLY);
-	while (get_next_line(fd, &line) > 0)
-	{
-		add_to_history(line);
-		ft_strdel(&line);
-	}
-	ft_strdel(&line);
-	close(fd);
-}
+// 	line = NULL;
+// 	int fd = open(file, O_RDONLY);
+// 	while (get_next_line(fd, &line) > 0)
+// 	{
+// 		add_to_history(line);
+// 		ft_strdel(&line);
+// 	}
+// 	ft_strdel(&line);
+// 	close(fd);
+// }
 
 t_node *add_to_history(const char *str)
 {
@@ -67,19 +67,19 @@ t_node *add_to_history(const char *str)
 	return (history_head);
 }
 
-void free_history_node(t_node *node)
+void free_history_node(t_node *head)
 {
-	if (node)
+	if (head)
 	{
-		if (node->prev == NULL)
-			history_head = node->next;
+		if (head->prev == NULL)
+			history_head = head->next;
 		else
-			node->prev->next = node->next;
-		if (node->next)
-			node->next->prev = node->prev;
-		free(node->content);
-		free(node->tmp);
-		free(node);
+			head->prev->next = head->next;
+		if (head->next)
+			head->next->prev = head->prev;
+		free(head->content);
+		free(head->tmp);
+		free(head);
 	}
 }
 
@@ -94,9 +94,8 @@ char *ft_end(t_node **current, t_line *line)
 	tcgetattr(0, &config);
 	config.c_lflag &= (ECHO | ICANON);
 	tcsetattr(0, 0, &config);
-
 	return_line = ft_strdup((*current)->tmp);
 	ft_strdel(&(*current)->tmp);
 	free_history_node(history_head);
-	return return_line;
+	return (return_line);
 }

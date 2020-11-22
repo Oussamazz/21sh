@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   free1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/27 18:14:15 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/11/20 11:15:53 by macos            ###   ########.fr       */
+/*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
+/*   Updated: 2020/11/21 21:22:14 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "21sh.h"
 
-char	*ft_strchr(const char *s, int c)
+void    ft_free_tokenz(t_lexer **head)
 {
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0' && *s == '\0')
-		return ((char *)s);
-	return (NULL);
+    t_lexer *cur;
+    t_lexer *tmp;
+
+    if (head || *head)
+    {
+        cur = *head;
+        while (cur)
+        {
+            tmp = cur;
+            ft_strdel(&(cur->data));
+            cur = cur->next;
+            free(tmp);
+        }
+        if (cur)
+            free(cur);
+        cur = NULL;
+    }
+    return ;
 }

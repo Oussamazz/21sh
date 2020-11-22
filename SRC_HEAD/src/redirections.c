@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/11/14 01:16:23 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/21 13:12:14 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,26 @@ char **split_redir(char *str, int pos)
     return (agg);
 }
 
+static char *modify_right_redir(char **agg)
+{
+    size_t len;
+    int i;
+    char *str;
+    char *tmp;
+
+    str = NULL;
+    if (agg)
+    {
+        i = 0;
+        str = *agg;
+        tmp = str;
+        len = ft_strchr(str, ';') - str;
+        str = ft_strsub(str, 0, len);
+        ft_strdel(&tmp);       
+    }
+    return (str);
+}
+
 size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, int *i_p)
 {
     int i;
@@ -210,8 +230,12 @@ size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, i
             else
                 append_list_redi(token_node, agg[j], AGGR_SYM, cor);
         }
-        else if (ft_isalnum(agg[j][0]))//expansion
+        else if (ft_isalnum(agg[j][0]))
+        {
+            if (ft_is_there(agg[j], ';'))
+                agg[j] = modify_right_redir(&agg[j]);
             append_list_redi(token_node, agg[j], R_REDIR, cor);
+        }
         j++;
     }
     j = 0;

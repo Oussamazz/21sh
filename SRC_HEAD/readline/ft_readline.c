@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/08 00:34:40 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/21 19:43:11 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,65 @@ void cur_goto(t_line *line, int cursor)
 	y = (line->c_v.y + (line->c_v.x + cursor) / line->col);
 	x = ((line->c_v.x + cursor) % line->col);
 	tputs(tgoto(tgetstr("cm", 0), x, y), 0, ft_output);
+}
+
+void ft_put_multistring(char **strings)
+{
+	while (*strings)
+		ft_putstr(*strings++);
+}
+
+void handle_sigwindch(int sig)
+{
+	struct winsize w;
+	ioctl(0, TIOCGWINSZ, &w);
+	if (sig == SIGWINCH)
+	{
+		g_line->col = w.ws_col;
+		g_line->row = w.ws_row;
+		tputs(tgoto(tgetstr("cm", 0), 0, g_line->c_o.y), 0, ft_output);
+		tputs(tgetstr("cd", 0), 0, ft_output);
+		ft_prompte();
+		ft_clear(g_line, g_str);
+	}
+}
+
+void ft_ctl_l(t_line *line, char *str)
+{
+	tputs(tgoto(tgetstr("cm", 0), 0, 0), 0, ft_output);
+	tputs(tgetstr("cd", 0), 0, ft_output);
+	ft_prompte();
+	line->c_o.y = 0;
+	tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
+	print_line(str);
+	move_cursor_v(line);
+	cur_goto(line, line->cursor);
+}
+
+void ft_signale(void)
+{
+	signal(SIGWINCH, handle_sigwindch);
+}
+
+void ft_prompte(void)
+{
+	char cwd[256];
+	char *cwd1;
+	char *str1;
+	if (getcwd(cwd, sizeof(cwd)))
+		cwd1 = getcwd(cwd, sizeof(cwd));
+	else
+	{
+		ft_put_multistring((char *[]){"\033[1;33m", " 😡 permission denied ", "\n", "\033[0m", 0});
+		exit(1);
+	}
+	if (ft_strcmp(cwd1, "/") == 0)
+	{
+		ft_put_multistring((char *[]){"\033[1;33m", "😜 ", cwd1, " $> \033[0m", 0});
+		return;
+	}
+	str1 = ft_strrchr(cwd1, '/');
+	ft_put_multistring((char *[]){"\033[1;32m➜ ", "\033[1;36m ", str1 + 1, " $>\033[0m", 0});
 }
 
 void get_cursor_position(t_line *line)
@@ -49,69 +108,22 @@ void get_cursor_position(t_line *line)
 	line->c_v = line->c_o;
 }
 
-void ft_put_multistring(char **strings)
-{
-	while (*strings)
-		ft_putstr(*strings++);
-}
-
-void handle_sigwindch(int sig)
-{
-	struct winsize w;
-	ioctl(0, TIOCGWINSZ, &w);
-	if (sig == SIGWINCH)
-	{
-		g_line->col = w.ws_col;
-		g_line->row = w.ws_row;
-		tputs(tgoto(tgetstr("cm", 0), 0, g_line->c_o.y), 0, ft_output);
-		tputs(tgetstr("cd", 0), 0, ft_output);
-		ft_porompte();
-		ft_clear(&(g_line), g_str);
-	}
-}
-
-void ft_ctl_l(t_line *line, char *str)
-{
-	tputs(tgoto(tgetstr("cm", 0), 0, 0), 0, ft_output);
-	tputs(tgetstr("cd", 0), 0, ft_output);
-	ft_porompte();
-	line->c_o.y = 0;
-	tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
-	print_line(str);
-	move_cursor_v(line);
-	cur_goto(line, line->cursor);
-}
-
-void ft_signale(void)
-{
-	signal(SIGWINCH, handle_sigwindch);
-}
-
-void ft_porompte(void)
-{
-	char cwd[256];
-	char *cwd1;
-	char *str1;
-	if (getcwd(cwd, sizeof(cwd)))
-		cwd1 = getcwd(cwd, sizeof(cwd));
-	else
-	{
-		ft_put_multistring((char *[]){"\033[1;33m", " 😡 permission denied ", "\n", "\033[0m", 0});
-		exit(1);
-	}
-	if (ft_strcmp(cwd1, "/") == 0)
-	{
-		ft_put_multistring((char *[]){"\033[1;33m", "😜 ", cwd1, " $> \033[0m", 0});
-		return;
-	}
-	str1 = ft_strrchr(cwd1, '/');
-	ft_put_multistring((char *[]){"\033[1;32m➜ ", "\033[1;36m ", str1 + 1, " $>\033[0m", 0});
-}
-
 void ft_init(t_line *line, t_node **current)
 {
 	struct winsize w;
 
+	struct termios config;
+	char buf[1024];
+	if (tcgetattr(0, &config) < 0)
+		ft_putendl_fd("error", 0);
+	config.c_lflag &= ~(ECHO | ICANON);
+	if (tcsetattr(0, 0, &config) < 0)
+		ft_putendl_fd("error", 0);
+	if (tgetent(buf, getenv("TERM")) < 0)
+	{
+		ft_putendl_fd("error", 0);
+		exit(0);
+	}
 	ioctl(0, TIOCGWINSZ, &w);
 	ft_bzero(line, sizeof(t_line));
 	line->col = w.ws_col;
@@ -202,7 +214,9 @@ int keyshendle2(t_line *line, char **str)
 
 int keyshendle1(t_line *line, char **str, t_node **current)
 {
-	int r = 0;
+	int r;
+	
+	r = 0;
 	if ((line->r == HOME || line->r == DEEP) && line->slct == 0 && (r = 1))
 		home_deep(line, *str);
 	else if (line->r == UP && line->slct == 0 && (r = 1))
@@ -223,13 +237,14 @@ char *ft_readline(void)
 		g_line = &line;
 		g_str = current->tmp;
 		line.r = 0;
+		ft_signale();
 		ft_bzero(buff, 1024);
 		if (read(0, buff, 1023) > 0)
 		{
 			line.r = (*(int *)buff);
 			if (keyshendle(&(line),&current->tmp))
 				continue ;
-			else if (keyshendle1(&line, &current->tmp,  &current))
+			else if (keyshendle1(&line, &current->tmp, &current))
 				continue ;
 			else if (keyshendle2(&(line), &current->tmp))
 				continue ;

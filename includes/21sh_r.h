@@ -6,9 +6,13 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:55:33 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/13 21:21:16 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/21 19:37:02 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+#ifndef SH_R_H
+#define SH_R_H
 
 #include <stdio.h>
 #include <curses.h>
@@ -21,7 +25,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <sys/ioctl.h>
-#include "../libft/libft.h"
+
 
 #define UP 4283163
 #define DOWN 4348699
@@ -58,7 +62,7 @@ typedef struct s_init
 typedef struct s_node
 {
 	char *content;
-	char *content_len;
+	int  content_len;
 	char *tmp;
 	int len;
 	struct s_node *next;
@@ -92,12 +96,8 @@ typedef struct s_line
 	int r;
 	char c[2];
 } t_line;
-
-t_line *g_line;
-
-char *g_str;
-
-
+t_line	*g_line;
+char	*g_str;
 /*
 ** readline function
 */
@@ -114,7 +114,7 @@ void ft_next(t_node **head, t_node **list, char **str, t_line *line);
 void ft_prev(t_node **head, t_node **list, char **str, t_line *line);
 void get_cursor_position(t_line *line);
 char *ft_end(t_node **current, t_line *line);
-void print_porompte(t_line *line);
+void print_prompte(t_line *line);
 void move_left(t_line *line, char *str);
 void move_right(t_line *line, char *str);
 void home_deep(t_line *line, char *str);
@@ -122,7 +122,7 @@ void esc(void);
 void esc1(void);
 void ft_init(t_line *line, t_node **current);
 void ft_multi(char **str, t_line *line, char **tmp);
-void multilne(char *str, t_line *line);
+void ft_multilne(char *str, t_line *line);
 void move_up(t_line *line);
 void move_down(t_line *line);
 void move_cursor_v(t_line *line);
@@ -137,5 +137,10 @@ void ft_print_print(char **str, t_line *line, char *buff);
 void ft_unselect(t_line *line, char *str);
 void ft_clear(t_line *line, char *str);
 void ft_copie(t_line *line, char *str);
-void ft_porompte(void);
-// void koko(char **str, t_line *line);
+void ft_prompte(void);
+t_node *add_to_history(const char *str);
+void ft_history_goto(t_node **current, t_node *neww, t_line *line);
+char *ft_end(t_node **current, t_line *line);
+void free_history_node(t_node *node);
+
+# endif

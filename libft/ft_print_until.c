@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_print_until.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/27 18:14:15 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/11/20 11:15:53 by macos            ###   ########.fr       */
+/*   Created: 2020/11/20 11:17:25 by macos             #+#    #+#             */
+/*   Updated: 2020/11/20 11:17:29 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_print_until(const char *s, int c)
 {
 	while (*s)
 	{
 		if (*s == (char)c)
 			return ((char *)s);
+        else
+            ft_putchar_fd(*s, 1);
 		s++;
 	}
 	if ((char)c == '\0' && *s == '\0')

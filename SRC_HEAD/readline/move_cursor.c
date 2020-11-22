@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:19:30 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/13 21:20:09 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/21 19:43:44 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void move_cursor_v(t_line *line)
 {
-	t_pointt point;
+	t_point point;
 	int i;
 	point = line->c_o;
 	i = line->i;
@@ -192,7 +192,7 @@ void ft_allocate_table(t_line *line, char *str)
 	ft_stock_totable(line, str);
 }
 
-void multilne(char *str, t_line *line)
+void ft_multilne(char *str, t_line *line)
 {
 	line->len = 0;
 	line->index = 0;

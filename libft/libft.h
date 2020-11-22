@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 14:38:46 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/07/12 18:16:25 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/20 11:18:01 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,6 @@ void				free_two_dim(char **arr, int size);
 char				*ft_strjoin_four(char const *s1, char const *s2,
 	char const *s3, char const *s4);
 int 				is_blank(int c);
+size_t 				get_arr_size(char **arr);
+char				*ft_print_until(const char *s, int c);
 #endif

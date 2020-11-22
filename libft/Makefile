@@ -6,7 +6,7 @@
 #    By: macos <macos@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/30 03:33:28 by oelazzou          #+#    #+#              #
-#    Updated: 2020/07/12 18:16:58 by macos            ###   ########.fr        #
+#    Updated: 2020/11/22 12:13:33 by macos            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,12 +76,14 @@ FILE = ft_atoi.c \
 	   ft_strtrim.c \
 	   ft_tolower.c \
 	   ft_toupper.c \
+	   get_arr_size.c \
 	   ft_putstr_wspace.c \
 	   ft_putstr_w2space.c \
 	   ft_putnbr_wspace.c \
 	   ft_strrchr_path.c \
 	   is_blank.c \
 	   free_two_dim.c \
+	   ft_print_until.c \
 	   ft_strjoin_four.c \
 	   get_next_line.c
 FLAGS = -Wall -Wextra -Werror
@@ -93,7 +95,7 @@ $(NAME):
 	ranlib $(NAME)
 all : $(NAME)
 clean :
-	rm -f $(OBJ)
+	rm -f $(OBJ) *.o
 fclean : clean
-	rm -f $(NAME)
+	rm -f $(NAME) *.a
 re : fclean all

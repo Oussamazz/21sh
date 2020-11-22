@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 23:33:30 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/08 00:32:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/21 19:43:25 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void ft_delet(char **str, t_line *line)
 		line->b_line--;
 		line->len--;
 		line->c_len--;
-		multilne(*str, line);
+		ft_multilne(*str, line);
 		move_cursor_v(line);
 		cur_goto(line, line->cursor);
 	}
@@ -168,13 +168,6 @@ void ft_printnbl(char **str, t_line *line, char c)
 	else
 		line->cursor++;
 	line->b_line++;
-	multilne(*str, line);
+	ft_multilne(*str, line);
 	line->c_len++;
 }
-
-
-
-
-
-
-

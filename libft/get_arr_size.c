@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   get_arr_size.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/27 18:14:15 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/11/20 11:15:53 by macos            ###   ########.fr       */
+/*   Created: 2020/11/18 11:31:43 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/11/18 11:33:42 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+size_t get_arr_size(char **arr)
 {
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0' && *s == '\0')
-		return ((char *)s);
-	return (NULL);
+    size_t size;
+
+    size = 0;
+    if (arr && *arr)
+    {
+        while (arr[size])
+            size++;
+    }
+    return (size);
 }

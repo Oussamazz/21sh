@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/27 18:14:15 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/11/20 11:15:53 by macos            ###   ########.fr       */
+/*   Created: 2020/11/18 01:35:10 by macos             #+#    #+#             */
+/*   Updated: 2020/11/18 01:54:07 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "21sh.h"
 
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0' && *s == '\0')
-		return ((char *)s);
-	return (NULL);
-}
+// void reset_fd(char *tty, int fd)
+// {
+//     int fd;
+
+//     fd = open(tty, fd);
+// }
