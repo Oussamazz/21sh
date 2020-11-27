@@ -6,16 +6,99 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 15:50:25 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 20:34:56 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
+size_t  get_arr_size_tokenz(t_lexer *token)
+{
+    size_t size;
+
+    size = 0;
+    while (token != NULL)
+    {
+        if (token->type != PIPE_SYM && token->type != METACHAR && token->type != SEP)
+            size++;
+        else
+            break ;
+        token = token->next;
+    }
+    return (size);
+}
+
+
+char    **get_command(t_lexer *token, t_miniast **data, t_env **env)
+{
+    int i;
+    char **ret;
+    size_t ret_size;
+
+    ret = NULL;
+    if (token)
+    {
+        ret_size = get_arr_size_tokenz(token);
+        if (!(ret = (char**)ft_memalloc(sizeof(char*) * (ret_size + 1))))
+            return (NULL);
+        i = 0;
+        while (token != NULL)
+        {
+            if (!(ret[i] = (char*)ft_memalloc(sizeof(char) * MAX_INDEX + 1)))
+                return (NULL);
+            if (token->type == WORD || token->type == DQUOT ||
+                 token->type == SQUOT || token->type == EXPANSION)
+            {
+                if (token->type != DQUOT)
+                    ret[i] = token->data;
+                else
+                {
+                    ret[i] = expanded(env, token->data);
+                    //ft_strdel(&(token->data));
+                }
+            }
+            else if (token->type == AGGR_SYM ||
+                token->type == L_REDIR || token->type == R_REDIR)
+            {
+                
+            }
+            i++;
+            token = token->next;
+        }
+        ret[i] = NULL;
+    }
+    return (ret);
+}
+
 int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 {
-    
+    char **cmd;
+    t_miniast *data;
+
+    cmd = NULL;
+    while (tokenz)
+    {
+        if ((*head) == NULL && env)
+        {
+            data = (t_miniast*)ft_memalloc(sizeof(t_miniast));
+            if (!(cmd = get_command(tokenz, &data, env)))
+                return (-1);
+            data->cmd = cmd;
+            data->pipe = NULL;
+            data->sep = NULL;
+            *head = data;
+        }
+        else if (tokenz->type == PIPE_SYM)
+            parse_commands(&(*head)->pipe, tokenz, env);
+        else if (tokenz->type == SEP)
+            parse_commands(&(*head)->sep, tokenz, env);
+        tokenz = tokenz->next;
+    }
+    return (1);
 }
+
+//--------------------------------------------------------------------------
+//--------------------------------------------------------------------------
 
 size_t calc_arr_size(t_lexer *token, int *next_type)
 {

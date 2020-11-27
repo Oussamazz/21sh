@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 17:20:58 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 19:50:47 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,16 @@ typedef struct s_env
 
 typedef enum e_type
 {
-	WORD=1,
-	METACHAR,
-	L_REDIR,
-	AGGR_SYM,
-	R_REDIR,
-	PIPE_SYM,
-	DQUOT,
-	SQUOT,
-	EXPANSION,
-	SEP
+	WORD=1,    // 1 - 1
+	METACHAR,  // 0
+	L_REDIR,   // 1 - 0
+	AGGR_SYM,  // 1 - 0
+	R_REDIR,   // 1 - 0
+	PIPE_SYM,  // 0
+	DQUOT,     // 1 - 1
+	SQUOT,     // 1 - 1
+	EXPANSION, // 1 - 1
+	SEP        // 0
 }           t_type;
 
 /*
@@ -172,7 +172,8 @@ int 		is_there_in_env(char *str, t_env **env_list);
 */
 
 
-int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
+int    		parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
+int			check_syntax(t_miniast *ast);
 
 
 

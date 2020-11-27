@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 17:14:11 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 20:02:09 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ void    source_sh(t_env **head)
         ft_prompte();
         buffer = ft_readline();
         print_list((tokenz = lexer(buffer, head, &coord)));
-        // fflush(stdout);
-        // if (tokenz)
-        //     status[1] = parse_commands(&ast, tokenz, head);
+        fflush(stdout);
+        ast = NULL;
+        if (tokenz)
+            status[1] = parse_commands(&ast, tokenz, head);
         //ast <-
         //status = execute(&tokenz, head);
         if (ft_strequ(buffer, "exit"))

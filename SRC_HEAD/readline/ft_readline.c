@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/21 19:43:11 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 17:35:56 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,15 +115,12 @@ void ft_init(t_line *line, t_node **current)
 	struct termios config;
 	char buf[1024];
 	if (tcgetattr(0, &config) < 0)
-		ft_putendl_fd("error", 0);
+		ft_putendl_fd("\nerror", 0);
 	config.c_lflag &= ~(ECHO | ICANON);
 	if (tcsetattr(0, 0, &config) < 0)
-		ft_putendl_fd("error", 0);
+		ft_putendl_fd("\nerror", 0);
 	if (tgetent(buf, getenv("TERM")) < 0)
-	{
-		ft_putendl_fd("error", 0);
-		exit(0);
-	}
+		error_message("\n21sh: Error: environment not found.\n", 1);
 	ioctl(0, TIOCGWINSZ, &w);
 	ft_bzero(line, sizeof(t_line));
 	line->col = w.ws_col;
