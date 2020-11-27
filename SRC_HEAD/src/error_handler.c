@@ -6,16 +6,17 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 17:51:48 by macos             #+#    #+#             */
-/*   Updated: 2020/11/21 11:28:54 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 16:09:29 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-char *error_ret(char *addr, char *err_message)
+
+char  *err_ret(char *s, char *addrr)
 {
-    
-    return (NULL);
+  ft_putstr_fd(s, 2);
+  return (addrr);
 }
 
 void  error_message(char *err_message, int flag)

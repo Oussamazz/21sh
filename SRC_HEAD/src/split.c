@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 19:11:38 by macos             #+#    #+#             */
-/*   Updated: 2020/11/19 21:12:50 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 00:55:14 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,28 @@ static int			word_count(char *s)
 	return (res);
 }
 
+static int	get_type(char c)
+{
+	if (is_blank(c))
+		return (1);
+	if (ft_isalnum(c))
+		return (2);
+	return (2);
+}
+
 static int			word_len(char *s)
 {
-	int				len;
+	int	len;
+	int	type;
 
 	len = 0;
+	type = get_type(*s);
 	while (*s != '\0')
 	{
-        if (ft_isascii(*s) && is_blank(*(s + 1)))
-        {
-            len++;
-            break ;
-        }
-		len++;
+		if (get_type(*s) == type)
+			len++;
+		else
+			break;
 		s++;
 	}
 	return (len);

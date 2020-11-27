@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/11/21 21:22:59 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 17:20:58 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <time.h>
 # include <limits.h>
 # include <string.h>
 # include <signal.h>
@@ -34,6 +35,7 @@
 # define DEFAULT_FD_IN "0"
 # define ERR_BAD_FD "21sh: bad file descriptor.\n"
 # define MAX_INDEX 4096
+# define WELCOME_MSG "\t\033[1;32m⬇⬇  w3lc0m3 70 7h3_qu173r & ph30n1x 5h3ll ⚙️  ⬇⬇\033[0m\t\t"
 
 
 /*
@@ -127,42 +129,52 @@ typedef struct s_miniast
 /*
 ** principale functions
 */
-void    source_sh(t_env** head);
-void    append_list(t_lexer **root, char *data, t_type type, t_pointt *cor);
-void    append_list_redi(t_lexer **root, char *data, t_type type, t_pointt *cor);
-void    append_list_pipe(t_lexer **root, char *data, t_type type, t_pointt *cor);
-void    print_list(t_lexer *token_list);
-t_lexer *lexer(char *buf, t_env **head, t_pointt *coord);
-t_quote *quote_handling(char *s, char quote, int start);
-int      parse_pipe(t_lexer **token_node, char *str, t_pointt *coor);
+void    	source_sh(t_env** head);
+void    	append_list(t_lexer **root, char *data, t_type type, t_pointt *cor);
+void    	append_list_redi(t_lexer **root, char *data, t_type type, t_pointt *cor);
+void    	append_list_pipe(t_lexer **root, char *data, t_type type, t_pointt *cor);
+void    	print_list(t_lexer *token_list);
+t_lexer 	*lexer(char *buf, t_env **head, t_pointt *coord);
+t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list);
+int      	parse_pipe(t_lexer **token_node, char *str, t_pointt *coor);
 
 
 
 /*
 ** utils
 */
-bool    is_quote(int c);
-size_t  ft_strlen_char(char *s, char c);
-char	*ft_strchr_blank(const char *str, int c);
-char    valid_string_quot(char *str);
+bool		is_quote(int c);
+size_t		ft_strlen_char(char *s, char c);
+size_t 		ft_strlen_blank(char *s);
+char		*ft_strchr_blank(const char *str, int c);
+size_t 		ft_strlen_exp(char *s);
+char    	valid_string_quot(char *str);
 //size_t last_node_check(t_lexer **tokenz, t_type type, int node_index);
-size_t ft_strchr_size(char *s, int c);
-int check_quoting(t_lexer** head, t_type type, int cur_node_index);
-size_t check_command_redir_size(char *buf);
-int check_command_redir(t_lexer **head, char *buf, t_pointt *cor);
-char *sub_aggr_sym(char *str);
-size_t wordinbuff_size(char *str);
-size_t wordinstr_size(char *str, size_t count);
-t_type last_node_type(t_lexer **head);
-char    *get_right_redir(char *str);
-size_t calc_size_right_redir(char * str);
-char				**strsplit(char const *s);
-
+size_t 		ft_strchr_size(char *s, int c);
+int 		check_quoting(t_lexer** head, t_type type, int cur_node_index);
+size_t 		check_command_redir_size(char *buf);
+int			check_command_redir(t_lexer **head, char *buf, t_pointt *cor);
+char 		*sub_aggr_sym(char *str);
+size_t 		wordinbuff_size(char *str);
+size_t 		wordinstr_size(char *str, size_t count);
+t_type 		last_node_type(t_lexer **head);
+char    	*get_right_redir(char *str);
+size_t 		calc_size_right_redir(char * str);
+char		**strsplit(char const *s);
+int 		ft_is_aggr(char c);
+int			valide_quote_check(char *str);
+t_quote		*quote_completion(t_quote **data, char quote, t_env **env_list);
+int 		is_there_in_env(char *str, t_env **env_list);
 
 
 /*
-** ast functions
+** AST Functions _________________________________________________________
 */
+
+
+int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
+
+
 
 t_miniast   *fill_miniast(t_lexer **head, t_miniast *pipe, t_type type);
 size_t calc_arr_size(t_lexer *token, int *next_type);
@@ -203,17 +215,19 @@ char        *expanded(t_env **head, char *str);
 */
 
 void    print_env_list(t_env **head);
+void    starting_message(char *argv, char **user, time_t *now);
 
 
 /*
 ** free functions
 */
 void    ft_free_tokenz(t_lexer **head);
+void    free_quot(t_quote **data);
 
 /*
 ** error handling
 */
-char *error_ret(char *addr, char *err_message);
+char  *err_ret(char *s, char *addrr);
 void  error_message(char *err_message, int flag);
 
 #endif

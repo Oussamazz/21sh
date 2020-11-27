@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/11/21 13:12:14 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 16:08:33 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char *get_digits(char *str, int i)
             else if (j >= 0 && k <= 0 && is_blank(str[j]))
             {
                 ft_strdel(&s);
-                return (error_ret(NULL, ERR_BAD_FD));
+                return (err_ret(ERR_BAD_FD, NULL));
             }
             j--;
         }

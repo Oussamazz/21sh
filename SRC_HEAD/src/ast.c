@@ -6,12 +6,16 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/11/20 00:41:45 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/27 15:50:25 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
+int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
+{
+    
+}
 
 size_t calc_arr_size(t_lexer *token, int *next_type)
 {

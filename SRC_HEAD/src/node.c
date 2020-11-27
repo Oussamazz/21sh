@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/11/21 21:26:38 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/22 22:43:41 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,16 +121,4 @@ void    print_list(t_lexer *token_list)
      }
 }
 
-t_type last_node_type(t_lexer **head)
-{
-    t_lexer *current;
 
-    if (head && *head)
-    {
-        current = *head;
-        while (current->next)
-            current = current->next;
-        return (current->type);
-    }
-    return (0);
-}

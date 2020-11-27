@@ -21,6 +21,7 @@ SRC_NAME= main.c \
 			split.c \
 			expand.c \
 			free1.c \
+			quote_completion.c \
 			#ast.c
 
 SRC_NAME2= ft_readline.c \
