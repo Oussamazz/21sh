@@ -1,1 +1,0 @@
-fd = copy_desc This will be output to the filefd = file_desc This will also be output to the filefd = copy_desc This will be output to the filefd = file_desc This will also be output to the file

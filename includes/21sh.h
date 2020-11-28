@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 19:50:47 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/28 13:58:56 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,11 +173,12 @@ int 		is_there_in_env(char *str, t_env **env_list);
 
 
 int    		parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
+char    	**fill_node(t_lexer *token, t_miniast **data, t_redir **redirections, t_env **env);
 int			check_syntax(t_miniast *ast);
 
 
 
-t_miniast   *fill_miniast(t_lexer **head, t_miniast *pipe, t_type type);
+//t_miniast   *fill_miniast(t_lexer **head, t_miniast *pipe, t_type type);
 size_t calc_arr_size(t_lexer *token, int *next_type);
 
 /*
