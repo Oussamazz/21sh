@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/11/28 14:50:50 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/29 16:53:29 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void    source_sh(t_env **head)
         buffer = ft_readline();
         print_list((tokenz = lexer(buffer, head, &coord)));
         fflush(stdout); // not allowed
+        //check tokenz grammar: {tokenz}
         ast = NULL;
-        // if (tokenz)
+        // if (tokenz && head)
         //     status[1] = parse_commands(&ast, tokenz, head);
         //ast <-
         //status = execute(&tokenz, head);
@@ -171,12 +172,12 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             if (quot && quot->string && buf[i] != '\'' && buf[i] != '\"')
                 ft_strdel(&(quot->string));
         }
-        else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] != '\n' && buf[i] != '\t' && buf[i] &&  buf[i] != '\'' && buf[i] != '\"')
+        else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] != '\n' && buf[i] != '\t' && buf[i] && !is_quote(buf[i]))
         {
             //here the prob // dquot Squot
-            if ((q = valid_string_quot(buf + i)) != 0 || buf[i] == '\\') // before quote " or ' joining
+            if (is_quote(q = valid_string_quot(buf + i)) || buf[i] == '\\') // before quote " or ' joining
             {
-                quot = quote_handling(buf + i, '\"', 0, env_list);
+                quot = quote_handling(buf + i, q, 0, env_list);
                 if (q == '\'')
                     append_list(&token_node, quot->string, SQUOT, coord);
                 else

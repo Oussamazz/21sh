@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 16:58:28 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/29 16:19:50 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ static size_t get_size_expansion(char *exp)
 
     i = 0;
     len = 0;
-    if ((exp[0] == '$' && exp[1] != '\0') || (exp[0] == '~'))
-        i++;
+    if ((exp[0] == '$' && !exp[1]) || (exp[0] == '~' && !exp[1]))
+        return (len = 1);
     while (exp[i] != '\0')
     {
+        if (is_blank(exp[i]))
+            break ;
         if (ft_isalnum(exp[i]) || exp[i] == 47)
             len++;
-        else if (is_blank(exp[i]))
-            break ;
         i++;
     }
-    if (exp[0] == '~' && !exp[1])
-        return (1);
+    if (is_blank(exp[i]))
+        len++;
     return (len);
 }
 
@@ -96,7 +96,7 @@ static void tilde_exp(char *exp, char **data, t_env **env_list)
                     error_message("HOME and USER are unset\n", 1);
                 ft_strdel(&user);
             }
-            if (exp[0] == '~' && exp[1] != 47 && exp[1])
+            if (exp[0] == '~' && exp[1] != 47 && exp[1] && !is_blank(exp[1]))
             {
                 *data = ft_strdup(exp);
                 ft_strdel(&home_value);
@@ -151,15 +151,16 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             if (buf[i] && (buf[i] == '$'))
                 buf++;
             j = 0;
-            while (buf[i] && (ft_isalnum(buf[i]) || buf[i] == '~') && i <= data_size)
+            i = 0;
+            while (buf[i] && (ft_isalnum(buf[i]) || buf[i] == '~') && i < data_size)
             {
-                if (i == 0 && ft_is_tilde(buf + i))
+                if (i == 0 && (ft_is_tilde(buf + i) || (buf[i] == '~' && buf[i - 1] != '\\')))
                 {
                     tilde_exp(buf + i, &env_value, env_list);
                     if (env_value)
                         append_list(token_node, env_value, EXPANSION, cor);
                     ft_strdel(&env_value);
-                    return (data_size);
+                    return (1);
                 }
                 else
                     data[j++] = buf[i];

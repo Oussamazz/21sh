@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 16:08:33 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/29 16:51:27 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char **split_redir(char *str, int pos)
     int active_word = 0;
 
     agg = NULL;
-    size_t agg_len = wordinbuff_size(str) + 1;
+    size_t agg_len = wordinbuff_size(str) + 1; // 4
     size_t agg_len_str = 0;
     
     if (str && (agg = (char**)ft_memalloc(sizeof(char*) * agg_len)) != NULL) // word size must be calculated!! (agg_len?)
@@ -125,14 +125,15 @@ char **split_redir(char *str, int pos)
         size_t len = ft_strlen(str);
         i = 0; // pos
         j = 0;
-        agg_len_str = wordinstr_size(str + i, agg_len - 1);
-        while (i < len && str[i] != '\0' && j < agg_len - 1)
+        //agg_len_str = wordinstr_size(str + i, agg_len - 1);
+        agg_len_str = MAX_INDEX;
+        while (i < len && str[i] != '\0' && j < agg_len)
         {
             while (str[i] && is_blank(str[i]) && i < len)
                     i++;
             if (ft_is_there(";", str[i]))
                 return (agg);
-            if (i >= len || !(agg[j] = ft_strnew(agg_len_str)))
+            if (!(agg[j] = ft_strnew(agg_len_str)) || i >= len)
                 return (NULL);
             if ((str[i] == '>' || str[i] == '<') && (str[i + 1] == '>' || str[i + 1] == '<') && str[i] == str[i + 1])
             {
@@ -141,10 +142,25 @@ char **split_redir(char *str, int pos)
                 j++;
                 i = i + 2;
             }
+            else if (str[i] == '&')
+            {
+                agg[j][0] = str[i];
+                if (i + 1 < len && (str[i + 1] == '>' || str[i+1] == '<')) // for &
+                {
+                    agg[j][1] = str[i + 1];
+                    if (i + 2 < len && str[i + 2] && str[i + 2] == '-')
+                    {
+                        agg[j][2] = '-';
+                        i++;
+                    }
+                    i++;
+                }
+                j++;
+            }
             else if (str[i] == '>' || str[i] == '<')
             {
                 agg[j][0] = str[i];
-                if (i + 1 < len && str[i + 1] == '&') // for &
+                if (i + 1 < len && str[i + 1] == '&')
                 {
                     agg[j][1] = '&';
                     if (i + 2 < len && str[i + 2] && str[i + 2] == '-')
@@ -154,9 +170,6 @@ char **split_redir(char *str, int pos)
                     }
                     i++;
                 }
-                // else if (str[i] == '>' || str[i] == '<' && str[i + 1])
-            //         //printf("i = %d || str[%d] == %c\n ", i, i, str[i]);
-            //         redirection_varname_2(&agg, str, &j, &i, len);
                 j++;
             }
             else if (is_quote(str[i]) && str[i - 1] != '\\')
@@ -178,10 +191,7 @@ char **split_redir(char *str, int pos)
                 break ; 
             }
             else // error handling!
-            {
-                ft_putstr_fd("Error bad file descriptor\n", 2);
-                exit(1);
-            }
+                error_message("21sh: syntax error near unexpected token `> or <'\n", 1);
             i++;
         }
     }
@@ -239,7 +249,7 @@ size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, i
         j++;
     }
     j = 0;
-    biglen = 0;
+    biglen = 0; //  get biglen funct
     while (agg[j] != NULL)
     {
         biglen += ft_strlen(agg[j]);

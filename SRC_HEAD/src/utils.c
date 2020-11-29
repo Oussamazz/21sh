@@ -23,23 +23,21 @@ size_t wordinbuff_size(char *str)
 {
     int i;
     size_t count;
-    //size_t count_char;
 
     count = 0;
     i = 0;
-    //count_char = 0;
-    while(str[i] && (str[i] == '>' || str[i] == '<'))
+    while(str[i] && (str[i] == '>' || str[i] == '<' || str[i] == '&')) // | &>- | &<- | > |  >>  | < | << | 2>&1 | >& | <& 
     {
-        if (str[i + 1] == '&')
-            i++;
+        count++;
         i++;
     }
-    count++;
     while (str[i] && is_blank(str[i]))
         i++;
     while (str[i] && !is_blank(str[i]))
+    {
         i++;
-    count++;
+        count++;
+    }
     return (count);
 }
 

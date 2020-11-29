@@ -6,11 +6,54 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/11/28 15:56:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/29 15:12:42 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+static size_t get_list_size(t_lexer *tokenz)
+{
+    size_t size;
+
+    size = -1;
+    if (tokenz)
+    {
+        size++;
+        while (tokenz)
+        {
+            if (tokenz->data)
+                size++;
+            tokenz = tokenz->next;
+        }
+    }
+    return (size);
+}
+
+static t_lexer      *move_list(t_lexer *tokenz)
+{
+    size_t tokenz_size;
+    t_lexer *ret;
+    t_lexer *cur;
+
+    tokenz_size = get_list_size(tokenz);
+    cur = tokenz;
+    while (cur != NULL && (cur->coor.node_index < tokenz_size))
+    {
+        if (cur->type != SEP && cur->type != PIPE)
+            cur = cur->next;
+        else
+            break ;       
+    }
+    if (cur->type == SEP || cur->type == PIPE)
+        return (cur);
+    else
+    {
+        ft_putendl_fd("I ENTER ELSE CONDITION IN {move_list fun} ret = NULL", 1);
+        ret = NULL;
+    }
+    return (ret);
+}
 
 static void fill_redirections(t_redir **node, t_lexer *token)
 {
@@ -19,7 +62,8 @@ static void fill_redirections(t_redir **node, t_lexer *token)
 
     if (node)
     {
-        new = *node;
+        if(!(new = (t_redir*)ft_memalloc(sizeof(t_redir))))
+            return ;
         if (token->type == L_REDIR)
             new->lfd = token->data;
         else if (token->type == R_REDIR)
@@ -44,41 +88,39 @@ size_t  get_arr_size_tokenz(t_lexer *token)
 {
     size_t size;
 
-    size = 0;
-    while (token != NULL)
+    size = -1;
+    if (token)
     {
-        if (token->type != PIPE_SYM && token->type != METACHAR && token->type != SEP)
-            size++;
-        else
-            break ;
-        token = token->next;
+        size++;
+        while (token != NULL)
+        {
+            if (token->type != PIPE_SYM && token->type != METACHAR && token->type != SEP)
+                size++;
+            else
+                break ;
+            token = token->next;
+        }
     }
     return (size);
 }
 
 
-char    **fill_node(t_lexer *token, t_miniast **data, t_redir **redirections, t_env **env)
+char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env)
 {
     int i;
     char **ret;
     t_redir *redir;
-    t_miniast *ast;
     size_t ret_size;
 
     ret = NULL;
-    if (redirections)
-        redir = *redirections;
-    if (token && data)
+    if (token && env && redirections)
     {
-        ast = *data;
         ret_size = get_arr_size_tokenz(token);
         if (!(ret = (char**)ft_memalloc(sizeof(char*) * (ret_size + 1))))
             return (NULL);
         i = 0;
-        while (token != NULL)
+        while (token != NULL && token->coor.node_index < ret_size)
         {
-            if (!(ret[i] = (char*)ft_memalloc(sizeof(char) * MAX_INDEX + 1)))
-                return (NULL);
             if (token->type == WORD || token->type == DQUOT ||
                  token->type == SQUOT || token->type == EXPANSION) // 1
             {
@@ -90,7 +132,7 @@ char    **fill_node(t_lexer *token, t_miniast **data, t_redir **redirections, t_
                     //ft_strdel(&(token->data));
                 }
             }
-            else if (token->type == AGGR_SYM ||
+            else if (token->type == AGGR_SYM || 
                 token->type == L_REDIR || token->type == R_REDIR) // 1
                 fill_redirections(redirections, token);
             else // PIPE AND SEP
@@ -114,28 +156,29 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
     tokenz_size = get_list_size(tokenz);
     while (tokenz && tokenz->coor.node_index < tokenz_size)
     {
+        redirections = NULL;
         if ((*head) == NULL && env && tokenz->type != SEP && tokenz->type != PIPE_SYM)
         {
-            if(!(redirections = (t_redir*)ft_memalloc(sizeof(t_redir))))
-                return (-1);
-            redirections->lfd = NULL;
-            redirections->rfd = NULL;
-            redirections->sym = NULL;
-            redirections->next = NULL;
             if (!(data = (t_miniast*)ft_memalloc(sizeof(t_miniast))))
-                return (-2);
-            *head = data;
+                return (-1);
             data->pipe = NULL;
             data->sep = NULL;
-            if (!(cmd = fill_node(tokenz, head, &redirections, env))) // fill commands and redirections
-                return (-3);
+            data->redirection = NULL;    
+            if (!(cmd = fill_node(tokenz, &redirections, env))) // fill commands and redirections
+                return (-2);
+            //if (redirections)
+                //check_redirection: sym and right fd existant
             data->cmd = cmd;
             data->redirection = redirections;
+            *head = data;
         }
         else
         {
             if (tokenz->type == PIPE_SYM)
+            {
+                //check_PIPE -> t_lexer *tokenz <-
                 parse_commands(&(*head)->pipe, tokenz, env);
+            }
             else if (tokenz->type == SEP)
                 parse_commands(&(*head)->sep, tokenz, env);
         }
