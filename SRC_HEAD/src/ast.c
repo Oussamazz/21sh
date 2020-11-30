@@ -6,29 +6,12 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/11/29 15:12:42 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 09:38:30 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static size_t get_list_size(t_lexer *tokenz)
-{
-    size_t size;
-
-    size = -1;
-    if (tokenz)
-    {
-        size++;
-        while (tokenz)
-        {
-            if (tokenz->data)
-                size++;
-            tokenz = tokenz->next;
-        }
-    }
-    return (size);
-}
 
 static t_lexer      *move_list(t_lexer *tokenz)
 {

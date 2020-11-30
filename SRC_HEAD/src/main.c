@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/11/29 16:53:29 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 11:27:26 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,15 @@ void    source_sh(t_env **head)
     status[0] = 1;
     while (status[0])
     {
+        status[1] = 0;
         init_coord(&coord);
         ft_prompte();
         buffer = ft_readline();
         print_list((tokenz = lexer(buffer, head, &coord)));
         fflush(stdout); // not allowed
-        //check tokenz grammar: {tokenz}
+        status[1] = check_tokenz_grammar(tokenz);
         ast = NULL;
-        // if (tokenz && head)
+        // if (tokenz && head && status[1])
         //     status[1] = parse_commands(&ast, tokenz, head);
         //ast <-
         //status = execute(&tokenz, head);
@@ -109,6 +110,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
 {
     int i;
     int j;
+    t_type node_type = 0;
     bool flag;
     char q;
     char **agg;
@@ -134,15 +136,28 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             append_list(&token_node, ";", SEP, coord);
             continue ;
         }
-        else if ((buf[i] == '$' || buf[i] == '~') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1]))
+        else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/')&& (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1]))
         { // Expansion
+            if (buf[i] == '$' && (buf[i + 1] == '(' || buf[i + 1] == ')'))
+                error_message("21sh: Unexpected token `( or )'\n", 1);
             i = i + expansion_parse(&token_node, buf + i, env_list, coord);
         }
         else if (buf[i] && ft_is_there(PIPE, buf[i]))
             i = i + parse_pipe(&token_node, buf + i - 1, coord);
-        else if (last_node_type(&token_node) == AGGR_SYM && !is_quote(buf[i]))
+        else if (last_node_type(&token_node) == AGGR_SYM && !is_quote(buf[i])) //  Here!! at delim or right fd
         {
-            append_list_redi(&token_node, ft_strdup((temp = get_right_redir(buf + i))), R_REDIR, coord);
+            t_lexer *last_node;
+            char *text = NULL;
+            last_node = get_last_node(&token_node);
+            temp = get_right_redir(buf + i); // temp == delim || temp == right_fd
+            if (temp && last_node && ft_strequ(last_node->data, "<<"))
+            {
+                text = here_doc(temp); // HERE_DOCUMENT
+                append_list_redi(&token_node, ft_strdup(text), R_REDIR, coord);
+                ft_strdel(&text);
+            }
+            else
+                append_list_redi(&token_node, ft_strdup(temp), R_REDIR, coord);
             i = i + (int)calc_size_right_redir(buf + i);
             ft_strdel(&temp);
         }

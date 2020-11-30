@@ -414,3 +414,17 @@ t_type last_node_type(t_lexer **head)
     }
     return (0);
 }
+
+t_lexer *get_last_node(t_lexer **head)
+{
+    t_lexer *current;
+
+    current = NULL;
+    if (head && *head)
+    {
+        current = *head;
+        while (current->next)
+            current = current->next;
+    }
+    return (current);
+}

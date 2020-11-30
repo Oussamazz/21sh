@@ -15,6 +15,7 @@ SRC_NAME= main.c \
 			node.c \
 			redirections.c \
 			utils.c \
+			utils2.c \
 			parse_pipe.c \
 			printing.c \
 			expansion.c \
@@ -22,6 +23,7 @@ SRC_NAME= main.c \
 			expand.c \
 			free1.c \
 			quote_completion.c \
+			check_syntax.c \
 			#ast.c
 
 SRC_NAME2= ft_readline.c \

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/11/28 13:58:56 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 10:17:51 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void    	print_list(t_lexer *token_list);
 t_lexer 	*lexer(char *buf, t_env **head, t_pointt *coord);
 t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list);
 int      	parse_pipe(t_lexer **token_node, char *str, t_pointt *coor);
+int     	check_tokenz_grammar(t_lexer *tokenz);
 
 
 
@@ -158,6 +159,7 @@ char 		*sub_aggr_sym(char *str);
 size_t 		wordinbuff_size(char *str);
 size_t 		wordinstr_size(char *str, size_t count);
 t_type 		last_node_type(t_lexer **head);
+t_lexer		*get_last_node(t_lexer **head);
 char    	*get_right_redir(char *str);
 size_t 		calc_size_right_redir(char * str);
 char		**strsplit(char const *s);
@@ -165,7 +167,7 @@ int 		ft_is_aggr(char c);
 int			valide_quote_check(char *str);
 t_quote		*quote_completion(t_quote **data, char quote, t_env **env_list);
 int 		is_there_in_env(char *str, t_env **env_list);
-
+size_t 		get_list_size(t_lexer *tokenz);
 
 /*
 ** AST Functions _________________________________________________________

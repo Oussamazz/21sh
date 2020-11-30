@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/11/29 16:19:50 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/29 18:52:29 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static void tilde_exp(char *exp, char **data, t_env **env_list)
                     i++;
                 if (ft_isalnum(exp[i + 1]) && exp[i] == 47)
                 {
-                    if(!(user_name = ft_strsub(exp + 1, 0, ft_strlen(exp + 1))))
+                    if(!(user_name = ft_strsub(exp + 1, 0, ft_strlen_char(exp + 1, ' '))))
                         return ;
                     if (user_name)
                     {
@@ -120,7 +120,8 @@ static void tilde_exp(char *exp, char **data, t_env **env_list)
                         return ;
                     }
                 }
-                *data = home_value;
+                else
+                    *data = home_value;
                 ft_strdel(&user_name);
             }
             else
@@ -159,8 +160,9 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                     tilde_exp(buf + i, &env_value, env_list);
                     if (env_value)
                         append_list(token_node, env_value, EXPANSION, cor);
+                    int env_size = ft_strlen_char(buf + i, ' ');
                     ft_strdel(&env_value);
-                    return (1);
+                    return (env_size);
                 }
                 else
                     data[j++] = buf[i];
