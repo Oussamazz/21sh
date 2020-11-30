@@ -24,6 +24,7 @@ SRC_NAME= main.c \
 			free1.c \
 			quote_completion.c \
 			check_syntax.c \
+			here_doc.c \
 			#ast.c
 
 SRC_NAME2= ft_readline.c \

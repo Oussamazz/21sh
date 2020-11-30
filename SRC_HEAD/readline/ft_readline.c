@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/27 17:35:56 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 19:24:38 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int keyshendle2(t_line *line, char **str)
 		ft_delet(str, line);
 	else if (line->r == CTRL_L && line->slct == 0 && (r = 1))
 		ft_ctl_l(line, *str);
-	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0)
+	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0) // -> free and exit()
 	{
 		ft_putendl("exit");
 		exit(0);
@@ -226,7 +226,7 @@ int keyshendle1(t_line *line, char **str, t_node **current)
 char *ft_readline(void)
 {
 	t_node *current;
-	char buff[1024];
+	char buff[MAX_INDEX];
 	t_line  line;
 	ft_init(&(line), &current);
 	while (TRUE)

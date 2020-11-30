@@ -401,16 +401,41 @@ int ft_is_aggr(char c)
     return (0);
 }
 
-t_type last_node_type(t_lexer **head)
+t_type last_node_type(t_lexer *tokenz)
 {
-    t_lexer *current;
+    t_lexer *cur;
 
-    if (head && *head)
+    ft_putendl_fd("zbbb error0", 2);
+    if (cur)
     {
-        current = *head;
-        while (current->next)
-            current = current->next;
-        return (current->type);
+        ft_putendl_fd("zbbb error-1", 2);
+        while (cur)
+        {
+            printf("inside the while: *%s*\n", cur->data);
+            cur = cur->next;
+        }
+        if (cur->type == AGGR_SYM)
+            return (AGGR_SYM);
+        else
+        {
+            ft_putendl_fd("zbbb error", 2);
+        }
+    }
+    ft_putendl_fd("zbbb error2", 2);
+    return (0);
+}
+
+int check_if_is_aggr(t_lexer **root)
+{
+    t_lexer *cur;
+
+    if (root)
+    {
+        cur = *root;
+        while (cur->next)
+            cur = cur->next;
+        if (cur->type == AGGR_SYM)
+            return (1);        
     }
     return (0);
 }

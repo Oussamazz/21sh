@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 11:03:56 by macos             #+#    #+#             */
-/*   Updated: 2020/11/30 11:24:25 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 16:59:13 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,41 @@ static void ft_put_multistring2(char **strings)
 
 void     prompt_here_doc()
 {
-    ft_put_multistring2((char *[]){"\033[1;31m >", "\033[0m", 0, 0, 0, 0, 0});
+    ft_put_multistring2((char *[]){"\033[1;31m>", "\033[0m", 0, 0, 0, 0, 0});
 }
 
 char    *here_doc(char *delim)
 {
+    int flag;
     char *text;
     char *tmp;
     char *buffer;
 
-    text = ft_strdup("");
-    buffer = ft_strnew(MAX_INDEX);
-    while (delim && buffer)
+    text = NULL;
+    buffer = NULL;
+    flag = 0;
+    while (delim)
     {
         prompt_here_doc();
         if(!(buffer = ft_readline()))
-            return ;
+            return (NULL);
         if (ft_strequ(buffer, delim))
-            break ;
+            return (text);
         buffer = ft_strcat(buffer, "\n");
         tmp = text;
-        if(!(text = ft_strjoin(text, buffer)))
+        if (!flag && buffer)
+        {
+            if(!(text = ft_strdup(buffer)))
+                return (NULL);
+            flag = 1;
+            ft_strdel(&buffer);
+            continue ;
+        }
+        if (!(text = ft_strjoin(text, buffer)))
             return (NULL);
-        if (tmp)
+        if (flag && tmp)
             ft_strdel(&tmp);
-        ft_strclr(buffer);
+        ft_strdel(&buffer);
     }
     return (text);
 }

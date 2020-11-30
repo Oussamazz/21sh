@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/11/29 16:51:27 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 17:02:33 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,11 +177,21 @@ char **split_redir(char *str, int pos)
                 ft_strdel(&agg[j]);
                 return (agg);
             }
+            else if ((ft_isalnum(str[i])) && ft_strequ(agg[j - 1], "<<") && !is_quote(str[i])) // HERE_DOCUMENT
+            {
+                char *delim = ft_strndup(str + i, ft_strlen_char(str + i, ' '));
+                ft_putendl_fd(delim, 1);
+                char *text = NULL;
+                if (delim)
+                    text = here_doc(delim);
+                if (text)
+                    agg[j++] = text;
+                break ;
+            }
             else if ((ft_isalnum(str[i]) || str[i] == '$') && i < len && str[i - 1] != '&' && !ft_isdigit(str[i - 1]) && !active_word)
             { // {varname}
                 ft_strdel(&agg[j]);
-                agg[j] = redirection_varname(&agg, str, &i);
-                j++;
+                agg[j++] = redirection_varname(&agg, str, &i);
                 active_word = !active_word;
                 break ;
             }

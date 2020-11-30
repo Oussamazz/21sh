@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/11/30 11:27:26 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 16:41:21 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void    source_sh(t_env **head)
         buffer = ft_readline();
         print_list((tokenz = lexer(buffer, head, &coord)));
         fflush(stdout); // not allowed
-        status[1] = check_tokenz_grammar(tokenz);
-        ast = NULL;
+        //status[1] = check_tokenz_grammar(tokenz);
+        //ast = NULL;
         // if (tokenz && head && status[1])
         //     status[1] = parse_commands(&ast, tokenz, head);
         //ast <-
@@ -144,23 +144,13 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         }
         else if (buf[i] && ft_is_there(PIPE, buf[i]))
             i = i + parse_pipe(&token_node, buf + i - 1, coord);
-        else if (last_node_type(&token_node) == AGGR_SYM && !is_quote(buf[i])) //  Here!! at delim or right fd
-        {
-            t_lexer *last_node;
-            char *text = NULL;
-            last_node = get_last_node(&token_node);
-            temp = get_right_redir(buf + i); // temp == delim || temp == right_fd
-            if (temp && last_node && ft_strequ(last_node->data, "<<"))
-            {
-                text = here_doc(temp); // HERE_DOCUMENT
-                append_list_redi(&token_node, ft_strdup(text), R_REDIR, coord);
-                ft_strdel(&text);
-            }
-            else
-                append_list_redi(&token_node, ft_strdup(temp), R_REDIR, coord);
-            i = i + (int)calc_size_right_redir(buf + i);
-            ft_strdel(&temp);
-        }
+        // else if (last_node_type(token_node) && !is_quote(buf[i]))
+        // {
+        //     temp = get_right_redir(buf + i);
+        //     append_list_redi(&token_node, ft_strdup(temp), R_REDIR, coord);
+        //     i = i + (int)calc_size_right_redir(buf + i);
+        //     ft_strdel(&temp);
+        // }
         else if (ft_is_there(AGG_REDI, buf[i]) && buf[i] && !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index))
         {
             char *buf_dup = ft_strdup(buf + i);
@@ -174,7 +164,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             if (buf[i] == '$')
                 i++;
             quot = quote_handling(buf + i + 1, buf[i], 1, env_list);
-            if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && last_node_type(&token_node) == AGGR_SYM)
+            if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && check_if_is_aggr(&token_node))
             {
                 //ft_putendl_fd(quot->string, 1);
                 append_list_redi(&token_node, quot->string, R_REDIR, coord);

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/11/30 10:17:51 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 16:14:07 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct s_miniast
 ** principale functions
 */
 void    	source_sh(t_env** head);
+char    	*here_doc(char *delim);
 void    	append_list(t_lexer **root, char *data, t_type type, t_pointt *cor);
 void    	append_list_redi(t_lexer **root, char *data, t_type type, t_pointt *cor);
 void    	append_list_pipe(t_lexer **root, char *data, t_type type, t_pointt *cor);
@@ -158,7 +159,7 @@ int			check_command_redir(t_lexer **head, char *buf, t_pointt *cor);
 char 		*sub_aggr_sym(char *str);
 size_t 		wordinbuff_size(char *str);
 size_t 		wordinstr_size(char *str, size_t count);
-t_type 		last_node_type(t_lexer **head);
+t_type 		last_node_type(t_lexer *tokenz);
 t_lexer		*get_last_node(t_lexer **head);
 char    	*get_right_redir(char *str);
 size_t 		calc_size_right_redir(char * str);
@@ -168,6 +169,7 @@ int			valide_quote_check(char *str);
 t_quote		*quote_completion(t_quote **data, char quote, t_env **env_list);
 int 		is_there_in_env(char *str, t_env **env_list);
 size_t 		get_list_size(t_lexer *tokenz);
+int			check_if_is_aggr(t_lexer **root);
 
 /*
 ** AST Functions _________________________________________________________
