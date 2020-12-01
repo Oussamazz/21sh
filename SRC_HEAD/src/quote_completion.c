@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/11/29 15:22:40 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/01 13:26:30 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
 
     new_buff = NULL;
     str = NULL;
+    string = NULL;
     if (data)
     {
         tmp_string = (*data)->string;
@@ -65,19 +66,21 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
     {
         prompt_completion(quote);
         if (!(new_buff = ft_readline()))
-            return (*data);
-        ft_str_append(&new_buff, "\n");
-        tmp_string = str;
+            return (NULL);
+        if (!ft_strchr(new_buff, quote))
+            ft_str_append(&new_buff, "\n");
+        tmp_string = string;
         if (string && new_buff)
-            str = ft_strjoin(string, new_buff);
-        ft_strdel(&tmp_string);
-        if ((pointer =ft_strchr(str, quote)))
+            string = ft_strjoin(string, new_buff);
+        if (tmp_string)
+            ft_strdel(&tmp_string);
+        if (ft_strchr(new_buff, quote) && string)
         {
-            //my_quot = quote_handling(str, quote, 1, env_list);
-            return ((*data = quote_handling(str, quote, 1, env_list)));
+            my_quot = quote_handling(string, quote, 1, env_list);
+            if (my_quot)
+                return ((my_quot));
         }
         ft_strdel(&new_buff);
-        string = str;
     }
     return (*data);
 }

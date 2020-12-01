@@ -6,12 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/11/30 09:38:30 by macos            ###   ########.fr       */
+/*   Updated: 2020/11/30 23:26:31 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
 
 static t_lexer      *move_list(t_lexer *tokenz)
 {

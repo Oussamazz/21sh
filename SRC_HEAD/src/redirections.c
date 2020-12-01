@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/11/30 17:02:33 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/01 01:38:55 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ char **split_redir(char *str, int pos)
         {
             while (str[i] && is_blank(str[i]) && i < len)
                     i++;
-            if (ft_is_there(";", str[i]))
-                return (agg);
+            // if (ft_is_there(";", str[i]))
+            //     return (agg);
             if (!(agg[j] = ft_strnew(agg_len_str)) || i >= len)
                 return (NULL);
             if ((str[i] == '>' || str[i] == '<') && (str[i + 1] == '>' || str[i + 1] == '<') && str[i] == str[i + 1])
@@ -145,7 +145,7 @@ char **split_redir(char *str, int pos)
             else if (str[i] == '&')
             {
                 agg[j][0] = str[i];
-                if (i + 1 < len && (str[i + 1] == '>' || str[i+1] == '<')) // for &
+                if (i + 1 < len && (str[i + 1] == '>' || str[i + 1] == '<')) // for &
                 {
                     agg[j][1] = str[i + 1];
                     if (i + 2 < len && str[i + 2] && str[i + 2] == '-')
@@ -180,12 +180,12 @@ char **split_redir(char *str, int pos)
             else if ((ft_isalnum(str[i])) && ft_strequ(agg[j - 1], "<<") && !is_quote(str[i])) // HERE_DOCUMENT
             {
                 char *delim = ft_strndup(str + i, ft_strlen_char(str + i, ' '));
-                ft_putendl_fd(delim, 1);
                 char *text = NULL;
                 if (delim)
                     text = here_doc(delim);
                 if (text)
                     agg[j++] = text;
+                ft_strdel(&delim);
                 break ;
             }
             else if ((ft_isalnum(str[i]) || str[i] == '$') && i < len && str[i - 1] != '&' && !ft_isdigit(str[i - 1]) && !active_word)

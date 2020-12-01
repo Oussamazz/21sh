@@ -409,7 +409,7 @@ t_type last_node_type(t_lexer *tokenz)
     if (cur)
     {
         ft_putendl_fd("zbbb error-1", 2);
-        while (cur)
+        while (cur && cur->next)
         {
             printf("inside the while: *%s*\n", cur->data);
             cur = cur->next;
@@ -425,7 +425,7 @@ t_type last_node_type(t_lexer *tokenz)
     return (0);
 }
 
-int check_if_is_aggr(t_lexer **root)
+int check_if_is_aggr(t_lexer **root) // this function is the problem!!
 {
     t_lexer *cur;
 
