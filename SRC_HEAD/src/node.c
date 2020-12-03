@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 02:27:01 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/03 15:41:20 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,17 +129,17 @@ void    print_list2(t_redir  *redirections)
         {
             if (redirections->lfd)
             {
-                ft_putendl_fd("THIS IS L_FD", 1);
+                ft_putstr_fd("THIS IS L_FD: ", 1);
                 ft_putendl_fd(redirections->lfd, 1);
             }
             else if (redirections->sym)
             {
-                ft_putendl_fd("THIS IS SYM", 1);
+                ft_putstr_fd("THIS IS SYM: ", 1);
                 ft_putendl_fd(redirections->sym, 1);
             }
             else if (redirections->rfd)
             {
-                ft_putendl_fd("THIS IS R_FD", 1);
+                ft_putstr_fd("THIS IS R_FD: ", 1);
                 ft_putendl_fd(redirections->rfd, 1);
             }
             redirections = redirections->next;

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 02:15:33 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/03 02:38:55 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void    source_sh(t_env **head)
     buffer = NULL;
     tokenz = NULL;
     status[0] = 1;
+    status[1] = 0;
     while (status[0])
     {
         status[1] = 0;

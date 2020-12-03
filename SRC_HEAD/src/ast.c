@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 02:25:21 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/03 16:05:16 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,11 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
             }
             else if (token->type == AGGR_SYM || 
                 token->type == L_REDIR || token->type == R_REDIR)
+            {
                 fill_redirections(redirections, token);
-            else
+                i--;
+            }
+            else if (token->type == SEP)
                 break ;
             i++;
             token = token->next;
@@ -141,8 +144,8 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
                 return (-2);
             //if (redirections)
                 //check_redirection: sym and right fd existant
-            if (redirections)
-                print_list2(redirections);
+            // if (redirections)
+            //     print_list2(redirections);
             data->cmd = cmd;
             data->redirection = redirections;
             *head = data;

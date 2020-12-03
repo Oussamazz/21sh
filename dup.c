@@ -3,10 +3,11 @@
 #include<stdio.h> 
 #include <unistd.h> 
 #include <fcntl.h> 
+# include "./libft/libft.h"
   
 int main() 
 { 
-    int file_desc = open("dup.txt", O_WRONLY | O_APPEND | ); 
+    int file_desc = open("zaabi.txt", O_WRONLY | O_APPEND | O_CREAT); 
       
     if(file_desc < 0) 
         printf("Error opening the file\n"); 
