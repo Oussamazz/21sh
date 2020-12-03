@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 02:24:31 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/03 16:27:27 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int 		is_there_in_env(char *str, t_env **env_list);
 size_t 		get_list_size(t_lexer *tokenz);
 int			check_if_is_aggr(t_lexer **root);
 char    	*get_left_fd_(char *buf);
+char		**list_to_tabs(t_env **env_list);
 
 /*
 ** btree Functions _________________________________________________________

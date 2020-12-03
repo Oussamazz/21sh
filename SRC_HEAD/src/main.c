@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 02:38:55 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/03 16:34:35 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static void     print_btree(t_miniast *ast)
         return ;
     print_arr(ast->cmd);
     if (ast->pipe)
-        ft_putendl_fd("|", 1);
-    else if (ast->sep)
-        ft_putendl_fd(";", 1);
+        ft_putendl_fd("i enter Pipe node", 1);
+    if (ast->sep)
+        ft_putendl_fd("i enter SEP node", 1);
     print_btree(ast->pipe);
     print_btree(ast->sep);
 }
