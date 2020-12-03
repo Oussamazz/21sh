@@ -280,6 +280,26 @@ char *sub_aggr_sym(char *str)
     return (ret);
 }
 
+char    *get_left_fd_(char *buf)
+{
+    int len;
+    int i;
+    char *ret;
+
+    len = 0;
+    while (ft_isdigit(buf[len]))
+        len++;
+    if (!len || !(ret = ft_strnew(len + 1)))
+        return (NULL);
+    i = 0;
+    while (buf[i] && len)
+    {
+        ret[i] = buf[i];
+        i++;
+        len--;
+    }
+    return (ret);
+}
 
 int check_command_redir(t_lexer **head, char *buf, t_pointt *cor)
 {
@@ -398,30 +418,6 @@ int ft_is_aggr(char c)
 {
     if (c == '>' || c == '<')
         return (1);
-    return (0);
-}
-
-t_type last_node_type(t_lexer *tokenz)
-{
-    t_lexer *cur;
-
-    ft_putendl_fd("zbbb error0", 2);
-    if (cur)
-    {
-        ft_putendl_fd("zbbb error-1", 2);
-        while (cur && cur->next)
-        {
-            printf("inside the while: *%s*\n", cur->data);
-            cur = cur->next;
-        }
-        if (cur->type == AGGR_SYM)
-            return (AGGR_SYM);
-        else
-        {
-            ft_putendl_fd("zbbb error", 2);
-        }
-    }
-    ft_putendl_fd("zbbb error2", 2);
     return (0);
 }
 

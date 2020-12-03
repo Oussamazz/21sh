@@ -6,20 +6,20 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 19:11:38 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 00:55:14 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/03 02:09:10 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int			word_count(char *s)
+static int			word_count(char *s) //     "$HOME             $TERM haha $TERM f  "
 {
 	int				i;
 	int				res;
 
 	i = 0;
 	res = 0;
-	while (s[i] != '\0')
+	while (s[i] != '\0' && s[i + 1])
 	{
 		if (ft_isascii(s[i]) && is_blank(s[i + 1]))
 			res++;
@@ -31,7 +31,7 @@ static int			word_count(char *s)
         }
 		i++;
 	}
-    if (!s[i] && ft_isascii(s[i - 1]))
+    if ((!s[i] && ft_isascii(s[i - 1])) || (!s[i + 1] && ft_isascii(s[i])))
         res++;
 	return (res);
 }
@@ -66,20 +66,23 @@ static int			word_len(char *s)
 char				**strsplit(char const *s)
 {
 	int			word_countx;
+	char		*trimed;
 	char		**str;
 	int			i;
 
 	if (!s)
 		return (NULL);
-	word_countx = word_count((char *)s);
-	str = (char**)malloc(sizeof(char*) * word_countx + 1);
+	if(!(trimed = ft_strtrim(s)))
+		return (NULL);
+	word_countx = word_count(trimed) * 2; // * 2 for blank strings. 
+	ft_strdel(&trimed);
+	str = (char**)ft_memalloc(sizeof(char*) * (word_countx + 1));
 	i = 0;
 	if (!str)
 		return (NULL);
 	while (word_countx-- && *s)
 	{
-		str[i] = ft_strsub((char *)s, 0, word_len((char*)s));
-		if (!str[i])
+		if (!(str[i] = ft_strsub((char *)s, 0, word_len((char*)s))))
 			return (NULL);
 		s = s + word_len((char *)s);
 		i++;

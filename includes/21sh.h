@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/11/30 16:14:07 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/03 02:24:31 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef enum e_type
 	WORD=1,    // 1 - 1
 	METACHAR,  // 0
 	L_REDIR,   // 1 - 0
-	AGGR_SYM,  // 1 - 0
+	AGGR_SYM, // >  // 1 - 0
 	R_REDIR,   // 1 - 0
 	PIPE_SYM,  // 0
 	DQUOT,     // 1 - 1
@@ -118,7 +118,7 @@ typedef struct s_redir
 
 typedef struct s_miniast 
 {
-	char **cmd;//  ls "      aaaaa"
+	char **cmd;//  ls "      aaaaa"  | cat -e
 	t_redir *redirection;
 	struct s_miniast *pipe;
 	struct s_miniast *sep;
@@ -134,7 +134,8 @@ char    	*here_doc(char *delim);
 void    	append_list(t_lexer **root, char *data, t_type type, t_pointt *cor);
 void    	append_list_redi(t_lexer **root, char *data, t_type type, t_pointt *cor);
 void    	append_list_pipe(t_lexer **root, char *data, t_type type, t_pointt *cor);
-void    	print_list(t_lexer *token_list);
+void    	print_list(t_lexer *token_list); // delete this func
+void    	print_list2(t_redir  *redirections); // delete this func
 t_lexer 	*lexer(char *buf, t_env **head, t_pointt *coord);
 t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list);
 int      	parse_pipe(t_lexer **token_node, char *str, t_pointt *coor);
@@ -170,14 +171,15 @@ t_quote		*quote_completion(t_quote **data, char quote, t_env **env_list);
 int 		is_there_in_env(char *str, t_env **env_list);
 size_t 		get_list_size(t_lexer *tokenz);
 int			check_if_is_aggr(t_lexer **root);
+char    	*get_left_fd_(char *buf);
 
 /*
-** AST Functions _________________________________________________________
+** btree Functions _________________________________________________________
 */
 
 
 int    		parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
-char    	**fill_node(t_lexer *token, t_miniast **data, t_redir **redirections, t_env **env);
+char    	**fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size);
 int			check_syntax(t_miniast *ast);
 
 
@@ -222,11 +224,11 @@ char        *expanded(t_env **head, char *str);
 
 void    print_env_list(t_env **head);
 void    starting_message(char *argv, char **user, time_t *now);
-
-
+void    print_arr(char **arr);
 /*
 ** free functions
 */
+void    ft_free_arr(char **arr);
 void    ft_free_tokenz(t_lexer **head);
 void    free_quot(t_quote **data);
 

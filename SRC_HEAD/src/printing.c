@@ -6,11 +6,25 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/11/27 15:42:06 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/02 19:49:34 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+void    print_arr(char **arr)
+{
+    int i;
+    if (arr)
+    {
+        i = 0;
+        while (arr[i])
+        {
+            ft_putendl_fd(arr[i], 1);
+            i++;
+        }
+    }
+}
 
 void    print_env_list(t_env **head)
 {

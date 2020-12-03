@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 11:03:56 by macos             #+#    #+#             */
-/*   Updated: 2020/11/30 16:59:13 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/01 19:06:50 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ char    *here_doc(char *delim)
         if(!(buffer = ft_readline()))
             return (NULL);
         if (ft_strequ(buffer, delim))
+        {
+            ft_strdel(&buffer);
             return (text);
+        }
         buffer = ft_strcat(buffer, "\n");
         tmp = text;
         if (!flag && buffer)

@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_arr_size.c                                     :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 11:31:43 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/11/18 11:33:42 by oelazzou            ###   ########.fr       */
+/*   Created: 2020/12/01 18:48:56 by macos             #+#    #+#             */
+/*   Updated: 2020/12/01 18:50:49 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "21sh.h"
 
-size_t get_arr_size(char **arr)
+void    ft_free_arr(char **arr)
 {
-    size_t size;
+    int i;
 
-    size = -1;
-    if (arr && *arr)
+    if (arr)
     {
-        size++;
-        while (arr[size])
-            size++;
+        i = 0;
+        while (arr[i])
+        {
+            ft_strdel(&arr[i]);
+            i++;
+        }
+        if (arr)
+            free(arr);
+        arr = NULL;
     }
-    return (size);
 }

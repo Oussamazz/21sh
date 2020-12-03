@@ -25,7 +25,8 @@ SRC_NAME= main.c \
 			quote_completion.c \
 			check_syntax.c \
 			here_doc.c \
-			#ast.c
+			ft_free.c \
+			ast.c
 
 SRC_NAME2= ft_readline.c \
 			history.c \

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/01 01:38:55 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/02 13:31:01 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,11 @@ char **split_redir(char *str, int pos)
         {
             while (str[i] && is_blank(str[i]) && i < len)
                     i++;
-            // if (ft_is_there(";", str[i]))
-            //     return (agg);
+            if (ft_is_there(";", str[i]))
+                return (agg);
             if (!(agg[j] = ft_strnew(agg_len_str)) || i >= len)
                 return (NULL);
-            if ((str[i] == '>' || str[i] == '<') && (str[i + 1] == '>' || str[i + 1] == '<') && str[i] == str[i + 1])
+            if ((str[i] == '>' || str[i] == '<') && str[i] == str[i + 1] && !ft_is_there(AGG_REDI, str[i + 2]))
             {
                 agg[j][0] = str[i];
                 agg[j][1] = str[i];
@@ -148,24 +148,24 @@ char **split_redir(char *str, int pos)
                 if (i + 1 < len && (str[i + 1] == '>' || str[i + 1] == '<')) // for &
                 {
                     agg[j][1] = str[i + 1];
-                    if (i + 2 < len && str[i + 2] && str[i + 2] == '-')
+                    if (i + 2 < len && (str[i + 2] == str[i + 1] || str[i + 2] == '-'))
                     {
-                        agg[j][2] = '-';
+                        agg[j][2] = str[i + 2];
                         i++;
                     }
                     i++;
                 }
                 j++;
             }
-            else if (str[i] == '>' || str[i] == '<')
+            else if ((str[i] == '>' || str[i] == '<') && (!ft_is_there(AGG_REDI, str[i + 1]) || str[i + 1] == '&'))
             {
-                agg[j][0] = str[i];
+                agg[j][0] = str[i]; // > or <
                 if (i + 1 < len && str[i + 1] == '&')
                 {
-                    agg[j][1] = '&';
-                    if (i + 2 < len && str[i + 2] && str[i + 2] == '-')
+                    agg[j][1] = '&'; // &
+                    if (i + 2 < len && str[i + 2] && str[i + 2] == '-') // >&-   >&1     >&out.txt
                     {
-                        agg[j][2] = '-';
+                        agg[j][2] = '-'; // -
                         i++;
                     }
                     i++;
@@ -183,25 +183,26 @@ char **split_redir(char *str, int pos)
                 char *text = NULL;
                 if (delim)
                     text = here_doc(delim);
+                if (text == NULL)
+                    return (NULL);
                 if (text)
                     agg[j++] = text;
                 ft_strdel(&delim);
                 break ;
             }
-            else if ((ft_isalnum(str[i]) || str[i] == '$') && i < len && str[i - 1] != '&' && !ft_isdigit(str[i - 1]) && !active_word)
+            else if ((ft_isalnum(str[i]) || str[i] == '$') && i < len && !active_word) // HEEEEEEEEREE please
             { // {varname}
                 ft_strdel(&agg[j]);
                 agg[j++] = redirection_varname(&agg, str, &i);
                 active_word = !active_word;
                 break ;
             }
-            else if (ft_isdigit(str[i])) //Right Redirection!
-            {
-                agg[j++] = get_right_redir(str + i);
-                break ; 
-            }
             else // error handling!
-                error_message("21sh: syntax error near unexpected token `> or <'\n", 1);
+            {
+                ft_free_arr(agg);
+                err_ret("21sh: syntax error near unexpected token `> or <'\n", NULL);
+                return (NULL);
+            }
             i++;
         }
     }
@@ -250,14 +251,14 @@ size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, i
             else
                 append_list_redi(token_node, agg[j], AGGR_SYM, cor);
         }
-        else if (ft_isalnum(agg[j][0]))
+        else if (ft_isascii(agg[j][0]))
         {
             if (ft_is_there(agg[j], ';'))
                 agg[j] = modify_right_redir(&agg[j]);
             append_list_redi(token_node, agg[j], R_REDIR, cor);
         }
         j++;
-    }
+    } // 
     j = 0;
     biglen = 0; //  get biglen funct
     while (agg[j] != NULL)
