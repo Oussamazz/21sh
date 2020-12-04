@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 16:34:35 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 03:48:32 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,15 @@ static void     print_btree(t_miniast *ast)
     print_btree(ast->sep);
 }
 
+static void init_status(int *status)
+{
+    status[0] = 1;
+    status[1] = 0;
+}
+
 void    source_sh(t_env **head)
 {
+    char *tty_value = ttyname(0);
     int status[2];
     char *buffer;
     t_lexer *tokenz;
@@ -83,11 +90,10 @@ void    source_sh(t_env **head)
 
     buffer = NULL;
     tokenz = NULL;
-    status[0] = 1;
-    status[1] = 0;
-    while (status[0])
+    init_status(&status[0]);
+    while (status[0] && tty_value)
     {
-        status[1] = 0;
+        tty_value = ttyname(0);
         init_coord(&coord);
         ft_prompte();
         if (!(buffer = ft_readline()))
@@ -95,27 +101,27 @@ void    source_sh(t_env **head)
         print_list((tokenz = lexer(buffer, head, &coord)));
         ft_putendl_fd("\n_________________________", 1);
         fflush(stdout); // not allowed
-        //status[1] = check_tokenz_grammar(tokenz);
         ast = NULL;
         if (tokenz && head)
             status[1] = parse_commands(&ast, tokenz, head);
-        if (status[1])
+        if (ast)
+            status[1] = check_grammar_tree(ast);
+        if (status[1] && ast)
         {
             ft_putendl_fd("__________[Parse commands Completed]______________", 1);
             print_btree(ast);
         }
-        else
+        else if (!status[1] && tokenz)
             ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        //ast <-
+        // binary Tree:
         //if (status[1])
-            //status[0] = execute(ast, &tokenz, head);
+        //     status[0] = execute(ast, tokenz, head);
         if (ft_strequ(buffer, "exit"))
             exit(0);
         else if (ft_strequ(buffer, "env"))
             print_env_list(head);
         else if (ft_strequ(buffer, "clear"))
             ft_putstr_fd("\e[1;1H\e[2J", 1);
-         //not allowed!!
         ft_free_tokenz(&tokenz);
         ft_strdel(&buffer);
     } 
@@ -125,6 +131,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
 {
     int i;
     int j;
+    int position = 0;
     t_type node_type = 0;
     bool flag;
     char q;
@@ -143,13 +150,14 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         while (buf[i] && is_blank(buf[i]))
             i++;
         if (buf[i] == ';' && buf[i + 1] == ';')
-            error_message("21sh: parse error near `;'\n", 1);
+            return ((t_lexer*)err_ret("21sh: parse error near `;'\n", NULL));
         if (buf[i] == ';')
         {
             coord->pipe_index = 1;
             coord->aggr_index= 1;
+            while (buf[i] == ';' || is_blank(buf[i]))
+                i++;
             append_list(&token_node, ";", SEP, coord);
-            i++;
             continue ;
         }
         else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/')&& (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1]))
@@ -159,7 +167,12 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             i = i + expansion_parse(&token_node, buf + i, env_list, coord);
         }
         else if (buf[i] && ft_is_there(PIPE, buf[i]))
-            i = i + parse_pipe(&token_node, buf + i - 1, coord);
+        {
+            if ((position = parse_pipe(&token_node, buf + i - 1, coord)))
+                i = i + position;
+            else
+                return (NULL);
+        }
         // else if (last_node_type(token_node) && !is_quote(buf[i]))
         // {
         //     temp = get_right_redir(buf + i);
@@ -269,7 +282,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
                 tmp[j] = buf[i + j];
                 j++;
             }
-            tmp[j] = '\0';
             append_list(&token_node, tmp, METACHAR, coord);
             i = i + ft_strlen(tmp) - 1;
             ft_strclr(tmp);

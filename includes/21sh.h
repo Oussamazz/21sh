@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 16:27:27 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 03:27:57 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_redir
 
 typedef struct s_miniast 
 {
-	char **cmd;//  ls "      aaaaa"  | cat -e
+	char **cmd;
 	t_redir *redirection;
 	struct s_miniast *pipe;
 	struct s_miniast *sep;
@@ -181,7 +181,7 @@ char		**list_to_tabs(t_env **env_list);
 
 int    		parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
 char    	**fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size);
-int			check_syntax(t_miniast *ast);
+int			check_grammar_tree(t_miniast *tree);
 
 
 

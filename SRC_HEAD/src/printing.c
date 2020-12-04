@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/12/02 19:49:34 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 03:46:48 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void    starting_message(char *argv, char **user, time_t *now)
         if (*user)
         {
             ft_putstr_fd(*user, 1);
+            ft_strdel(user);
             ft_putstr_fd(" logged, ", 1);
             ft_putstr_fd(ttyname(0), 1);
         }

@@ -7,7 +7,7 @@ SRC_DIR_READLINE= ./SRC_HEAD/readline/
 OBJ_DIR_READLINE= ./obj_readline/
 OBJ_DIR_HEAD= ./obj_HEAD/
 
-FLAGS= -g  -Wall -Wextra -Werror
+FLAGS= -Wall -Wextra -Werror
 
 SRC_NAME= main.c \
 			envirement.c \
@@ -23,10 +23,10 @@ SRC_NAME= main.c \
 			expand.c \
 			free1.c \
 			quote_completion.c \
-			check_syntax.c \
 			here_doc.c \
 			ft_free.c \
-			ast.c
+			ast.c \
+			check_grammar.c \
 
 SRC_NAME2= ft_readline.c \
 			history.c \

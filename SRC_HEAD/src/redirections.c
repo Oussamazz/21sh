@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 15:35:05 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 03:02:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,6 @@ char **split_redir(char *str, int pos)
         agg_len_str = len;
         while (i < len && str[i] != '\0' && j < agg_len)
         {
-            ft_putendl_fd("this is the character:", 1);
-            ft_putchar_fd(str[i], 1);
-            ft_putendl_fd("\n--", 1);
             while (str[i] && is_blank(str[i]) && i < len)
                     i++;
             if (ft_is_there(";", str[i]))
@@ -194,7 +191,7 @@ char **split_redir(char *str, int pos)
                 ft_strdel(&delim);
                 break ;
             }
-            else if ((str[i] == '/' || ft_isalnum(str[i]) || str[i] == '$') && (i < len) && !active_word)
+            else if ((str[i] == '/' || ft_isalnum(str[i]) || str[i] == '$') && (i < len) && !active_word && !ft_is_there(AGG_REDI, str[i + 1]))
             { // {varname}
                 ft_strdel(&agg[j]);
                 agg[j++] = redirection_varname(&agg, str, &i);

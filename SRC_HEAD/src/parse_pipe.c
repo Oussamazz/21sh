@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 16:29:56 by macos             #+#    #+#             */
-/*   Updated: 2020/11/13 21:22:16 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 02:54:08 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int      parse_pipe(t_lexer **token_node, char *str, t_pointt *cor)
 
     i = 0;
     j = 0;
-    while (str[i])
+    while (str[i]) // ls |  |  |
     {
         while (is_blank(str[i]))
             i++;
@@ -33,6 +33,13 @@ int      parse_pipe(t_lexer **token_node, char *str, t_pointt *cor)
         i++;
     }
     tmp[j] = '\0';
+    while (is_blank(str[i]))
+            i++;
+    if (str[i] == '|')
+    {
+        err_ret("21sh: parse error near `|'\n", NULL);
+        return (0);
+    }
     append_list_pipe(token_node, ft_strdup(tmp), PIPE_SYM, cor);
     return (1);
 }
