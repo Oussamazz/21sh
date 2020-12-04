@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/30 19:24:38 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 17:23:38 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,9 @@ int keyshendle2(t_line *line, char **str)
 		ft_ctl_l(line, *str);
 	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0) // -> free and exit()
 	{
+		//ft_free_and_exit(t_miniast **, t_node **);
+		//     |^|
+		//ft_reset_term();
 		ft_putendl("exit");
 		exit(0);
 	}
