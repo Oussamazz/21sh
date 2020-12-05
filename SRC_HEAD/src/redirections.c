@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 17:31:39 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 17:42:54 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,8 @@ char **split_redir(char *str, int pos)
                     if (i + 2 < len && (str[i + 2] == str[i + 1] || str[i + 2] == '-'))
                     {
                         agg[j][2] = str[i + 2];
+                        j++;
+                        break ;
                         active_word = 1;
                         i++;
                     }
@@ -195,6 +197,8 @@ char **split_redir(char *str, int pos)
                     if (i + 2 < len && str[i + 2] && str[i + 2] == '-') // for >&-   >&1     >&out.txt
                     {
                         agg[j][2] = '-'; // -
+                        j++;
+                        break ;
                         active_word = 1;
                         i++;
                     }
