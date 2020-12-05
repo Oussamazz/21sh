@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 16:05:16 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 16:57:56 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
                 return (-1);
             data->pipe = NULL;
             data->sep = NULL;
+            data->cmd = NULL;
             data->redirection = NULL;    
             if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize))) // fill commands and redirections
                 return (-2);

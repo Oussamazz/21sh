@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/04 03:27:57 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 02:39:52 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 /*
 ** nodes index
 */
+size_t g_agg_len;
 
 typedef struct s_pointt
 {
@@ -148,6 +149,7 @@ int     	check_tokenz_grammar(t_lexer *tokenz);
 */
 bool		is_quote(int c);
 size_t		ft_strlen_char(char *s, char c);
+size_t      ft_strlen_char2(char *s, char c, char c2);
 size_t 		ft_strlen_blank(char *s);
 char		*ft_strchr_blank(const char *str, int c);
 size_t 		ft_strlen_exp(char *s);
@@ -181,7 +183,7 @@ char		**list_to_tabs(t_env **env_list);
 
 int    		parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
 char    	**fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size);
-int			check_grammar_tree(t_miniast *tree);
+int     	check_grammar_tokenz(t_lexer *tokenz);
 
 
 
@@ -232,6 +234,7 @@ void    print_arr(char **arr);
 void    ft_free_arr(char **arr);
 void    ft_free_tokenz(t_lexer **head);
 void    free_quot(t_quote **data);
+void    ft_free_tree(t_miniast **tree);
 
 /*
 ** error handling

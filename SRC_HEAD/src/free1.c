@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 16:22:28 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/04 17:10:41 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ void    free_quot(t_quote **data)
         free(my_quote);
         *data = NULL;
     }
+}
+
+void    ft_free_tree(t_miniast **tree)
+{
+    if (!*tree)
+        return ;
+    ft_free_tree(&(*tree)->pipe);
+    ft_free_tree(&(*tree)->sep);
+    ft_free_arr((*tree)->cmd);
+    //free_list((*tree)->redirections);
+    free(*tree);
 }
 
 void    ft_free_tokenz(t_lexer **head)

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/04 03:48:32 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 04:07:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,17 @@ void    source_sh(t_env **head)
         ft_putendl_fd("\n_________________________", 1);
         fflush(stdout); // not allowed
         ast = NULL;
-        if (tokenz && head)
+        status[1] = check_grammar_tokenz(tokenz);
+        ft_putendl_fd("THIS IS STATUS[1]:", 1);
+        ft_putnbr_fd(status[1], 1);
+        ft_putchar_fd('\n', 1);
+        if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
-        if (ast)
-            status[1] = check_grammar_tree(ast);
         if (status[1] && ast)
         {
-            ft_putendl_fd("__________[Parse commands Completed]______________", 1);
+            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
             print_btree(ast);
+            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
         }
         else if (!status[1] && tokenz)
             ft_putendl_fd("__________[Parse commands Failed]______________", 1);
@@ -123,6 +126,7 @@ void    source_sh(t_env **head)
         else if (ft_strequ(buffer, "clear"))
             ft_putstr_fd("\e[1;1H\e[2J", 1);
         ft_free_tokenz(&tokenz);
+        //ft_free_tree(&ast);
         ft_strdel(&buffer);
     } 
 }
@@ -182,11 +186,15 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         // }
         else if (ft_is_there(AGG_REDI, buf[i]) && buf[i] && !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index))
         {
+            if (!buf[i + 1])
+                error_message("21sh: Unexpected token. {2020}\n", 1);
             char *buf_dup = ft_strdup(buf + i);
             if (!(agg = split_redir(buf_dup, i)))
                 return (NULL);
             i = i + redirerction_parse(&token_node, agg, coord, &i);
+            g_agg_len = 0;
             ft_strdel(&buf_dup);
+            continue ;
         }
         else if (((buf[i] == '\'' || buf[i] == '\"') || (buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || is_blank(buf[i - 1])))
         {
