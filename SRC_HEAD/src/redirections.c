@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 16:40:09 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 17:31:39 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static size_t countall_arr(char **agg, size_t delime_len) // calc all characters
         i = 0;
         while (agg[i])
         {
+            if (i > 0 && ft_strequ(agg[i - 1], "<<")) // agg[i] = text from here_doc
+                len = (len - ft_strlen(agg[i])) + delime_len + 1;
             len = len + ft_strlen(agg[i]);
             i++;
         }

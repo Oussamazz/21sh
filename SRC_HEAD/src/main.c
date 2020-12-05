@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 15:59:24 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 17:18:22 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ static void     print_btree(t_miniast *ast)
 {
     if (!ast)
         return ;
-    if (ast->cmd)
-        print_arr(ast->cmd);
+    print_arr(ast->cmd);
     if (ast->pipe)
         ft_putendl_fd("i enter Pipe node", 1);
     if (ast->sep)
@@ -128,8 +127,8 @@ void    source_sh(t_env **head)
             print_env_list(head);
         else if (ft_strequ(buffer, "clear"))
             ft_putstr_fd("\e[1;1H\e[2J", 1);
-        ft_free_tokenz(&tokenz);
-        //ft_free_tree(&ast);
+        //ft_free_tokenz(&tokenz);
+        ft_free_tree(&ast);
         ft_strdel(&buffer);
     } 
 }
@@ -177,9 +176,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             if ((position = parse_pipe(&token_node, buf + i - 1, coord)))
             {
                 i = i + position;
-                ft_putendl_fd("THIS IS POS", 1);
-                 ft_putnbr_fd(position, 1);
-                ft_putendl_fd("%", 1);
                 continue ;
             }
             else
