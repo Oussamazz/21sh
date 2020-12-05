@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 04:10:00 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 16:40:09 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char    *redirection_varname(char ***arr, char *str, int *i)
 
     c_len = 0;
     agg = *arr;
-    while(!is_blank(str[*i + c_len]) && str[*i + c_len] && !ft_is_there(AGG_REDI, str[*i + c_len])) // word expansions needed!!
+    while(!is_blank(str[*i + c_len]) && str[*i + c_len] != ';' && str[*i + c_len] != '|' && str[*i + c_len] && !ft_is_there(AGG_REDI, str[*i + c_len])) // word expansions needed!!
         c_len++;
     tmp = ft_strsub(str, *i, c_len);
     *i = *i + c_len;
@@ -142,18 +142,22 @@ char **split_redir(char *str, int pos)
                 return (NULL);
             if ((str[i] == '>' || str[i] == '<') && str[i] == str[i + 1]) // for  >> or << right_fd
             {
-                if (str[i + 2] == str[i] || str[i + 2] == ';' || str[i + 2] == '|')
+                if (i + 2 < len && str[i + 2] == str[i] || str[i + 2] == ';' || str[i + 2] == '|')
                 {
                     ft_free_arr(agg);
                     err_ret("21sh: syntax error near unexpected token `> or <'\n", NULL);
                     return (NULL);
                 }
-                agg[j][0] = str[i];
-                agg[j][1] = str[i];
-                // incr
-                active_word = 0;
-                j++;
-                i = i + 1;
+                else
+                {
+                    agg[j][0] = str[i];
+                    agg[j][1] = str[i];
+                    // incr
+                    active_word = 0;
+                    j++;
+                    i = i + 2;
+                    continue ;
+                }
                 //g_agg_len += 2;
             }
             else if (str[i] == '&') // for &??? &> >&- <&- &>-
@@ -211,10 +215,16 @@ char **split_redir(char *str, int pos)
                     return (NULL);
                 if (text)
                 {
+                    free(agg[j]);
                     agg[j++] = text;
                     active_word = 1;
                 }
                 delim_len = ft_strlen(delim);
+                if (str[i + delim_len - 1] == ';')
+                    delim_len--;
+                ft_putendl_fd("THIS DELIM SIZE", 1);
+                ft_putnbr_fd(delim_len, 1);
+                ft_putendl_fd("%", 1);
                 ft_strdel(&delim);
                 break ;
             }
@@ -228,6 +238,7 @@ char **split_redir(char *str, int pos)
             }
             else if ((str[i] == '/' || ft_isascii(str[i]) || str[i] == '$') && (i < len) && !active_word && ft_is_there(AGG_REDI, str[i + 1]))
             {// varneme
+                free(agg[j]);
                 agg[j] = redirection_varname(&agg, str, &i);
                 j++;
                 active_word = 1;
@@ -290,16 +301,20 @@ size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, i
     while (agg[j] != NULL && agg[j][0] != '\0')
     {
         if (ft_isdigit(agg[j][0]) && j == 0 && i >= 1) // i >= 2
-            append_list_redi(token_node, agg[j], L_REDIR, cor);
+            append_list_redi(token_node, ft_strdup(agg[j]), L_REDIR, cor);
         else if (ft_is_there(AGG_REDI, agg[j][0]))
-            append_list_redi(token_node, agg[j], AGGR_SYM, cor);
+            append_list_redi(token_node, ft_strdup(agg[j]), AGGR_SYM, cor);
         else if (ft_isascii(agg[j][0])) // right_fd
         {
-            if (ft_is_there(agg[j], ';'))
-                agg[j] = modify_right_redir(&agg[j]);
-            append_list_redi(token_node, agg[j], R_REDIR, cor);
+            // if (ft_is_there(agg[j], ';'))
+            //     agg[j] = modify_right_redir(&agg[j]);
+            append_list_redi(token_node, ft_strdup(agg[j]), R_REDIR, cor);
         }
         j++;
     }
+    ft_free_arr(agg);
+    ft_putendl_fd("THIS IS g_agg_len", 1);
+    ft_putnbr_fd(g_agg_len, 1);
+    ft_putendl_fd("%", 1);
     return (g_agg_len);
 }

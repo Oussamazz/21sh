@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 04:07:24 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 15:59:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static void     print_btree(t_miniast *ast)
 {
     if (!ast)
         return ;
-    print_arr(ast->cmd);
+    if (ast->cmd)
+        print_arr(ast->cmd);
     if (ast->pipe)
         ft_putendl_fd("i enter Pipe node", 1);
     if (ast->sep)
@@ -93,6 +94,8 @@ void    source_sh(t_env **head)
     init_status(&status[0]);
     while (status[0] && tty_value)
     {
+        ast = NULL;
+        tokenz = NULL;
         tty_value = ttyname(0);
         init_coord(&coord);
         ft_prompte();
@@ -100,7 +103,7 @@ void    source_sh(t_env **head)
             break ;
         print_list((tokenz = lexer(buffer, head, &coord)));
         ft_putendl_fd("\n_________________________", 1);
-        fflush(stdout); // not allowed
+        //fflush(stdout); // not allowed
         ast = NULL;
         status[1] = check_grammar_tokenz(tokenz);
         ft_putendl_fd("THIS IS STATUS[1]:", 1);
@@ -136,7 +139,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
     int i;
     int j;
     int position = 0;
-    t_type node_type = 0;
     bool flag;
     char q;
     char **agg;
@@ -159,7 +161,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         {
             coord->pipe_index = 1;
             coord->aggr_index= 1;
-            while (buf[i] == ';' || is_blank(buf[i]))
+            if (buf[i] == ';')
                 i++;
             append_list(&token_node, ";", SEP, coord);
             continue ;
@@ -173,7 +175,13 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         else if (buf[i] && ft_is_there(PIPE, buf[i]))
         {
             if ((position = parse_pipe(&token_node, buf + i - 1, coord)))
+            {
                 i = i + position;
+                ft_putendl_fd("THIS IS POS", 1);
+                 ft_putnbr_fd(position, 1);
+                ft_putendl_fd("%", 1);
+                continue ;
+            }
             else
                 return (NULL);
         }

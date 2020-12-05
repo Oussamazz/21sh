@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/04 16:57:56 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 15:58:49 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                 if (token->type != DQUOT)
                     ret[i] = token->data;
                 else
+                {
                     ret[i] = expanded(env, token->data);
+                }
             }
             else if (token->type == AGGR_SYM || 
                 token->type == L_REDIR || token->type == R_REDIR)
@@ -109,7 +111,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                 fill_redirections(redirections, token);
                 i--;
             }
-            else if (token->type == SEP)
+            else if (token->type == SEP || token->type == PIPE_SYM)
                 break ;
             i++;
             token = token->next;
@@ -141,8 +143,10 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
             data->sep = NULL;
             data->cmd = NULL;
             data->redirection = NULL;    
-            if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize))) // fill commands and redirections
-                return (-2);
+            if (tokenz && tokenz->data)
+                if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize))) // fill commands and redirections
+                    return (-2);
+            ft_putendl_fd("******fill_node Exited********", 1);
             //if (redirections)
                 //check_redirection: sym and right fd existant
             // if (redirections)
