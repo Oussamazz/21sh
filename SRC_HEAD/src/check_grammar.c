@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:32:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/04 23:48:50 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/05 23:27:43 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,34 @@ static int     check_token_type(t_type type, t_lexer *tokenz, t_lexer *next, siz
 
 int     check_grammar_tokenz(t_lexer *tokenz)
 {
+    char *data;
     if (tokenz)
     {
         size_t tokenz_size = get_list_size(tokenz);
         while (tokenz && tokenz->coor.node_index <= tokenz_size)
         {
-            if (tokenz->type == PIPE_SYM && !tokenz->next)
+            data = tokenz->data;
+            if (tokenz->type == AGGR_SYM && tokenz->next)
+            {
+                if (tokenz->next->type != R_REDIR && data[ft_strlen(data) - 1] != '-')
+                {
+                    error_message("Error 2020\n", 1);
+                    return (-1);
+                }
+            }
+            if (tokenz->type == L_REDIR)
+            {
+                if (tokenz->type == L_REDIR && (!tokenz->next))
+                {
+                        error_message("Error 2020\n", 1);
+                        return (-1);
+                }
+                if (tokenz->next && tokenz->next->type != AGGR_SYM)
+                {
+                    error_message("Error 2020\n", 1);
+                }
+            } 
+            if (tokenz->type == PIPE_SYM && (!tokenz->next || tokenz->coor.node_index == 1))
                 return (print_error(PIPE_SYM));
             else if (tokenz->type == PIPE_SYM && tokenz->next)
                 if (!(check_token_type(PIPE_SYM, tokenz, tokenz->next, tokenz_size)))

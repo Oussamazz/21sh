@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 17:28:33 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/06 02:16:11 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                 if (token->type != DQUOT)
                     ret[i] = token->data;
                 else
+                {
                     ret[i] = expanded(env, token->data);
+                    ft_strdel(&(token->data));
+                }
             }
             else if (token->type == AGGR_SYM || 
                 token->type == L_REDIR || token->type == R_REDIR)

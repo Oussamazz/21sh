@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 17:18:22 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/06 16:36:23 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,43 @@ int main(int ac,char **av, char **env)
     return 0;
 }
 
+static void ft_print_redirections(t_redir   *node)
+{
+    if (node)
+    {
+        while (node)
+        {
+            if (node->lfd)
+            {
+                ft_putendl_fd("THIS IS LEFT_FD:", 1);
+                ft_putendl_fd(node->lfd, 1);
+            }
+            else if (node->sym)
+            {
+                ft_putendl_fd("THIS IS SYM:", 1);
+                ft_putendl_fd(node->sym, 1);
+                
+            }
+            else if (node->rfd)
+            {
+                ft_putendl_fd("THIS IS RIGHT_FD:", 1);
+                ft_putendl_fd(node->rfd, 1);
+            }
+            node = node->next;
+        }
+    }
+}
+
 static void     print_btree(t_miniast *ast)
 {
     if (!ast)
         return ;
-    print_arr(ast->cmd);
+    if (ast->cmd)
+    {
+        if (ast->redirection)
+            ft_print_redirections(ast->redirection);
+        print_arr(ast->cmd);
+    }
     if (ast->pipe)
         ft_putendl_fd("i enter Pipe node", 1);
     if (ast->sep)
@@ -177,9 +209,8 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             {
                 i = i + position;
                 continue ;
-            }
-            else
-                return (NULL);
+            } // free
+            return (NULL);
         }
         // else if (last_node_type(token_node) && !is_quote(buf[i]))
         // {
@@ -344,10 +375,7 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
                 i = i + (ft_strchr(s + i, quote) - (s + i));
             else if (!is_blank(s[i + 1]) && !ft_is_there(METACHARACTER, s[i + 1]))
             {
-                if (start)
-                    rec_quote = quote_handling(s + i + 1, s[i], !start, env_list);
-                else
-                    rec_quote = quote_handling(s + i + 1, s[i], !start, env_list);
+                rec_quote = quote_handling(s + i + 1, s[i], !start, env_list);
                 tmp = quot->string;
                 quot->string = ft_strjoin(tmp, rec_quote->string);
                 i = i + rec_quote->size + 1;
@@ -357,7 +385,7 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
                 break;
             }
             else if(s[i] != quote || !start)
-                return (quote_completion(&quot, quote, env_list));
+                return (quote_completion(&quot, s[i], env_list));
             i++;
             break ;
         }
@@ -375,9 +403,6 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
             return (quote_completion(&quot, quote, env_list));
         i++;
     }
-    //  printf("1000---->%s\n", quot->string);
-    // printf("size is %zu\n", ft_strlen(quot->string));
     quot->size = i;
-    // printf("size is %zu\n", quot->size);
     return (quot);
 }

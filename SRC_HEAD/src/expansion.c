@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/11/29 18:52:29 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/06 02:00:34 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static size_t get_size_expansion(char *exp)
         return (len = 1);
     while (exp[i] != '\0')
     {
+        if (i && exp[i] == '$')
+            break ;
         if (is_blank(exp[i]))
             break ;
         if (ft_isalnum(exp[i]) || exp[i] == 47)
@@ -149,7 +151,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
         {
             if (!(data = ft_strnew(data_size)))
                 return (0);
-            if (buf[i] && (buf[i] == '$'))
+            if (buf[i] == '$')
                 buf++;
             j = 0;
             i = 0;
