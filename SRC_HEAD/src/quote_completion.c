@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 23:50:25 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/06 16:59:52 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ static void ft_str_append(char **buf, char *append)
     return ;
 }
 
+static char	*ft_strchr_quote(const char *s, int c)
+{
+    const char *addr;
+
+    addr = s;
+	while (*s)
+	{
+        if (*s == (char)c && *(s + 1) == '\0')
+            return ((char *)s);
+		if (*s == (char)c && (s > addr && *(s - 1) != '\\'))
+			return ((char *)s);
+		s++;
+	}
+	if ((char)c == '\0' && *s == '\0')
+		return ((char *)s);
+	return (NULL);
+}
+
 t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
 {
     t_quote *my_quot;
@@ -67,7 +85,7 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
         prompt_completion(quote);
         if (!(new_buff = ft_readline()))
             return (NULL);
-        if (!ft_strchr(new_buff, quote))
+        if (!ft_strchr(new_buff, quote) || (new_buff[0] == quote && !new_buff[1]))
             ft_str_append(&new_buff, "\n");
         tmp_string = string;
         if (string && new_buff)
