@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/12/04 03:46:48 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/07 02:45:49 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void    print_env_list(t_env **head)
     tmp = *head;
     while (tmp)
     {
-        ft_putstr(tmp->env_var_name);
-        ft_putstr("=");
-        ft_putendl(tmp->env_var_value);
+        ft_putstr_fd(tmp->env_var_name, 1);
+        ft_putstr_fd("=", 1);
+        ft_putendl_fd(tmp->env_var_value, 1);
         tmp = tmp->next;
     }
 }

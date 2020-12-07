@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/06 16:47:10 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/07 02:41:22 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int ac,char **av, char **env)
 {
     char *user;
     time_t now;
-    t_env *env_list;
+    static t_env *env_list;
     env_list = NULL;
     
     time(&now);
@@ -132,33 +132,34 @@ void    source_sh(t_env **head)
         ft_prompte();
         if (!(buffer = ft_readline()))
             break ;
-        print_list((tokenz = lexer(buffer, head, &coord)));
-        ft_putendl_fd("\n_________________________", 1);
+        tokenz = lexer(buffer, head, &coord);
+        //print_list(());
+        //ft_putendl_fd("\n_________________________", 1);
         //fflush(stdout); // not allowed
-        ast = NULL;
         status[1] = check_grammar_tokenz(tokenz);
-        ft_putendl_fd("THIS IS STATUS[1]:", 1);
-        ft_putnbr_fd(status[1], 1);
-        ft_putchar_fd('\n', 1);
+        ast = NULL;
+        // ft_putendl_fd("THIS IS STATUS[1]:", 1);
+        // ft_putnbr_fd(status[1], 1);
+        // ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
-        if (status[1] && ast)
-        {
-            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-            print_btree(ast);
-            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        }
-        else if (!status[1] && tokenz)
-            ft_putendl_fd("__________[Parse commands Failed]______________", 1);
+        // if (status[1] && ast)
+        // {
+        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+        //     print_btree(ast);
+        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        // }
+        // else if (!status[1] && tokenz)
+        //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         // binary Tree:
-        //if (status[1])
-        //     status[0] = execute(ast, tokenz, head);
         if (ft_strequ(buffer, "exit"))
-            exit(0);
+            break ;
         else if (ft_strequ(buffer, "env"))
             print_env_list(head);
         else if (ft_strequ(buffer, "clear"))
             ft_putstr_fd("\e[1;1H\e[2J", 1);
+        else if (status[1] && ast && head)
+            status[0] = execute(ast, head);
         //ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
         ft_strdel(&buffer);
