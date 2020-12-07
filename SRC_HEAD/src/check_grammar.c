@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:32:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 23:27:43 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/07 14:57:53 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int     check_grammar_tokenz(t_lexer *tokenz)
             {
                 if (tokenz->type == L_REDIR && (!tokenz->next))
                 {
-                        error_message("Error 2020\n", 1);
+                        error_message("Error 2020 haha 2\n", 1);
                         return (-1);
                 }
                 if (tokenz->next && tokenz->next->type != AGGR_SYM)
                 {
-                    error_message("Error 2020\n", 1);
+                    error_message("Error 2020 ahah 3\n", 1);
                 }
             } 
             if (tokenz->type == PIPE_SYM && (!tokenz->next || tokenz->coor.node_index == 1))

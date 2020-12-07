@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 02:41:22 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/07 15:03:09 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void    source_sh(t_env **head)
         if (!(buffer = ft_readline()))
             break ;
         tokenz = lexer(buffer, head, &coord);
-        //print_list(());
         //ft_putendl_fd("\n_________________________", 1);
         //fflush(stdout); // not allowed
         status[1] = check_grammar_tokenz(tokenz);
@@ -276,7 +275,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             }
             else if (buf + i && *(buf + i)) // simple command
             {
-                if (i > 1 && buf[i - 1] != '\\' && ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]))
+                if (i > 1 && buf[i - 1] != '\\' && ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]) && buf[i + 1] != '\0')
                 {
                     temp = get_left_fd_(buf + i);
                     append_list_redi(&token_node, ft_strdup(temp), L_REDIR, coord);
