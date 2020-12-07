@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/06 23:39:42 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/07 18:15:14 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 ** nodes index
 */
 size_t g_agg_len;
+char	*g_tty_name;
 
 typedef struct s_pointt
 {
@@ -149,6 +150,12 @@ int				execute(t_miniast *tree, t_env **env_list);
 void			execute_direct(char **cmd, char **tabs);
 void			execute_undirect(char **cmd, char **tabs, t_env **env);
 char        	*get_bin_file(char **cmd,  t_env **env);
+
+/*
+** Redirection fucntions:
+*/
+int			execute_redirection(t_redir *redirections, char *tty_name);
+int			ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd);
 
 /*
 ** utils

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 15:03:09 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/07 15:29:42 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int main(int ac,char **av, char **env)
             error_message("21sh: Error: USER NOT FOUND\n", 1);
         starting_message(av[1], &user, &now);
     }
+    if(!(g_tty_name = ttyname(0)))
+        return (1);
     source_sh(&env_list);
     return 0;
 }
