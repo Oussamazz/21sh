@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 03:53:10 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 15:29:42 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/08 12:24:21 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ static void init_status(int *status)
 
 void    source_sh(t_env **head)
 {
-    char *tty_value = ttyname(0);
     int status[2];
     char *buffer;
     t_lexer *tokenz;
@@ -125,34 +124,32 @@ void    source_sh(t_env **head)
     buffer = NULL;
     tokenz = NULL;
     init_status(&status[0]);
-    while (status[0] && tty_value)
+    while (status[0] && g_tty_name)
     {
         ast = NULL;
         tokenz = NULL;
-        tty_value = ttyname(0);
         init_coord(&coord);
         ft_prompte();
         if (!(buffer = ft_readline()))
             break ;
-        tokenz = lexer(buffer, head, &coord);
-        //ft_putendl_fd("\n_________________________", 1);
+        print_list(tokenz = lexer(buffer, head, &coord));
+        ft_putendl_fd("\n_________________________", 1);
         //fflush(stdout); // not allowed
         status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
-        // ft_putendl_fd("THIS IS STATUS[1]:", 1);
-        // ft_putnbr_fd(status[1], 1);
-        // ft_putchar_fd('\n', 1);
+         ft_putendl_fd("THIS IS STATUS[1]:", 1);
+         ft_putnbr_fd(status[1], 1);
+         ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
-        // if (status[1] && ast)
-        // {
-        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-        //     print_btree(ast);
-        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        // }
-        // else if (!status[1] && tokenz)
-        //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        // binary Tree:
+        if (status[1] && ast)
+        {
+            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+            print_btree(ast);
+            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        }
+        else if (!status[1] && tokenz)
+            ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         if (ft_strequ(buffer, "exit"))
             break ;
         else if (ft_strequ(buffer, "env"))

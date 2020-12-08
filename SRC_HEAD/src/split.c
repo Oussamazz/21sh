@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 19:11:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 02:09:10 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/08 12:23:31 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static int			word_len(char *s)
 	type = get_type(*s);
 	while (*s != '\0')
 	{
+		if (len && *s == '$')
+			break ;
 		if (get_type(*s) == type)
 			len++;
 		else
