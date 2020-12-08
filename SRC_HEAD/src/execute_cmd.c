@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 02:42:10 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/08 00:52:34 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	execute_direct(char **cmd, char **tabs)
 	pid_t	pid;
 
     if (cmd[0][0] == '.' && cmd[0][1] == '/')
-        file_name = ft_strchr(cmd[0], '/') + 1;
+        file_name = ft_strrchr(cmd[0], '/') + 1;
     else
         file_name = cmd[0];
 	if ((pid = fork()) < 0)
