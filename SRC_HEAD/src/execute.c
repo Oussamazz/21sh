@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 01:19:42 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/08 17:11:21 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 	if (prev)
 		left_fd = prev->lfd;
 	if (!ft_strcmp(redirections->sym, ">") && right_fd)
-	{
 		fd = open(right_fd, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	}
 	else if (right_fd)
 	{
 		fd = open(right_fd, O_RDONLY);
@@ -58,7 +56,7 @@ int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 			left = ft_atoi(left_fd);
 		else
 		{
-			ft_putendl_fd("21sh: Error: Left redirection.", 2);
+			ft_putendl_fd("21sh: Error: Left redirection must only contains digits characters.", 2);
 			return (-1);
 		}
 		dup2(fd, left);
@@ -106,6 +104,36 @@ int		append_redir(t_redir *redirection, t_redir *prev)
 	return (fd);
 }
 
+int	here_document(t_redir *redirection, char *tty_name)
+{
+	int pip[2];
+	int fd;
+	int tmp;
+
+	tmp = 255;
+	if((fd = open(tty_name, O_RDWR)) == -1)
+		return (-1);
+	dup2(fd, STDIN_FILENO);
+	dup2(STDOUT_FILENO, tmp);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	if ((pipe(pip)) == -1)
+		return (-2);
+	if (redirection->next && redirection->next->rfd)
+		ft_putstr_fd(redirection->next->rfd, pip[1]);
+	else if (redirection->next == NULL)
+	{
+		ft_putendl_fd("21sh: parse error near `\\n'", 2); // free!!!
+		return (-3);
+	}
+	close(pip[1]);
+	dup2(pip[0], STDIN_FILENO);
+	close(pip[0]);
+	dup2(tmp, STDOUT_FILENO);
+	close(tmp);
+	return (255);
+}
+
 int		execute_redirection(t_redir *redirections, char *tty_name)
 {
 	t_redir *prev;
@@ -114,14 +142,18 @@ int		execute_redirection(t_redir *redirections, char *tty_name)
 	fd = 0;
 	prev = NULL;
 	if (!tty_name)
-		exit (1); // tty_name error;
+		exit (1); // tty_name not found {errors must be handled};
 	while (redirections)
 	{
+		prev = redirections;
 		if (redirections->sym && (ft_strequ(redirections->sym , ">") || ft_strequ(redirections->sym , "<")))
 			fd = ft_redirect_in_out(redirections, prev, fd);
 		else if (redirections->sym && (ft_strequ(redirections->sym , ">>")))
 			fd = append_redir(redirections, prev);
-		prev = redirections;
+		else if (redirections->sym && (ft_strequ(redirections->sym , "<<")))
+			fd = here_document(redirections, g_tty_name);
+		if (fd < 0)
+			break ;
 		redirections = redirections->next;
 	}
 	return (fd);	
@@ -162,8 +194,8 @@ int				execute(t_miniast *tree, t_env **env_list)
                 execute_direct(tree->cmd, tabs);
             else
                 execute_undirect(tree->cmd, tabs, env_list);
-			ft_reset_fd(g_tty_name, fd);
         }
+		ft_reset_fd(g_tty_name, fd);
 		tree = tree->sep;
 	}
 	ft_free_arr(tabs);

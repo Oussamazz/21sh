@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 01:19:59 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/08 16:59:05 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ char        	*get_bin_file(char **cmd,  t_env **env);
 int			execute_redirection(t_redir *redirections, char *tty_name);
 int			ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd);
 int			append_redir(t_redir *redirection, t_redir *prev);
+int			here_document(t_redir *redirection, char *tty_name);
 
 /*
 ** utils
