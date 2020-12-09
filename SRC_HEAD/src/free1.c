@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 00:30:15 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/09 13:41:53 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,23 @@ void    free_quot(t_quote **data)
     }
 }
 
-static void    free_list(t_redir *redirections)
+static void    free_list_redir(t_redir *redirections)
 {
+    t_redir *next;
+
+    next = NULL;
     while (redirections)
     {
         if (redirections->lfd)
             ft_strdel(&redirections->lfd);
-        else if (redirections->sym)
+        if (redirections->sym)
             ft_strdel(&redirections->sym);
         if (redirections->rfd)
             ft_strdel(&redirections->rfd);
-        redirections = redirections->next;
+        next = redirections->next;
+        if (redirections)
+            free(redirections);
+        redirections = next;
     }
     redirections = NULL;
     return ;
@@ -47,7 +53,7 @@ void    ft_free_tree(t_miniast **tree)
         return ;
     ft_free_arr((*tree)->cmd);
     if ((*tree)->redirection)
-        free_list((*tree)->redirection);
+        free_list_redir((*tree)->redirection);
     ft_free_tree(&(*tree)->pipe);
     ft_free_tree(&(*tree)->sep);
     free(*tree);

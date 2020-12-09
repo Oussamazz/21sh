@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 17:11:21 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/09 14:50:10 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,13 @@ int		execute_redirection(t_redir *redirections, char *tty_name)
 	prev = NULL;
 	if (!tty_name)
 		exit (1); // tty_name not found {errors must be handled};
-	while (redirections)
+	while (redirections != NULL)
 	{
-		prev = redirections;
+		// if (redirections->sym && (ft_strequ(redirections->sym , ">&-") || ft_strequ(redirections->sym , "<&-") ||
+		// 	ft_strequ(redirections->sym , "&>-") || ft_strequ(redirections->sym , "&<-")  )) // close stdin or stdout 
+		// {
+			
+		// }  ^^^ THIS IS FOR AGGREGATIONS !! ^^^
 		if (redirections->sym && (ft_strequ(redirections->sym , ">") || ft_strequ(redirections->sym , "<")))
 			fd = ft_redirect_in_out(redirections, prev, fd);
 		else if (redirections->sym && (ft_strequ(redirections->sym , ">>")))
@@ -154,9 +158,10 @@ int		execute_redirection(t_redir *redirections, char *tty_name)
 			fd = here_document(redirections, g_tty_name);
 		if (fd < 0)
 			break ;
+		prev = redirections;
 		redirections = redirections->next;
 	}
-	return (fd);	
+	return (fd);
 }
 
 static void ft_reset_fd(char *tty_name, int file_d)
@@ -165,9 +170,9 @@ static void ft_reset_fd(char *tty_name, int file_d)
 
 	if ((fd = open(tty_name, O_RDWR)) == -1)
 		return ;
-	dup2(fd, 0);
-	dup2(fd, 1);
-	dup2(fd, 2);
+	dup2(fd, STDIN_FILENO);
+	dup2(fd, STDOUT_FILENO);
+	dup2(fd, STDERR_FILENO);
 	if (file_d > 2)
 		close(file_d);
 	if (fd > 2)
@@ -186,10 +191,12 @@ int				execute(t_miniast *tree, t_env **env_list)
         return (0);
 	while (tree)
 	{
-		if (tree->redirection)
-			fd = execute_redirection(tree->redirection, g_tty_name);
+		// if (tree->pipe)        // PIPES EXECUTION !
+		// 	fd = execute_pipes(tree->pipe, tabs, env_list);
         if (tree->cmd && fd >= 0)
         {
+			if (tree->redirection) // REDIRECT !!
+				fd = execute_redirection(tree->redirection, g_tty_name);
             if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
                 execute_direct(tree->cmd, tabs);
             else

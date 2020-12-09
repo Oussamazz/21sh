@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 17:13:42 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/09 13:43:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void    source_sh(t_env **head)
         }
         else if (!status[1] && tokenz)
             ft_putendl_fd("__________[Parse commands Failed]______________", 1);
+        ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
             break ;
         else if (ft_strequ(buffer, "env"))

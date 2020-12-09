@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 16:59:05 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/09 14:46:31 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@
 size_t g_agg_len;
 char	*g_tty_name;
 
+typedef struct	s_mypipe
+{
+	int pipe[2];
+	int pid;
+	int temp;
+	int cmd_no;
+}				t_mypipe;
+
 typedef struct s_pointt
 {
 	int node_index;
@@ -53,7 +61,7 @@ typedef struct s_pointt
 }               t_pointt;
 
 /*
-** Environment 
+** Environment struct
 */
 
 typedef struct s_env
@@ -149,7 +157,7 @@ int     	check_tokenz_grammar(t_lexer *tokenz);
 int				execute(t_miniast *tree, t_env **env_list);
 void			execute_direct(char **cmd, char **tabs);
 void			execute_undirect(char **cmd, char **tabs, t_env **env);
-char        	*get_bin_file(char **cmd,  t_env **env);
+int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list); // PIPES
 
 /*
 ** Redirection fucntions:
@@ -190,6 +198,7 @@ size_t 		get_list_size(t_lexer *tokenz);
 int			check_if_is_aggr(t_lexer **root);
 char    	*get_left_fd_(char *buf);
 char		**list_to_tabs(t_env **env_list);
+char        *get_bin_file(char **cmd,  t_env **env);
 
 /*
 ** btree Functions _________________________________________________________

@@ -29,6 +29,7 @@ SRC_NAME= main.c \
 			check_grammar.c \
 			execute.c \
 			execute_cmd.c \
+			#execute_pipes.c \
 
 SRC_NAME2= ft_readline.c \
 			history.c \
