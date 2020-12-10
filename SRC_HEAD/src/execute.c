@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/09 14:50:10 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/10 00:18:52 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,8 @@ int				execute(t_miniast *tree, t_env **env_list)
         return (0);
 	while (tree)
 	{
-		// if (tree->pipe)        // PIPES EXECUTION !
-		// 	fd = execute_pipes(tree->pipe, tabs, env_list);
+		if (tree->pipe)        // PIPES EXECUTION !
+			fd = execute_pipes(tree->pipe, tabs, env_list);
         if (tree->cmd && fd >= 0)
         {
 			if (tree->redirection) // REDIRECT !!

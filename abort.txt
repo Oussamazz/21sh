@@ -1,0 +1,7 @@
+21sh(77149,0x1105bddc0) malloc: Incorrect checksum for freed object 0x7f8db1406580: probably modified after being freed.
+Corrupt value: 0x7f8db1604be0
+21sh(77149,0x1105bddc0) malloc: *** set a breakpoint in malloc_error_break to debug
+21sh(77142,0x1105bddc0) malloc: Incorrect checksum for freed object 0x7f8db1406580: probably modified after being freed.
+Corrupt value: 0x7f8db1604be0
+21sh(77142,0x1105bddc0) malloc: *** set a breakpoint in malloc_error_break to debug
+[1]    77142 abort      ./21sh
