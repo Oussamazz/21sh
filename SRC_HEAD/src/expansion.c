@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 02:23:06 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/11 20:44:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static size_t get_size_expansion(char *exp)
         return (len = 1);
     while (exp[i] != '\0')
     {
-        if (i && exp[i] == '$')
+        if (i && exp[i] == '$' || (exp[i] == ';' && exp[i - 1] != '\\'))
             break ;
         if (is_blank(exp[i]))
             break ;
@@ -149,6 +149,9 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
     if (buf && *(buf + i))
     {
         data_size = get_size_expansion(buf + i);
+        ft_putendl_fd("this is data size", 1);
+        ft_putnbr_fd(data_size, 1);
+        ft_putchar_fd('\n', 1);
         if (data_size > 0)
         {
             if (!(data = ft_strnew(data_size)))
@@ -156,7 +159,6 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             if (buf[i] == '$')
                 buf++;
             j = 0;
-            i = 0;
             while (buf[i] && (ft_isalnum(buf[i]) || buf[i] == '~') && i < data_size)
             {
                 if (i == 0 && (ft_is_tilde(buf + i) || (buf[i] == '~' && buf[i - 1] != '\\')))

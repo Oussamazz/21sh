@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/06 02:16:11 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/11 19:57:11 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
             data->cmd = NULL;
             data->redirection = NULL;    
             if (tokenz && tokenz->data)
-                if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize))) // fill commands and redirections
+                if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize)))
                     return (-2);
             //if (redirections)
                 //check_redirection: sym and right fd existant
@@ -158,10 +158,7 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
         else
         {
             if (tokenz->type == PIPE_SYM)
-            {
-                //check_PIPE -> t_lexer *tokenz <-
                 parse_commands(&(*head)->pipe, tokenz->next, env);
-            }
             else if (tokenz->type == SEP)
                 parse_commands(&(*head)->sep, tokenz->next, env);
         }

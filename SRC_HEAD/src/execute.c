@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/11 09:20:54 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 00:21:13 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,9 @@ static void ft_reset_fd(char *tty_name, int file_d)
 		close(fd);
 }
 
-int				execute(t_miniast *tree, t_env **env_list)
+int				execute(t_miniast *tree, t_env **env_list, int is_pipe)
 {
+	t_miniast *sepa;
 	char	**tabs;
 	int		status;
 	int		fd;
@@ -189,17 +190,20 @@ int				execute(t_miniast *tree, t_env **env_list)
 	fd = 0;
 	if (!(tabs = list_to_tabs(env_list)))
         return (0);
-	while (tree)
+	while (tree != NULL)
 	{
-		if (tree->pipe)        // PIPES EXECUTION !
+		if (tree->pipe && is_pipe)
+		{
 			fd = execute_pipes(tree, tabs, env_list);
+			break ;
+		}
         else
         {
 			if (tree->redirection) // REDIRECT !!
 				fd = execute_redirection(tree->redirection, g_tty_name);
-            if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
-                execute_direct(tree->cmd, tabs);
-            else
+            // if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
+            //     execute_direct(tree->cmd, tabs);
+            // else
                 execute_undirect(tree->cmd, tabs, env_list);
         }
 		ft_reset_fd(g_tty_name, fd);

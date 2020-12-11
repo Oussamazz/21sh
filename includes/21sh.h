@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/11 09:12:38 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/11 23:53:36 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 */
 size_t g_agg_len;
 char	*g_tty_name;
-
 typedef struct	s_mypipe
 {
 	int pipe[2];
@@ -135,7 +134,6 @@ typedef struct s_miniast
 }              t_miniast;
 
 
-
 /*
 ** principale functions
 */
@@ -154,7 +152,7 @@ int     	check_tokenz_grammar(t_lexer *tokenz);
 /*
 ** Execution functions
 */
-int				execute(t_miniast *tree, t_env **env_list);
+int				execute(t_miniast *tree, t_env **env_list, int is_pipe);
 void			execute_direct(char **cmd, char **tabs);
 void			execute_undirect(char **cmd, char **tabs, t_env **env);
 int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list); // PIPES
@@ -252,6 +250,9 @@ char        *expanded(t_env **head, char *str);
 void    print_env_list(t_env **head);
 void    starting_message(char *argv, char **user, time_t *now);
 void    print_arr(char **arr);
+
+void     print_btree(t_miniast *ast);
+
 /*
 ** free functions
 */

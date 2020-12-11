@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by macos             #+#    #+#             */
-/*   Updated: 2020/12/11 09:32:53 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 00:20:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
         execute_pipes2(tree, pipes);
         // if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
         //     execute_direct(tree->cmd, tabs);
-        // else
+        //else
         execute_undirect(tree->cmd, tabs, env_list);
+        //execute(tree, env_list, 0);
         exit(EXIT_SUCCESS);
     }
     else // parent proccess:
@@ -50,8 +51,8 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
             close(pipes->temp);
         pipes->temp = pipes->pipe[0];
         pipes->cmd_no += 1;
-        wait(NULL);
     }
+    wait(NULL);
     return ;
 }
 
@@ -64,21 +65,22 @@ static void init_pipes(t_mypipe *pipes)
     pipes->pid = -1;
 }
 
-int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list)
+int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list) // ls -la | wc -l ; echo oussa
 {
     t_mypipe pipes;
 
     init_pipes(&pipes);
     while (tree)
     {
+        if (tree->sep)
+        {
+            execute_pipes1(tree, &pipes, tabs, env_list);
+            execute(tree->sep, env_list, 1);
+            break ;
+        }
         execute_pipes1(tree, &pipes, tabs, env_list);
         tree = tree->pipe;
     }
     close(pipes.temp);
-    // if (pipes.pid != 0)
-    //     while (wait(NULL))
-    //     {
-    //     }
-   // wait(NULL);
     return (255);
 }
