@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/09 14:46:31 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/11 09:12:38 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*g_tty_name;
 typedef struct	s_mypipe
 {
 	int pipe[2];
-	int pid;
+	pid_t pid;
 	int temp;
 	int cmd_no;
 }				t_mypipe;
