@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 02:19:23 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 22:12:28 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ int     	check_tokenz_grammar(t_lexer *tokenz);
 */
 int				execute(t_miniast *tree, t_env **env_list);
 void			execute_direct(char **cmd, char **tabs);
+void			execute_builtin(char **cmd, char **tabs, t_env **env_list);
 void			execute_undirect(char **cmd, char **tabs, t_env **env);
 int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list); // PIPES
-
 /*
 ** Redirection fucntions:
 */
@@ -216,7 +216,8 @@ size_t calc_arr_size(t_lexer *token, int *next_type);
 ** envirement
 */
 void    stock_env(char **env, t_env **head);
-
+int		addtolist(t_env **head, char *var_name, char *var_value);
+void    deleteNode(t_env **head_ref, char *env_name);
 
 /*
 ** Redirections
@@ -230,6 +231,10 @@ size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, i
 ** built-ins
 */
 
+
+void    blt_echo(char **cmd);
+void    blt_setenv(char **cmd, t_env **env_list);
+void    blt_unsetenv(char **cmd, t_env **env_list);
 
 
 

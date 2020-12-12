@@ -6,13 +6,13 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 15:30:12 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 02:44:58 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 21:45:07 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int addtolist(t_env **head, char *var_name, char *var_value)
+int addtolist(t_env **head, char *var_name, char *var_value)
 {
     t_env *tmp;
     t_env *new;

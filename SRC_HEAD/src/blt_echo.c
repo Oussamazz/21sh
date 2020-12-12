@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handler.c                                    :+:      :+:    :+:   */
+/*   blt_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/24 17:51:48 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 21:23:52 by macos            ###   ########.fr       */
+/*   Created: 2020/12/12 21:12:01 by macos             #+#    #+#             */
+/*   Updated: 2020/12/12 21:33:39 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-
-char  *err_ret(char *s, char *addrr)
+void    blt_echo(char **cmd)
 {
-  ft_putstr_fd(s, 2);
-  return (addrr);
+    int i;
+    int flag;
+
+    i = 0;
+    flag = 0;
+    if (cmd[1] && ft_strequ(cmd[1], "-n"))
+    {
+        i++;
+        flag = 1;
+    }
+    while (cmd[++i] != NULL)
+    {
+        ft_putstr_fd(cmd[i], 1);
+        ft_putchar_fd(' ', 1);
+    }
+    if (!flag)
+        ft_putchar_fd('\n', 1);
 }
-
-void  error_message(char *err_message, int flag)
-{
-   ft_putstr_fd(err_message, 2);
-   if (flag)
-    exit(EXIT_FAILURE);
-}
-
-
-/*
-
-
-if(dup2(input_fds, STDIN_FILENO) < 0) {
-  printf("Unable to duplicate file descriptor.");
-  exit(EXIT_FAILURE);
-}
-*/

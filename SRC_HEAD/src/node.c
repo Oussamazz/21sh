@@ -6,11 +6,38 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/12/03 15:41:20 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 22:35:10 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+void    deleteNode(t_env **head_ref, char *env_name)
+{
+    t_env *temp;
+    t_env *prev;
+
+    temp = *head_ref;
+    if (temp != NULL && ft_strequ(temp->env_var_name, env_name))
+    {
+        *head_ref = temp->next;
+        ft_strdel(&temp->env_var_name);
+        ft_strdel(&temp->env_var_value);
+        free(temp);
+        return ;
+    }
+    while (temp != NULL && ft_strcmp(temp->env_var_name, env_name))
+    {
+        prev = temp; 
+        temp = temp->next; 
+    }
+    if (temp == NULL)
+        return ; 
+    prev->next = temp->next; 
+    ft_strdel(&temp->env_var_name);
+    ft_strdel(&temp->env_var_value);
+    free(temp);
+}
 
 void    append_list(t_lexer **root, char *data, t_type type, t_pointt *cor)
 {

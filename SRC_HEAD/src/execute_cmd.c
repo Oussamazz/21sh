@@ -6,11 +6,22 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 00:52:34 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 21:32:52 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+static int check_builtins(char *cmd_name)
+{
+    if (ft_strequ(cmd_name, "echo") || ft_strequ(cmd_name, "setenv") ||
+     ft_strequ(cmd_name, "unsetenv") ||
+        ft_strequ(cmd_name, "env") || ft_strequ(cmd_name, "cd") ||
+         ft_strequ(cmd_name, "exit"))
+         return (1);
+    return (0);
+        
+}
 
 void	execute_direct(char **cmd, char **tabs)
 {
@@ -53,7 +64,9 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
     char *bin_file;
 	pid_t	pid;
 
-    if (!(bin_file = get_bin_file(cmd, env)))
+    if (check_builtins(cmd[0]))
+        return (execute_builtin(cmd, tabs, env));
+    else if (!(bin_file = get_bin_file(cmd, env)))
         return (ft_putendl_fd("21sh: Error: command not found.", 2));
 	if ((pid = fork()) < 0)
         return (ft_putendl_fd("21sh: Error: forking Failded.", 2));
