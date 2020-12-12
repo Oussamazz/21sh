@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 02:45:49 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 02:30:00 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void    print_env_list(t_env **head)
 
 void    starting_message(char *argv, char **user, time_t *now)
 {
-    if (ft_strequ(argv, "-s") && user)
+    if (ft_strequ(argv, "-s") && *user)
     {
         ft_putstr_fd("\e[1;1H\e[2J", 1);
         if (*user)

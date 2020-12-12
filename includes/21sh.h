@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/11 23:53:36 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 02:19:23 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int     	check_tokenz_grammar(t_lexer *tokenz);
 /*
 ** Execution functions
 */
-int				execute(t_miniast *tree, t_env **env_list, int is_pipe);
+int				execute(t_miniast *tree, t_env **env_list);
 void			execute_direct(char **cmd, char **tabs);
 void			execute_undirect(char **cmd, char **tabs, t_env **env);
 int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list); // PIPES

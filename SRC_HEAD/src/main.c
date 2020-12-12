@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/11 22:55:40 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 02:18:54 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,14 +132,15 @@ void    source_sh(t_env **head)
         ft_prompte();
         if (!(buffer = ft_readline()))
             break ;
-        print_list(tokenz = lexer(buffer, head, &coord));
-        ft_putendl_fd("\n_________________________", 1);
+        tokenz = lexer(buffer, head, &coord);
+        // print_list(tokenz = lexer(buffer, head, &coord));
+        // ft_putendl_fd("\n_________________________", 1);
         //fflush(stdout); // not allowed
         status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
-         ft_putendl_fd("THIS IS STATUS[1]:", 1);
-         ft_putnbr_fd(status[1], 1);
-         ft_putchar_fd('\n', 1);
+        //  ft_putendl_fd("THIS IS STATUS[1]:", 1);
+        //  ft_putnbr_fd(status[1], 1);
+        //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
         // if (status[1] && ast)
@@ -150,7 +151,7 @@ void    source_sh(t_env **head)
         // }
         // else if (!status[1] && tokenz)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        ft_putendl_fd("\n__________[EXECUTION]______________", 1);
+        // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
             break ;
         else if (ft_strequ(buffer, "env"))
@@ -158,7 +159,7 @@ void    source_sh(t_env **head)
         else if (ft_strequ(buffer, "clear"))
             ft_putstr_fd("\e[1;1H\e[2J", 1);
         else if (status[1] && ast && head)
-            status[0] = execute(ast, head, 1);
+            status[0] = execute(ast, head);
         //ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
         ft_strdel(&buffer);
@@ -202,8 +203,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             if (buf[i] == '$' && (buf[i + 1] == '(' || buf[i + 1] == ')'))
                 error_message("21sh: Unexpected token `( or )'\n", 1); // free
             i = i + expansion_parse(&token_node, buf + i, env_list, coord);
-            ft_putendl_fd("this is buf:", 1);
-            ft_putendl_fd(buf + i, 1);
         }
         else if (buf[i] && ft_is_there(PIPE, buf[i]))
         {

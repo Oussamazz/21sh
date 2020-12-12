@@ -122,3 +122,4 @@
     ./$TSH shell_script.sh > $TSHO
     $SH shell_script.sh > $SHO
     diff $TSHO $SHO
+ls -la |wc -l | pwd |pwd > rr | ls -la | /Users/macos/Desktop/21sh

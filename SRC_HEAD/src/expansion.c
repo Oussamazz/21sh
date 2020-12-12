@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/11 20:44:19 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 00:33:34 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,6 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
     if (buf && *(buf + i))
     {
         data_size = get_size_expansion(buf + i);
-        ft_putendl_fd("this is data size", 1);
-        ft_putnbr_fd(data_size, 1);
-        ft_putchar_fd('\n', 1);
         if (data_size > 0)
         {
             if (!(data = ft_strnew(data_size)))

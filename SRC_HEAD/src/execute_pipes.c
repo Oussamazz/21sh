@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 00:20:24 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/12 16:16:14 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
     if (pipes->pid == 0) // child proccess:
     {
         execute_pipes2(tree, pipes);
-        // if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
-        //     execute_direct(tree->cmd, tabs);
-        //else
-        execute_undirect(tree->cmd, tabs, env_list);
-        //execute(tree, env_list, 0);
+        if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
+            execute_direct(tree->cmd, tabs);
+        else
+            execute_undirect(tree->cmd, tabs, env_list);
         exit(EXIT_SUCCESS);
     }
     else // parent proccess:
@@ -65,7 +64,7 @@ static void init_pipes(t_mypipe *pipes)
     pipes->pid = -1;
 }
 
-int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list) // ls -la | wc -l ; echo oussa
+int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list)
 {
     t_mypipe pipes;
 
@@ -75,7 +74,7 @@ int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list) // ls -la |
         if (tree->sep)
         {
             execute_pipes1(tree, &pipes, tabs, env_list);
-            execute(tree->sep, env_list, 1);
+            execute(tree->sep, env_list);
             break ;
         }
         execute_pipes1(tree, &pipes, tabs, env_list);
