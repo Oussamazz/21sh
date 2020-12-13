@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 21:52:44 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 15:36:39 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void    source_sh(t_env **head)
         else if (ft_strequ(buffer, "clear"))
             ft_putstr_fd("\e[1;1H\e[2J", 1);
         else if (status[1] && ast && head)
-            status[0] = execute(ast, head);
+            status[0] = execute(ast, head, 1);
         //ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
         ft_strdel(&buffer);

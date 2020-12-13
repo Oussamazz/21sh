@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 00:33:34 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 01:00:13 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static size_t get_size_expansion(char *exp)
     {
         if (i && exp[i] == '$' || (exp[i] == ';' && exp[i - 1] != '\\'))
             break ;
-        if (is_blank(exp[i]))
+        if (is_blank(exp[i]) || ft_is_there(AGG_REDI, exp[i]))
             break ;
         if (ft_isalnum(exp[i]) || exp[i] == 47)
             len++;

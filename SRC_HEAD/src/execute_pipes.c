@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 16:16:14 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 16:02:51 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
         return ;                 // err
     if (pipes->pid == 0) // child proccess:
     {
+        // ft_putendl_fd("this is the cmd from ex_pipe1:", 1);
+        // ft_putendl_fd(tree->cmd[0], 1);
         execute_pipes2(tree, pipes);
         if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
             execute_direct(tree->cmd, tabs);
@@ -51,7 +53,6 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
         pipes->temp = pipes->pipe[0];
         pipes->cmd_no += 1;
     }
-    wait(NULL);
     return ;
 }
 
@@ -59,9 +60,9 @@ static void init_pipes(t_mypipe *pipes)
 {
     pipes->temp = 0;
     pipes->cmd_no = 0;
-    pipes->pipe[0] = -1;
-    pipes->pipe[1] = -1;
-    pipes->pid = -1;
+    pipes->pipe[0] = 0;
+    pipes->pipe[1] = 0;
+    pipes->pid = 0;
 }
 
 int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list)
@@ -74,12 +75,20 @@ int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list)
         if (tree->sep)
         {
             execute_pipes1(tree, &pipes, tabs, env_list);
-            execute(tree->sep, env_list);
-            break ;
+            wait(NULL);
+            return (execute(tree->sep, env_list, 1));
         }
-        execute_pipes1(tree, &pipes, tabs, env_list);
+        else
+            execute_pipes1(tree, &pipes, tabs, env_list);
         tree = tree->pipe;
     }
     close(pipes.temp);
+    if (pipes.pid)
+    {
+        //ft_putendl_fd("dkhelt", 1);
+        while (wait(NULL) > 0)
+        {
+        }
+    }
     return (255);
 }

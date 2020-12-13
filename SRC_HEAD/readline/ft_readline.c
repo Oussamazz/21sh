@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/12 02:07:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 01:49:26 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void ft_init(t_line *line, t_node **current)
 	if (tcsetattr(0, 0, &config) < 0)
 		error_message("\nerror", 1);
 	if (tgetent(buf, getenv("TERM")) < 0) // what??
-		error_message("\n21sh: Error: environment not found.\n", 1);
+		error_message("\n21sh: Error: environment not found.\n", 0);
 	ioctl(0, TIOCGWINSZ, &w);
 	ft_bzero(line, sizeof(t_line));
 	line->col = w.ws_col;

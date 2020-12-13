@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 17:51:48 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 21:23:52 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 01:49:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void  error_message(char *err_message, int flag)
 {
    ft_putstr_fd(err_message, 2);
    if (flag)
-    exit(EXIT_FAILURE);
+      exit(EXIT_FAILURE);
 }
 
 

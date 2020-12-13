@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 22:40:08 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 00:53:53 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void    blt_setenv(char **cmd, t_env **env_list)
     return ;
 }
 
-void    execute_builtin(char **cmd, char **tabs, t_env **env_list)
+void    execute_builtin(char **cmd, char **tabs, t_env **env_list) // <- t_miniast **
 {
     if (cmd && tabs && *env_list)
     {
