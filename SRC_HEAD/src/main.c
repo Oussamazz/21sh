@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 17:37:01 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/14 20:08:06 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
     {
         while (buf[i] && is_blank(buf[i]))
             i++;
-        if (buf[i] == ';' && buf[i + 1] == ';')
+        if ((buf[i] == ';' && buf[i + 1] == ';') || (buf[i] == ';' && !token_node))
             return ((t_lexer*)err_ret("21sh: parse error near `;'\n", NULL));
         if (buf[i] == ';')
         {
@@ -212,13 +212,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             } // free
             return (NULL);
         }
-        // else if (last_node_type(token_node) && !is_quote(buf[i]))
-        // {
-        //     temp = get_right_redir(buf + i);
-        //     append_list_redi(&token_node, ft_strdup(temp), R_REDIR, coord);
-        //     i = i + (int)calc_size_right_redir(buf + i);
-        //     ft_strdel(&temp);
-        // }
         else if (ft_is_there(AGG_REDI, buf[i]) && buf[i] && !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index))
         {
             if (!buf[i + 1])
