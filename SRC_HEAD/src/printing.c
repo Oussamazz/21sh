@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   printing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 02:30:00 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 16:45:33 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+void    ft_putendl_fd_error(char *s1, char *s2, char *s3, char *s4)
+{
+    if (s1)
+        ft_putstr_fd(s1, STDERR_FILENO);
+    if (s2)
+        ft_putstr_fd(s2, STDERR_FILENO);
+    if (s3)
+        ft_putstr_fd(s3, STDERR_FILENO);
+    if (s4)
+        ft_putstr_fd(s4, STDERR_FILENO);
+    return ;
+}
 
 void    print_arr(char **arr)
 {

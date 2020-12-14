@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 03:39:57 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 16:53:14 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	execute_direct(char **cmd, char **tabs)
                 exit(0);
 			}
             else
-                ft_putendl_fd("21sh: Error: permission denied.", 2);
+                ft_putendl_fd_error("21sh: permission denied: ", cmd[0], "\n", NULL);
 		}
         else
-            ft_putendl_fd("21sh: no such file or directory:", 2);
+            ft_putendl_fd_error("21sh: no such file or directory: ", cmd[0], "\n", NULL);
 		exit(1);
 	}
 	else
@@ -65,7 +65,7 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
     if (check_builtins(cmd[0]))
         return (execute_builtin(cmd, tabs, env));
     else if (!(bin_file = get_bin_file(cmd, env)))
-        return (ft_putendl_fd("21sh: Error: command not found.", 2));
+        return (ft_putendl_fd_error("21sh: command not found: ", cmd[0], "\n", NULL));
 	if ((pid = fork()) < 0)
         return (ft_putendl_fd("21sh: Error: forking Failded.", 2));
 	if (pid == 0)
@@ -82,10 +82,10 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
                 exit(0);
 			}
             else
-                ft_putendl_fd("21sh: Error: permission denied.", 2);
+                ft_putendl_fd_error("21sh: permission denied: ", cmd[0], "\n", NULL);
 		}
         else
-            ft_putendl_fd("21sh: Error: command not found.", 2);
+            ft_putendl_fd_error("21sh: no such file or directory: ", cmd[0], "\n", NULL);
 		exit(1);
 	}
 	else

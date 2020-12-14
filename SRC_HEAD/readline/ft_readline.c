@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readline.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/14 03:35:30 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 16:37:35 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,11 +218,12 @@ int keyshendle2(t_line *line, char **str)
 		ft_delet(str, line);
 	else if (line->r == CTRL_L && line->slct == 0 && (r = 1))
 		ft_ctl_l(line, *str);
-	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0) // -> free and exit()
+	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0) // -> free and exit() exit
 	{
-		//ft_free_and_exit(t_miniast **, t_node **);
-		//     |^|
-		//ft_reset_term();
+		//return ("exit");
+	// 	//ft_free_and_exit(t_miniast **, t_node **);
+	// 	//     |^|
+	// 	//ft_reset_term();
 		ft_putendl("exit");
 		exit(0);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 03:17:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 16:44:31 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,7 @@ void    starting_message(char *argv, char **user, time_t *now);
 void    print_arr(char **arr);
 
 void     print_btree(t_miniast *ast);
+void    ft_putendl_fd_error(char *s1, char *s2, char *s3, char *s4);
 
 /*
 ** free functions
