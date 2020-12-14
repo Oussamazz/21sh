@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 16:44:31 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/14 19:26:02 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,9 @@ char		**list_to_tabs(t_env **env_list);
 char        *get_bin_file(char **cmd,  t_env **env);
 int     	env_exist(t_env **env_list, char *var_name);
 void    	modify_env(t_env **env_list, char *var_name, char *var_value);
+char		*get_cwd(void);
+void		gen_oldpwd(char *cwd, t_env **env_list);
+void		gen_pwd(char *new_path, t_env **env_list);
 
 /*
 ** btree Functions _________________________________________________________
@@ -237,6 +240,7 @@ void		ft_reset_fd(char *tty_name, int file_d);
 void    blt_echo(char **cmd);
 void    blt_setenv(char **cmd, t_env **env_list);
 void    blt_unsetenv(char **cmd, t_env **env_list);
+void    blt_cd(char **cmd, t_env **env_list);
 
 
 

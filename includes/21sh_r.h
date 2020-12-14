@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh_r.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:55:33 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/13 22:32:46 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 19:42:15 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,4 +143,5 @@ void ft_history_goto(t_node **current, t_node *neww, t_line *line);
 char *ft_end(t_node **current, t_line *line);
 void free_history_node(t_node *node);
 void ft_unset_terminal(void);
+void ft_put_multistring(char **strings);
 # endif

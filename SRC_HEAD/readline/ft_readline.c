@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/14 16:37:35 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/14 19:41:20 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,9 @@ void ft_prompte(void)
 	char *str1;
 	if (getcwd(cwd, sizeof(cwd)))
 		cwd1 = getcwd(cwd, sizeof(cwd));
-	else
-	{
-		ft_put_multistring((char *[]){"\033[1;33m", " 😡 permission denied ", "\n", "\033[0m", 0});
-		exit(1);
-	}
 	if (ft_strcmp(cwd1, "/") == 0)
 	{
-		ft_put_multistring((char *[]){"\033[1;33m", "😜 ", cwd1, " $> \033[0m", 0});
+		ft_put_multistring((char *[]){"\033[1;32m➜ ", "\033[1;36m ", cwd1, " $> \033[0m", 0});
 		return;
 	}
 	str1 = ft_strrchr(cwd1, '/');
