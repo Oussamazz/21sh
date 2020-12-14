@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/13 15:51:57 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:02:29 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int		execute_redirection(t_redir *redirections, char *tty_name)
 	return (fd);
 }
 
-static void ft_reset_fd(char *tty_name, int file_d)
+void ft_reset_fd(char *tty_name, int file_d)
 {
 	int		fd;
 
@@ -194,7 +194,9 @@ int				execute(t_miniast *tree, t_env **env_list, int is_pipe)
 	{
 		if (tree->pipe && is_pipe)
 		{
+			
 			fd = execute_pipes(tree, tabs, env_list);
+			//ft_reset_fd(g_tty_name, fd);
 		}
         else
         {

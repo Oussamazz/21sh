@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/13 15:36:18 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:17:03 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,8 @@ int			check_if_is_aggr(t_lexer **root);
 char    	*get_left_fd_(char *buf);
 char		**list_to_tabs(t_env **env_list);
 char        *get_bin_file(char **cmd,  t_env **env);
+int     	env_exist(t_env **env_list, char *var_name);
+void    	modify_env(t_env **env_list, char *var_name, char *var_value);
 
 /*
 ** btree Functions _________________________________________________________
@@ -225,7 +227,7 @@ void    deleteNode(t_env **head_ref, char *env_name);
 
 char        **split_redir(char *str, int i);
 size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, int *i_p);
-
+void		ft_reset_fd(char *tty_name, int file_d);
 
 /*
 ** built-ins

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 15:30:12 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 21:45:07 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:27:52 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,17 @@ char	**list_to_tabs(t_env **env_list)
 		current = current->next;
 	if (!(tabs = (char **)ft_memalloc(sizeof(char*) * (i + 1))))
 		return (tabs);
-	i = 0;
 	current = *env_list;
+	i = 0;
 	while (current != NULL)
 	{
 		if (current->env_var_name && current->env_var_value)
         {
 			str = ft_strjoin(current->env_var_name, "=");
-            tabs[i] = ft_strjoin(str, current->env_var_value);
+            tabs[i++] = ft_strjoin(str, current->env_var_value);
             ft_strdel(&str);
-            i++;
         }
 		current = current->next;
-		i++;
 	}
 	tabs[i] = NULL;
 	return (tabs);

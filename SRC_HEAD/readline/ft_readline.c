@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/13 01:49:26 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 22:38:20 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,27 +108,44 @@ void get_cursor_position(t_line *line)
 	line->c_v = line->c_o;
 }
 
+void ft_set_terminal(void)
+{
+    struct termios config;
+	
+	char buf[1024];
+    if (tcgetattr(0, &config) < 0)
+        ft_putendl_fd("error",2);
+    config.c_lflag &= ~(ECHO | ICANON);
+    if (tcsetattr(0, 0, &config) < 0)
+        ft_putendl_fd("error",2);
+    // if (tgetent(buf, getenv("TERM")) < 0)
+    //     ft_putendl_fd(getenv("TERM"),2);
+	tgetent(buf, getenv("TERM"));
+}
+void ft_unset_terminal(void)
+{
+    struct termios config;
+
+    if (tcgetattr(0, &config) < 0)
+        ft_putendl_fd("error",2);
+    config.c_lflag |= (ECHO | ICANON);
+    if (tcsetattr(0, 0, &config) < 0)
+        ft_putendl_fd("error",2);
+}
+
 void ft_init(t_line *line, t_node **current)
 {
-	struct winsize w;
+        struct winsize w;
 
-	struct termios config;
-	char buf[1024];
-	if (tcgetattr(0, &config) < 0)
-		error_message("\nerror", 1);
-	config.c_lflag &= ~(ECHO | ICANON);
-	if (tcsetattr(0, 0, &config) < 0)
-		error_message("\nerror", 1);
-	if (tgetent(buf, getenv("TERM")) < 0) // what??
-		error_message("\n21sh: Error: environment not found.\n", 0);
-	ioctl(0, TIOCGWINSZ, &w);
-	ft_bzero(line, sizeof(t_line));
-	line->col = w.ws_col;
-	line->row = w.ws_row;
-	get_cursor_position(line);
-	tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
-	*current = add_to_history("");
-	ft_history_goto(current, *current, line);
+        ft_set_terminal();
+        ioctl(0, TIOCGWINSZ, &w);
+        ft_bzero(line, sizeof(t_line));
+        line->col = w.ws_col;
+        line->row = w.ws_row;
+        get_cursor_position(line);
+        tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
+        *current = add_to_history("");
+        ft_history_goto(current, *current, line);
 }
 
 void print_line(char *str)

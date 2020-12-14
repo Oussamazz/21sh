@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/13 00:53:53 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:17:32 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void    blt_setenv(char **cmd, t_env **env_list)
         return (ft_putendl_fd("21sh: Error: [setenv [var_name] [var_value]].", 2));
     else if (!ft_isalpha(cmd[1][0]))
         return (ft_putendl_fd("21sh: setenv: Variable name must begin with a letter.", 2));
-    addtolist(env_list, ft_strdup(cmd[1]), ft_strdup(cmd[2]));
+    if (env_exist(env_list, cmd[1]) == 0)
+        addtolist(env_list, ft_strdup(cmd[1]), ft_strdup(cmd[2]));
+    else
+        modify_env(env_list, cmd[1], cmd[2]);
     return ;
 }
 

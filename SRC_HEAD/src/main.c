@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/13 15:36:39 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/13 22:45:49 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ int main(int ac,char **av, char **env)
 {
     char *user;
     time_t now;
-    static t_env *env_list;
+    
+     t_env *env_list;
     env_list = NULL;
     
     time(&now);
-    stock_env(env, &env_list);
+    stock_env(env, &env_list); // ft-getenv
     user = NULL;
     if (ac > 1 && env_list)
     {

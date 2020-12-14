@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 21:32:52 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:03:31 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	execute_direct(char **cmd, char **tabs)
 	}
 	else
 		wait(NULL);
-    return ;
 }
 
 void	execute_undirect(char **cmd, char **tabs, t_env **env)
@@ -93,7 +92,6 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
 	else
 		wait(NULL);
     ft_strdel(&bin_file);
-    return ;
 }
 
 char        *get_bin_file(char **cmd,  t_env **env) //       cmd =  ls  -la     ||        /bin  /sbin  /usr/bin .....  
