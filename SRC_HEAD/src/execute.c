@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 03:02:29 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:38:13 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,15 +193,9 @@ int				execute(t_miniast *tree, t_env **env_list, int is_pipe)
 	while (tree != NULL)
 	{
 		if (tree->pipe && is_pipe)
-		{
-			
 			fd = execute_pipes(tree, tabs, env_list);
-			//ft_reset_fd(g_tty_name, fd);
-		}
         else
         {
-			// ft_putendl_fd("this is the cmd from execute:", 1);
-        	// ft_putendl_fd(tree->cmd[0], 1);
 			if (tree->redirection) // REDIRECT !!
 				fd = execute_redirection(tree->redirection, g_tty_name);
             if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/'))

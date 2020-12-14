@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 03:17:32 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:41:44 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void blt_unsetenv(char **cmd, t_env **env_list)
 
 void    blt_setenv(char **cmd, t_env **env_list)
 {
+    if ((check_args_no(cmd)) == 1)
+        return (print_env_list(env_list));
     if ((check_args_no(cmd)) != 3)
         return (ft_putendl_fd("21sh: Error: [setenv [var_name] [var_value]].", 2));
     else if (!ft_isalpha(cmd[1][0]))

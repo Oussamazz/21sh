@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 03:03:31 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/14 03:39:57 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 static int check_builtins(char *cmd_name)
 {
     if (ft_strequ(cmd_name, "echo") || ft_strequ(cmd_name, "setenv") ||
-     ft_strequ(cmd_name, "unsetenv") ||
-        ft_strequ(cmd_name, "env") || ft_strequ(cmd_name, "cd") ||
-         ft_strequ(cmd_name, "exit"))
+     ft_strequ(cmd_name, "unsetenv") || ft_strequ(cmd_name, "env") ||
+     ft_strequ(cmd_name, "cd") || ft_strequ(cmd_name, "exit"))
          return (1);
     return (0);
         
