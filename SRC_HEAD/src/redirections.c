@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/06 16:30:41 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/15 16:22:19 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char **split_redir(char *str, int pos)
                 return (NULL);
             if ((str[i] == '>' || str[i] == '<') && str[i] == str[i + 1]) // for  >> or << right_fd
             {
-                if (i + 2 < len && str[i + 2] == str[i] || str[i + 2] == ';' || str[i + 2] == '|')
+                if ((i + 2 < len) && ((str[i + 2] == str[i]) || (str[i + 2] == ';' || str[i + 2] == '|')))
                 {
                     ft_free_arr(agg);
                     err_ret("21sh: syntax error near unexpected token `> or <'\n", NULL);

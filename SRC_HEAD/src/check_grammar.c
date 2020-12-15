@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_grammar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:32:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/07 14:57:53 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/15 16:18:39 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static int print_error(t_type type)
 
 static int     check_token_type(t_type type, t_lexer *tokenz, t_lexer *next, size_t tokenz_size)
 {
-    if (tokenz->type == type && next->coor.node_index <= tokenz_size
-            && (next->type == type) ||
-            next->type != WORD && next->type != SQUOT &&
-             next->type != DQUOT && next->type != EXPANSION)
+    if ((tokenz->type == type && next->coor.node_index <= tokenz_size
+            && (next->type == type)) ||
+            (next->type != WORD && next->type != SQUOT &&
+             next->type != DQUOT && next->type != EXPANSION))
     {
         print_error(type);
         return (0);

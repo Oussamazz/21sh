@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/15 14:52:47 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/15 16:36:58 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static size_t get_size_expansion(char *exp)
         return (len = 1);
     while (exp[i] != '\0')
     {
-        if (i && exp[i] == '$' || (exp[i] == ';' && exp[i - 1] != '\\'))
+        if ((i && exp[i] == '$') || (exp[i] == ';' && exp[i - 1] != '\\'))
             break ;
         if (is_blank(exp[i]) || ft_is_there(AGG_REDI, exp[i]))
             break ;
@@ -34,6 +34,24 @@ static size_t get_size_expansion(char *exp)
     if (is_blank(exp[i]))
         len++;
     return (len);
+}
+
+static char	*ft_strjoin_until_char(char const *s1, char const *s2, char c)
+{
+	char	*str;
+	size_t	lenstr;
+
+	if (s1 && s2)
+	{
+		lenstr = ft_strlen((char *)s1) + ft_strlen_char((char *)s2, c);
+		str = ft_strnew(lenstr);
+		if (str == NULL)
+			return (NULL);
+		str = ft_strcpy(str, s1);
+		str = ft_strncat(str, s2, ft_strlen_char((char *)s2, c));
+		return (str);
+	}
+	return (NULL);
 }
 
 int         ft_is_expansion(char *str)
@@ -50,7 +68,7 @@ int     ft_is_tilde(char *str)
 {
     if (str && *str)
     {
-        if (str[0] == '~' && ft_isascii(str[1]) && !is_quote(str[1]) || (str[0] == '~' && str[1] == 47))
+        if ((str[0] == '~' && ft_isascii(str[1]) && !is_quote(str[1])) || (str[0] == '~' && str[1] == 47))
             return (1);
     }
     return (0);
@@ -172,10 +190,10 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                 i++;
             }
             env_value = get_value_expansion(data, env_list);
-            if (buf[i] && buf[i] != '$')
+            if (buf[i] && buf[i] != '$' && !is_blank(buf[i]))
             {
                 data = env_value;
-                if (!(env_value = ft_strjoin(env_value, buf + i)))
+                if (!(env_value = ft_strjoin_until_char(env_value, buf + i, ' ')))
                     return (data_size);
                 ft_strdel(&data);
             }
