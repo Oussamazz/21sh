@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envirement.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 15:30:12 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 19:46:24 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/14 23:29:17 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void    stock_env(char **env, t_env **head)
 
     if (!env || !*env)
 	{
-		ft_putendl_fd_error("\033[1;33m","    😡 Envirenment not set. ","\n","\033[0m");
+		ft_putendl_fd_error("\033[1;33m","Envirenment variables not set.","\n","\033[0m");
 		exit(1);
 	}
     i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readline.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/14 19:41:20 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/15 01:46:28 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void ft_prompte(void)
 	char cwd[256];
 	char *cwd1;
 	char *str1;
+	if (!getcwd(cwd, sizeof(cwd)))
+		return (ft_putstr_fd("$>", 1));
 	if (getcwd(cwd, sizeof(cwd)))
 		cwd1 = getcwd(cwd, sizeof(cwd));
 	if (ft_strcmp(cwd1, "/") == 0)

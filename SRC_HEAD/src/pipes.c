@@ -2,13 +2,13 @@
 
 int main() {
     char *argv1[3] = {
-        "/bin/sleep",
-        "1000",
+        "/bin/ls",
+        "-la",
         NULL
     };
     char *argv2[3] = {
-        "/bin/sleep",
-        "1000",
+        "/bin/cat",
+        "-e",
         NULL
     };
     int pip[2];

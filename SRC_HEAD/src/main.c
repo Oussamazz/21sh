@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 20:08:06 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/14 23:41:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,12 @@ void    source_sh(t_env **head)
         //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
-        // if (status[1] && ast)
-        // {
-        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-        //     print_btree(ast);
-        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        // }
+        if (status[1] && ast)
+        {
+            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+            print_btree(ast);
+            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        }
         // else if (!status[1] && tokenz)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
