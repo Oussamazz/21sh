@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/15 16:36:58 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/15 16:42:49 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ char        *get_value_expansion(char *env_name, t_env **head)
     {
         while (curr)
         {
-            //ft_putendl_fd(curr->env_var_name, 1); // ??=
-            //ft_putendl_fd(env_name, 1);
             if (ft_strequ(curr->env_var_name, env_name))
                 return ((env_value = ft_strdup(curr->env_var_value)));
             curr = curr->next;
