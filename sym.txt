@@ -1,0 +1,18 @@
+This is the symbols:
+
+- '>'  | Redir_out
+
+- '<'  | Redir_IN
+
+- '<<' | HERE_DOC
+
+- '>>' | APPEND_OUT
+
+- '>&' | AGGR_OUT
+
+- '<&' | AGGR_IN
+
+- ';'  | SEP_SYM
+
+- '|'  | PIPE_SYM
+
