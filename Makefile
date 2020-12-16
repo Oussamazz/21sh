@@ -32,6 +32,7 @@ SRC_NAME= main.c \
 			execute_pipes.c \
 			execute_builtins.c \
 			blt_echo.c \
+			agg_redir.c \
 
 SRC_NAME2= ft_readline.c \
 			history.c \

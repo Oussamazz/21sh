@@ -6,25 +6,11 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 03:00:31 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/16 03:15:49 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-static void graphic_ls(char **cmd)
-{
-    char *temp;
-    char *temp2;
-
-    if (cmd[0] && ft_strequ(cmd[0], "ls"))
-    {
-        temp = cmd[1];
-        if (!(cmd[1] = ft_strjoin(cmd[1], "G")))
-            return ;
-        return (ft_strdel(&temp));
-    }
-}
 
 static int check_builtins(char *cmd_name)
 {
@@ -80,7 +66,6 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
         return (execute_builtin(cmd, tabs, env));
     else if (!(bin_file = get_bin_file(cmd, env)))
         return (ft_putendl_fd_error("21sh: command not found: ", cmd[0], "\n", NULL));
-    g_graphic == 1 ? graphic_ls(cmd) : 0;
 	if ((pid = fork()) < 0)
         return (ft_putendl_fd("21sh: Error: forking Failded.", 2));
 	if (pid == 0)

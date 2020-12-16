@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 02:34:00 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/16 14:54:00 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 
 size_t	g_agg_len;
 char	*g_tty_name;
-int		g_graphic;
 
 /*
 ** nodes index
@@ -168,6 +167,7 @@ int			execute_redirection(t_redir *redirections, char *tty_name);
 int			ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd);
 int			append_redir(t_redir *redirection, t_redir *prev);
 int			here_document(t_redir *redirection, char *tty_name);
+int			agg_redirection(t_redir *redirections, t_redir *prev, int fd);
 
 /*
 ** utils
@@ -206,6 +206,7 @@ void    	modify_env(t_env **env_list, char *var_name, char *var_value);
 char		*get_cwd(void);
 void		gen_oldpwd(char *cwd, t_env **env_list);
 void		gen_pwd(char *new_path, t_env **env_list);
+int			ft_str_is_digit(char *lfd);
 
 /*
 ** btree Functions _________________________________________________________

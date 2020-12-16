@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 03:10:23 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/16 03:14:37 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,5 @@ void    starting_message(char **argv, char **user, time_t *now)
         }
         ft_putstr_fd(WELCOME_MSG, 1);
         ft_putendl_fd(ctime(now), 1);
-        g_graphic = 1;
     }
 }

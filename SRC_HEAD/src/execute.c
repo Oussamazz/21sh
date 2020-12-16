@@ -6,13 +6,13 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/15 15:15:17 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/16 20:50:53 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int	ft_str_is_digit(char *lfd)
+int	ft_str_is_digit(char *lfd)
 {
 	int i;
 
@@ -42,7 +42,7 @@ int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 		right_fd = redirections->next->rfd;
 	if (prev)
 		left_fd = prev->lfd;
-	if (!ft_strcmp(redirections->sym, ">") && right_fd)
+	if (ft_strcmp(redirections->sym, ">") == 0 && right_fd)
 		fd = open(right_fd, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (right_fd)
 	{
@@ -137,6 +137,13 @@ int	here_document(t_redir *redirection, char *tty_name)
 	return (255);
 }
 
+static int check_if(t_redir *redirections)
+{
+	if (ft_is_there(redirections->sym, '&'))
+		return (1);
+	return (0);
+}
+
 int		execute_redirection(t_redir *redirections, char *tty_name)
 {
 	t_redir *prev;
@@ -148,12 +155,9 @@ int		execute_redirection(t_redir *redirections, char *tty_name)
 		exit (1); // tty_name not found {errors must be handled};
 	while (redirections != NULL)
 	{
-		if (redirections->sym && (ft_strequ(redirections->sym , ">&-") || ft_strequ(redirections->sym , "<&-") ||
-			ft_strequ(redirections->sym , "&>-") || ft_strequ(redirections->sym , "&<-")  )) // close stdin or stdout 
-		{
-			
-		}  //^^^ THIS IS FOR AGGREGATIONS !! ^^^
-		if (redirections->sym && (ft_strequ(redirections->sym , ">") || ft_strequ(redirections->sym , "<"))) // REDIR_IN REDIR_OUT
+		if (redirections->sym && ft_is_there(redirections->sym, '&'))
+			fd = agg_redirection(redirections, prev, fd);
+		else if (redirections->sym && (ft_strequ(redirections->sym , ">") || ft_strequ(redirections->sym , "<"))) // REDIR_IN REDIR_OUT
 			fd = ft_redirect_in_out(redirections, prev, fd);
 		else if (redirections->sym && (ft_strequ(redirections->sym , ">>"))) // APPEND_OUT
 			fd = append_redir(redirections, prev);
@@ -199,7 +203,7 @@ int				execute(t_miniast *tree, t_env **env_list, int is_pipe)
 			fd = execute_pipes(tree, tabs, env_list);
         else
         {
-			if (tree->redirection) // REDIRECT !!
+			if (tree->redirection)
 				fd = execute_redirection(tree->redirection, g_tty_name);
             if (fd >= 0 && (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')))
                 execute_direct(tree->cmd, tabs);
