@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 02:40:59 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/16 03:10:23 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void    print_env_list(t_env **head)
 }
 static int chech_if(char **av)
 {
-    if (ft_is_there(av[1], 's') || ft_is_there(av[2], 'S'))
+    if (ft_is_there(av[1], 'g') || ft_is_there(av[2], 'G'))
         return (1);
     return (0);
 }
@@ -73,5 +73,6 @@ void    starting_message(char **argv, char **user, time_t *now)
         }
         ft_putstr_fd(WELCOME_MSG, 1);
         ft_putendl_fd(ctime(now), 1);
+        g_graphic = 1;
     }
 }
