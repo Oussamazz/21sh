@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 16:45:33 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/16 02:40:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,16 @@ void    print_env_list(t_env **head)
         tmp = tmp->next;
     }
 }
-
-void    starting_message(char *argv, char **user, time_t *now)
+static int chech_if(char **av)
 {
-    if (ft_strequ(argv, "-s") && *user)
+    if (ft_is_there(av[1], 's') || ft_is_there(av[2], 'S'))
+        return (1);
+    return (0);
+}
+
+void    starting_message(char **argv, char **user, time_t *now)
+{
+    if (chech_if(argv) && *user)
     {
         ft_putstr_fd("\e[1;1H\e[2J", 1);
         if (*user)
@@ -68,6 +74,4 @@ void    starting_message(char *argv, char **user, time_t *now)
         ft_putstr_fd(WELCOME_MSG, 1);
         ft_putendl_fd(ctime(now), 1);
     }
-    else
-        error_message("21sh: Error: Flag not found: try[[./21sh] -s] or [./21sh]\n", 1);
 }

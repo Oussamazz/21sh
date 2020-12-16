@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 19:26:02 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/16 02:34:00 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,15 @@
 # define WELCOME_MSG "\t\033[1;32m⬇⬇  w3lc0m3 70 7h3_qu173r & ph30n1x 5h3ll ⚙️  ⬇⬇\033[0m\t\t"
 
 
+
+size_t	g_agg_len;
+char	*g_tty_name;
+int		g_graphic;
+
 /*
 ** nodes index
 */
-size_t g_agg_len;
-char	*g_tty_name;
+
 typedef struct	s_mypipe
 {
 	int pipe[2];
@@ -259,7 +263,7 @@ char        *expanded(t_env **head, char *str);
 */
 
 void    print_env_list(t_env **head);
-void    starting_message(char *argv, char **user, time_t *now);
+void    starting_message(char **argv, char **user, time_t *now);
 void    print_arr(char **arr);
 
 void     print_btree(t_miniast *ast);

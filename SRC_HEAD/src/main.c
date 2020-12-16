@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/15 16:45:08 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/16 03:04:34 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+static int chech_graphic(char **av)
+{
+    if (ft_is_there(av[1], 'G') || ft_is_there(av[1], 'g') ||
+        ft_is_there(av[2], 'G') || ft_is_there(av[2], 'g'))
+        return (1);
+    return (0);
+}
 
 static t_type ret_last_node_type(t_lexer **head)
 {
@@ -44,21 +52,22 @@ int main(int ac,char **av, char **env)
 {
     char *user;
     time_t now;
-    
-     t_env *env_list;
+    t_env *env_list;
+
     env_list = NULL;
-    
     time(&now);
     stock_env(env, &env_list); // ft-getenv
     user = NULL;
     if (ac > 1 && env_list)
     {
         if (!(user = get_value_expansion("USER", &env_list)))
-            error_message("21sh: Error: USER NOT FOUND\n", 1);
-        starting_message(av[1], &user, &now);
+            error_message("21sh: Error: USER NOT FOUND\n", 1); // free
+        starting_message(av, &user, &now);
+        if (chech_graphic(av))
+            g_graphic = 1;
     }
     if(!(g_tty_name = ttyname(0)))
-        return (1);
+        return (1); // free
     source_sh(&env_list);
     return 0;
 }
