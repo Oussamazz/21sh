@@ -6,11 +6,28 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 13:52:08 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/16 22:24:35 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+void    free_env_list(t_env **head)
+{
+    t_env *cur;
+    t_env *tmp;
+
+    cur = *head;
+    while (cur)
+    {
+        tmp = cur->next;
+        ft_strdel(&cur->env_var_name);
+        ft_strdel(&cur->env_var_value);
+        free(cur);
+        cur = tmp;
+    }
+    *head = NULL;
+}
 
 static t_type ret_last_node_type(t_lexer **head)
 {
@@ -59,6 +76,7 @@ int main(int ac,char **av, char **env)
     if(!(g_tty_name = ttyname(0)))
         return (1); // free
     source_sh(&env_list);
+    free_env_list(&env_list);
     return 0;
 }
 
@@ -143,15 +161,15 @@ void    source_sh(t_env **head)
         //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
-        if (status[1] && ast)
-        {
-            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-            print_btree(ast);
-            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        }
-        else if (!status[1] && tokenz)
-            ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        ft_putendl_fd("\n__________[EXECUTION]______________", 1);
+        // if (status[1] && ast)
+        // {
+        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+        //     print_btree(ast);
+        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        // }
+        // else if (!status[1] && tokenz)
+        //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
+        // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
             break ;
         else if (ft_strequ(buffer, "clear"))
