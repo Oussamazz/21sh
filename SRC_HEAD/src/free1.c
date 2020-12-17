@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 14:21:13 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 18:41:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void    ft_free_tree(t_miniast **tree)
     if (!*tree)
         return ;
     ft_free_arr((*tree)->cmd);
-    ft_putendl_fd("i freed cmd", 1);
     if ((*tree)->redirection)
         free_list_redir((*tree)->redirection);
     ft_free_tree(&(*tree)->pipe);
