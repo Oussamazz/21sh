@@ -144,4 +144,5 @@ char *ft_end(t_node **current, t_line *line);
 void free_history_node(t_node *node);
 void ft_unset_terminal(void);
 void ft_put_multistring(char **strings);
+void ft_free_history(void);
 # endif

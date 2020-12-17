@@ -202,6 +202,19 @@ int  keyshendle(t_line *line, char **str)
 	return (r);
 }
 
+void ft_free_history(void)
+{
+	t_node *new;
+	
+	new = add_to_history(NULL);
+	while (new)
+	{
+		ft_strdel(&(new->content));
+		ft_strdel(&(new->tmp));
+		new = new->next;
+	}
+}
+
 int keyshendle2(t_line *line, char **str)
 {
 	int r = 0;
@@ -217,11 +230,8 @@ int keyshendle2(t_line *line, char **str)
 		ft_ctl_l(line, *str);
 	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0) // -> free and exit() exit
 	{
-		//return ("exit");
-	// 	//ft_free_and_exit(t_miniast **, t_node **);
-	// 	//     |^|
-	// 	//ft_reset_term();
-		ft_putendl("exit");
+		
+		ft_free_history();
 		exit(0);
 	}
 	return (r);
