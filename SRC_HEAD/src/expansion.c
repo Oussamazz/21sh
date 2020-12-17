@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/15 16:42:49 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/17 13:35:03 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
     if (buf && *(buf + i))
     {
         data_size = get_size_expansion(buf + i);
+        ft_putnbr_fd(data_size,1);
         if (data_size > 0)
         {
             if (!(data = ft_strnew(data_size)))
@@ -188,7 +189,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                 i++;
             }
             env_value = get_value_expansion(data, env_list);
-            if (buf[i] && buf[i] != '$' && !is_blank(buf[i]))
+            if (buf[i] && buf[i] != '$' && !is_blank(buf[i]) && buf[i] != ';')
             {
                 data = env_value;
                 if (!(env_value = ft_strjoin_until_char(env_value, buf + i, ' ')))
@@ -198,7 +199,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             if (env_value)
                 append_list(token_node, env_value, EXPANSION, cor);
             ft_strdel(&env_value);
-            return (data_size);
+            return (data_size + 1);
         }
     }
     return (data_size + 1);

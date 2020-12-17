@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 03:15:49 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 13:28:25 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,10 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
 				if (execve(bin_file, cmd, tabs) == -1)
                 {
 					ft_putendl_fd("21sh: Error: Execution Failed.", 2);
+                    ft_strdel(&bin_file);
                     exit (1);
                 }
+                ft_strdel(&bin_file);
                 exit(0);
 			}
             else
@@ -86,11 +88,11 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
 		}
         else
             ft_putendl_fd_error("21sh: no such file or directory: ", cmd[0], "\n", NULL);
+        ft_strdel(&bin_file);
 		exit(1);
 	}
 	else
 		wait(NULL);
-    ft_strdel(&bin_file);
 }
 
 char        *get_bin_file(char **cmd,  t_env **env) //       cmd =  ls  -la     ||        /bin  /sbin  /usr/bin .....  
@@ -102,6 +104,7 @@ char        *get_bin_file(char **cmd,  t_env **env) //       cmd =  ls  -la     
 
     bin_file = NULL;
     env_path_value = NULL;
+    dirs = NULL;
     if (cmd[0] && env)
     {
         if (!(env_path_value = get_value_expansion("PATH", env)))

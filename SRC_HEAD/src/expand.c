@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 22:07:06 by macos             #+#    #+#             */
-/*   Updated: 2020/12/08 12:24:12 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/17 14:24:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ char        *expanded(t_env **head, char *str)
             } 
             i++;
         }
+        ft_free_arr(arr);
+        ft_free_arr(value);
         return (string);
     }
     return (NULL);

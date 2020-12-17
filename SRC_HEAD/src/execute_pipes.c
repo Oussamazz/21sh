@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 16:12:21 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 02:18:15 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 
 static void     execute_pipes2(t_miniast *tree, t_mypipe *pipes)
 {
-    close(pipes->pipe[0]);
+    close(pipes->pipe[0]); // we close the reading end for the child
     if (pipes->cmd_no != 0)
-        dup2(pipes->temp, STDIN_FILENO);
-    if (pipes->cmd_no != 0)
+    {
+        dup2(pipes->temp, STDIN_FILENO); // we get the reading end
         close(pipes->temp);
+    }
     if (tree->pipe)
         dup2(pipes->pipe[1], STDOUT_FILENO);
     close(pipes->pipe[1]);
@@ -29,8 +30,6 @@ static void     execute_pipes2(t_miniast *tree, t_mypipe *pipes)
 
 static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_env **env_list)
 {
-    int fd;
-
     if (pipe(pipes->pipe) == -1) // err
         return ;
     if ((pipes->pid = fork()) == -1)
@@ -39,7 +38,7 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
     {
         execute_pipes2(tree, pipes);
         if (tree->redirection)
-            fd = execute_redirection(tree->redirection, g_tty_name);
+            execute_redirection(tree->redirection, g_tty_name);
         if (!tree->pipe)
             close(pipes->temp);
         if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')) // ./test.sh prob
@@ -51,8 +50,6 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
     else // parent proccess:
     {
         close(pipes->pipe[1]);
-        // if (pipes->cmd_no != 0)
-        //     close(pipes->temp);
         if (pipes->temp)
             close(pipes->temp);
         pipes->temp = pipes->pipe[0];
@@ -60,7 +57,6 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
             close(pipes->temp);
         pipes->cmd_no += 1;
     }
-    //wait(NULL);
     return ;
 }
 
@@ -86,7 +82,7 @@ int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list)
             execute_pipes1(tree, &pipes, tabs, env_list);
             while(wait(NULL) > 0)
                 ;
-            return (execute(tree->sep, env_list, 1));
+            return (execute(tree->sep, env_list));
         }
         else
             execute_pipes1(tree, &pipes, tabs, env_list);
@@ -98,6 +94,5 @@ int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list)
         while(wait(NULL) > 0)
             ;
     }
-    init_pipes(&pipes);
     return (255);
 }

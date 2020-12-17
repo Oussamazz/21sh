@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/11 19:57:11 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 14:22:36 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static void fill_redirections(t_redir **node, t_lexer *token)
         if(!(new = (t_redir*)ft_memalloc(sizeof(t_redir))))
             return ;
         if (token->type == L_REDIR)
-            new->lfd = token->data;
+            new->lfd = ft_strdup(token->data);
         else if (token->type == R_REDIR)
-            new->rfd = token->data;
+            new->rfd = ft_strdup(token->data);
         else
-            new->sym = token->data;
+            new->sym = ft_strdup(token->data);
         new->next = NULL;
         if (*node == NULL)
         {
@@ -99,7 +99,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                  token->type == SQUOT || token->type == EXPANSION)
             {
                 if (token->type != DQUOT)
-                    ret[i] = token->data;
+                    ret[i] = ft_strdup(token->data);
                 else
                 {
                     ret[i] = expanded(env, token->data);

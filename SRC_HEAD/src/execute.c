@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/16 20:50:53 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 02:09:46 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void ft_reset_fd(char *tty_name, int file_d)
 		close(fd);
 }
 
-int				execute(t_miniast *tree, t_env **env_list, int is_pipe)
+int				execute(t_miniast *tree, t_env **env_list)
 {
 	t_miniast *sepa;
 	char	**tabs;
@@ -199,7 +199,7 @@ int				execute(t_miniast *tree, t_env **env_list, int is_pipe)
         return (0);
 	while (tree != NULL)
 	{
-		if (tree->pipe && is_pipe)
+		if (tree->pipe)
 			fd = execute_pipes(tree, tabs, env_list);
         else
         {
