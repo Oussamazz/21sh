@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 13:35:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 22:04:46 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                 i++;
             }
             env_value = get_value_expansion(data, env_list);
+            ft_strdel(&data);
             if (buf[i] && buf[i] != '$' && !is_blank(buf[i]) && buf[i] != ';')
             {
                 data = env_value;

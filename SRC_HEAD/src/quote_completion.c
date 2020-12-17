@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/12/06 16:59:52 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 21:51:25 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
     t_quote *my_quot;
     char *str;
     char *string;
-    int flag;
     char *new_buff;
     char *tmp_string;
     char *pointer;
@@ -75,12 +74,12 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
     if (data)
     {
         tmp_string = (*data)->string;
-        string = ft_strjoin(tmp_string, "\n");
+        if (tmp_string)
+            string = ft_strjoin(tmp_string, "\n");
         if (tmp_string)
             ft_strdel(&tmp_string);
     }
-    flag = 1;
-    while (flag && string)
+    while (string)
     {
         prompt_completion(quote);
         if (!(new_buff = ft_readline()))
@@ -94,9 +93,15 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
             ft_strdel(&tmp_string);
         if (ft_strchr(new_buff, quote) && string)
         {
+            t_quote *tmp = *data;
             my_quot = quote_handling(string, quote, 1, env_list);
             if (my_quot)
+            {
+                ft_memdel((void**)&tmp);
+                ft_strdel(&new_buff);
+                ft_strdel(&string);
                 return ((my_quot));
+            }
         }
         ft_strdel(&new_buff);
     }

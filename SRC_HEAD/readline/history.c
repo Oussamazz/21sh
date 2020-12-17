@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 23:59:46 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/08 16:19:03 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 19:51:56 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ char *ft_end(t_node **current, t_line *line)
 	return_line = ft_strdup((*current)->tmp);
 	ft_strdel(&(*current)->tmp);
 	free_history_node(history_head);
+	ft_memdel((void**)&(line->tabl));
 	return (return_line);
 }

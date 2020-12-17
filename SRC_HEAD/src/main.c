@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 18:41:28 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 21:50:35 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,11 +171,6 @@ void    source_sh(t_env **head)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
-<<<<<<< HEAD
-            break ;
-        else if (ft_strequ(buffer, "clear"))
-            ft_putstr_fd("\e[1;1H\e[2J", 1);
-=======
         {
             ft_strdel(&(buffer));
             ft_free_history();
@@ -183,7 +178,6 @@ void    source_sh(t_env **head)
         }
         // else if (ft_strequ(buffer, "clear"))
         //     ft_putstr_fd("\e[1;1H\e[2J", 1);
->>>>>>> ef19f4ba97069b987975d9ec00caebfc68296ad0
         else if (status[1] && ast && head)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
@@ -208,6 +202,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
     size_t size;
 
     token_node = NULL;
+    quot = NULL;
     i = 0;
     size_t buf_len = ft_strlen(buf);
     while (buf[i] != '\0' && i < buf_len)
@@ -273,8 +268,13 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             else
                 append_list(&token_node, quot->string, DQUOT, coord);
             i += quot->size; // -1
-            if (quot && quot->string && buf[i] != '\'' && buf[i] != '\"')
-                ft_strdel(&(quot->string));//
+            // if (quot && quot->string && buf[i] != '\'' && buf[i] != '\"')
+            // {
+            //     ft_strdel(&(quot->string));
+            //     ft_memdel((void**)&quot);
+            // }
+            ft_strdel(&(quot->string));
+            ft_memdel((void**)&quot);
         }
         else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] != '\n' && buf[i] != '\t' && buf[i] && !is_quote(buf[i]))
         {
@@ -292,8 +292,8 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
                 else
                     append_list(&token_node, quot->string, DQUOT, coord);
                 i += quot->size;
-                free(quot->string);
-                free(quot);
+                ft_strdel(&quot->string);
+                ft_memdel((void**)&quot);
             }
             else if (buf + i && *(buf + i)) // simple command
             {
@@ -304,13 +304,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
                     i = i + ft_strlen(temp) - 1;
                     ft_strdel(&temp);
                 }
-                // if (i && check_command_redir_size(buf + i))
-                // {
-                //     temp = ft_strdup(buf + i);
-                //     i = i + check_command_redir(&token_node, temp, coord) - 1;
-                //     ft_strdel(&temp);
-                //     continue ;
-                // }
                 else if (buf + i)
                 {
                     j = 0;
@@ -373,11 +366,8 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
     quot->string = ft_strnew(ft_strlen(s));
     if (s[i] == '\0')
     {
-        //ft_putendl_fd("im at '0' quote handling and i'm entring comple", 1);
-        return ((quot = quote_completion(&quot, quote, env_list)));
+        return(quote_completion(&quot, quote, env_list));
     }
-    // if (s[i] == '\n')
-    //     return (NULL);
     while (s[i] != '\0')
     {
         if (s[i] != quote && start && s[i] != '\\')
@@ -399,15 +389,20 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
             {
                 rec_quote = quote_handling(s + i + 1, s[i], !start, env_list);
                 tmp = quot->string;
-                quot->string = ft_strjoin(tmp, rec_quote->string);
+                quot->string = ft_strjoin(quot->string, rec_quote->string);
                 i = i + rec_quote->size + 1;
-                free(rec_quote->string);
-                free(tmp);
-                free(rec_quote);
+                ft_strdel(&(rec_quote->string));
+                ft_memdel((void**)&rec_quote);
+                ft_strdel(&tmp);
                 break;
             }
             else if(s[i] != quote || !start)
-                return (quote_completion(&quot, s[i], env_list));
+            {
+                rec_quote = quote_completion(&quot, s[i], env_list);
+                // ft_strdel(&quot->string);
+                // ft_memdel((void**)&quot);
+                return (rec_quote);
+            }
             i++;
             break ;
         }
@@ -422,7 +417,12 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
             flag = false;
         }
         if (!s[i + 1] && start)
+        {
+            //rec_quote = quote_completion(&quot, quote, env_list);
+            // ft_strdel(&quot->string);
+            // ft_memdel((void**)&quot);
             return (quote_completion(&quot, quote, env_list));
+        }
         i++;
     }
     quot->size = i;

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 18:41:19 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/17 21:56:39 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void    ft_free_tree(t_miniast **tree)
         free_list_redir((*tree)->redirection);
     ft_free_tree(&(*tree)->pipe);
     ft_free_tree(&(*tree)->sep);
-    free(*tree);
+    ft_memdel((void**)tree);
 }
 
 void    ft_free_tokenz(t_lexer **head)
