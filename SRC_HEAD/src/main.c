@@ -171,13 +171,24 @@ void    source_sh(t_env **head)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
+<<<<<<< HEAD
             break ;
         else if (ft_strequ(buffer, "clear"))
             ft_putstr_fd("\e[1;1H\e[2J", 1);
+=======
+        {
+            ft_strdel(&(buffer));
+            ft_free_history();
+            break;
+        }
+        // else if (ft_strequ(buffer, "clear"))
+        //     ft_putstr_fd("\e[1;1H\e[2J", 1);
+>>>>>>> ef19f4ba97069b987975d9ec00caebfc68296ad0
         else if (status[1] && ast && head)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
+        add_to_history(buffer);
         ft_strdel(&buffer);
     } 
 }

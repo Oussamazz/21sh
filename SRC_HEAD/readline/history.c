@@ -35,25 +35,12 @@ void ft_history_goto(t_node **current, t_node *new, t_line *line)
 		ft_putstr(tgetstr("bl", NULL));
 }
 
-// void load_hsitory(const char *file)
-// {
-// 	char *line;
-
-// 	line = NULL;
-// 	int fd = open(file, O_RDONLY);
-// 	while (get_next_line(fd, &line) > 0)
-// 	{
-// 		add_to_history(line);
-// 		ft_strdel(&line);
-// 	}
-// 	ft_strdel(&line);
-// 	close(fd);
-// }
-
 t_node *add_to_history(const char *str)
 {
 	t_node *new;
 
+	if (!str)
+        return(history_head);
 	if ((new = (t_node *)ft_memalloc(sizeof(t_node))))
 	{
 		new->content_len = ft_strlen(str);
