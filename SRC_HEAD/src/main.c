@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 10:36:03 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 13:00:46 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,15 +161,15 @@ void    source_sh(t_env **head)
         //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
-        if (status[1] && ast)
-        {
-            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-            print_btree(ast);
-            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        }
-        else if (!status[1] && tokenz)
-            ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        ft_putendl_fd("\n__________[EXECUTION]______________", 1);
+        // if (status[1] && ast)
+        // {
+        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+        //     print_btree(ast);
+        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        // }
+        // else if (!status[1] && tokenz)
+        //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
+        // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
         {
             ft_strdel(&(buffer));
@@ -181,7 +181,11 @@ void    source_sh(t_env **head)
         else if (status[1] && ast && head)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
+        free(tokenz);
+        tokenz = NULL;
         ft_free_tree(&ast);
+        free(ast);
+        ast = NULL;
         add_to_history(buffer);
         ft_strdel(&buffer);
     } 
@@ -219,8 +223,8 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             append_list(&token_node, ";", SEP, coord);
             continue ;
         }
-        else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/')&& (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1]))
-        { // Expansion
+        else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1]))
+        {
             if (buf[i] == '$' && (buf[i + 1] == '(' || buf[i + 1] == ')'))
                 error_message("21sh: Unexpected token `( or )'\n", 1); // free
             i = i + expansion_parse(&token_node, buf + i, env_list, coord);
@@ -233,7 +237,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             {
                 i = i + position;
                 continue ;
-            } // free
+            }
             return (NULL);
         }
         else if (ft_is_there(AGG_REDI, buf[i]) && buf[i] && !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index))
@@ -260,7 +264,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             }
             if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && ret_last_node_type(&token_node) == AGGR_SYM)
             {
-                //ft_putendl_fd("append to r_redir", 1);
                 append_list_redi(&token_node, ft_strdup(quot->string), R_REDIR, coord);
             }
             else if (buf[i] == '\'')

@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 22:07:06 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 10:28:31 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 13:01:26 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char        *expanded(t_env **head, char *str)
                 {
                     tmp = string;
                     string = ft_strjoin(string, value[j]);
+                    ft_strdel(&value[j]);
                     ft_strdel(&tmp);
                 }
                 else
@@ -74,6 +75,8 @@ char        *expanded(t_env **head, char *str)
             i++;
         }
         ft_free_arr(arr);
+        free(value);
+        value = NULL;
         //ft_free_arr(value);
         return (string);
     }

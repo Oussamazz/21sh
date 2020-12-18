@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 10:26:58 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 12:51:11 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ static size_t get_size_expansion(char *exp)
             break ;
         if (ft_isalnum(exp[i]) || exp[i] == 47)
             len++;
+        if (exp[0] == '~' && ft_isascii(exp[i]))
+            len++;
         i++;
     }
-    if (is_blank(exp[i]))
+    if (is_blank(exp[i]) || (!exp[i] && !ft_isalnum(exp[i - 1])))
         len++;
     return (len);
 }
@@ -68,7 +70,8 @@ int     ft_is_tilde(char *str)
 {
     if (str && *str)
     {
-        if ((str[0] == '~' && ft_isascii(str[1]) && !is_quote(str[1])) || (str[0] == '~' && str[1] == 47))
+        if (((str[0] == '~' && ft_isascii(str[1]) && !is_quote(str[1]))) ||
+         (str[0] == '~' && str[1] == 47))
             return (1);
     }
     return (0);
@@ -165,7 +168,6 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
     if (buf && *(buf + i))
     {
         data_size = get_size_expansion(buf + i);
-        ft_putnbr_fd(data_size,1);
         if (data_size > 0)
         {
             if (!(data = ft_strnew(data_size)))

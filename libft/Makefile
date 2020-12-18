@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: macos <macos@student.42.fr>                +#+  +:+       +#+         #
+#    By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/30 03:33:28 by oelazzou          #+#    #+#              #
-#    Updated: 2020/11/22 12:13:33 by macos            ###   ########.fr        #
+#    Updated: 2020/12/18 12:34:11 by oelazzou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,7 @@ FILE = ft_atoi.c \
 	   ft_print_until.c \
 	   ft_strjoin_four.c \
 	   get_next_line.c
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror
 OBJ = $(FILE:.c=.o)
 
 $(NAME): 
