@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 19:11:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 13:00:23 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 17:27:52 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int			word_count(char *s) //     "$HOME             $TERM haha $TERM f  "
 	res = 0;
 	while (s[i] != '\0' && s[i + 1])
 	{
-		if (ft_isascii(s[i]) && is_blank(s[i + 1]))
+		if (!is_blank(s[i]) && is_blank(s[i + 1]))
 			res++;
         else if (is_blank(s[i]))
         {
@@ -40,7 +40,7 @@ static int	get_type(char c)
 {
 	if (is_blank(c))
 		return (1);
-	if (ft_isalnum(c))
+	if (!is_blank(c))
 		return (2);
 	return (2);
 }
@@ -54,10 +54,10 @@ static int			word_len(char *s)
 	type = get_type(*s);
 	while (*s != '\0')
 	{
-		if (len && (!ft_isalnum(*s)))
-			break ;
 		if (get_type(*s) == type)
 			len++;
+		else if (len && (!ft_isalnum(*s)))
+			break ;
 		else
 			break;
 		s++;
@@ -68,23 +68,19 @@ static int			word_len(char *s)
 char				**strsplit(char const *s)
 {
 	int			word_countx;
-	char		*trimed;
 	char		**str;
 	int			i;
 
 	if (!s)
 		return (NULL);
-	if(!(trimed = ft_strtrim(s)))
-		return (NULL);
-	word_countx = word_count(trimed) * 2; // * 2 for blank strings. 
-	ft_strdel(&trimed);
+	word_countx = (word_count((char*)s) * 2); // * 2 for blank strings.
 	str = (char**)ft_memalloc(sizeof(char*) * (word_countx + 1));
 	i = 0;
 	if (!str)
 		return (NULL);
 	while (word_countx-- && *s)
 	{
-		if (!(str[i] = ft_strsub((char *)s, 0, word_len((char*)s))))
+		if (!(str[i] = ft_strsub(s, 0, word_len((char*)s))))
 			return (NULL);
 		s = s + word_len((char *)s);
 		i++;
