@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 12:51:11 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 14:15:29 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static size_t get_size_expansion(char *exp)
     {
         if ((i && exp[i] == '$') || (exp[i] == ';' && exp[i - 1] != '\\'))
             break ;
-        if (is_blank(exp[i]) || ft_is_there(AGG_REDI, exp[i]))
+        if (is_blank(exp[i]) || ft_is_there(AGG_REDI, exp[i]) || (is_quote(exp[i]) && exp[i - 1] != '\\'))
             break ;
         if (ft_isalnum(exp[i]) || exp[i] == 47)
             len++;
@@ -192,7 +192,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             }
             env_value = get_value_expansion(data, env_list);
             ft_strdel(&data);
-            if (buf[i] && buf[i] != '$' && !is_blank(buf[i]) && buf[i] != ';')
+            if (buf[i] && buf[i] != '$' && !is_blank(buf[i]) && buf[i] != ';' && !is_quote(buf[i]))
             {
                 data = env_value;
                 if (!(env_value = ft_strjoin_until_char(env_value, buf + i, ' ')))

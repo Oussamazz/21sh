@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 13:00:46 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 14:15:15 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             if (buf[i] == '$' && (buf[i + 1] == '(' || buf[i + 1] == ')'))
                 error_message("21sh: Unexpected token `( or )'\n", 1); // free
             i = i + expansion_parse(&token_node, buf + i, env_list, coord);
-            ft_putendl_fd(buf +i, 1);
             continue ;
         }
         else if (buf[i] && ft_is_there(PIPE, buf[i]))
@@ -252,7 +251,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             ft_strdel(&buf_dup);
             continue ;
         }
-        else if (((buf[i] == '\'' || buf[i] == '\"') || (buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';' || is_blank(buf[i - 1])))
+        else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';')))
         {
             if (buf[i] == '$')
                 i++;
