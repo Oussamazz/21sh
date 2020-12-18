@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 21:50:35 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/18 10:36:03 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,15 +161,15 @@ void    source_sh(t_env **head)
         //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
-        // if (status[1] && ast)
-        // {
-        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-        //     print_btree(ast);
-        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        // }
-        // else if (!status[1] && tokenz)
-        //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
+        if (status[1] && ast)
+        {
+            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+            print_btree(ast);
+            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        }
+        else if (!status[1] && tokenz)
+            ft_putendl_fd("__________[Parse commands Failed]______________", 1);
+        ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
         {
             ft_strdel(&(buffer));
@@ -383,7 +383,7 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
         }
         else if ((s[i] == '\'' || s[i] == '\"' || s[i] == quote) && flag == false)
         {
-            if (s[i + 1] == '>' || s[i + 1] == '<')
+            if (s[i + 1] == '>' || s[i + 1] == '<' || s[i + 1] == '|')
                 i = i + (ft_strchr(s + i, quote) - (s + i));
             else if (!is_blank(s[i + 1]) && !ft_is_there(METACHARACTER, s[i + 1]))
             {
@@ -418,9 +418,6 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
         }
         if (!s[i + 1] && start)
         {
-            //rec_quote = quote_completion(&quot, quote, env_list);
-            // ft_strdel(&quot->string);
-            // ft_memdel((void**)&quot);
             return (quote_completion(&quot, quote, env_list));
         }
         i++;
