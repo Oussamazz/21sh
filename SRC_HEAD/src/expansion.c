@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 14:15:29 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/18 16:39:53 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static size_t get_size_expansion(char *exp)
 
     i = 0;
     len = 0;
-    if ((exp[0] == '$' && !exp[1]) || (exp[0] == '~' && !exp[1]))
+    if (((exp[0] == '$' && !exp[1]) || (exp[0] == '~' && (!exp[1] || exp[1] == '$'))))
         return (len = 1);
     while (exp[i] != '\0')
     {
@@ -175,7 +175,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             if (buf[i] == '$')
                 buf++;
             j = 0;
-            while (buf[i] && (ft_isalnum(buf[i]) || buf[i] == '~') && i < data_size)
+            while (buf[i] && (ft_isalnum(buf[i]) || (buf[i] == '~' && i == 0)) && i < data_size)
             {
                 if (i == 0 && (ft_is_tilde(buf + i) || (buf[i] == '~' && buf[i - 1] != '\\')))
                 {
@@ -197,6 +197,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                 data = env_value;
                 if (!(env_value = ft_strjoin_until_char(env_value, buf + i, ' ')))
                     return (data_size);
+                data_size += ft_strlen(env_value);
                 ft_strdel(&data);
             }
             if (env_value)
