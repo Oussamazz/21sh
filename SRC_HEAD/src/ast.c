@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 14:22:36 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/18 16:56:19 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,6 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
             if (tokenz && tokenz->data)
                 if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize)))
                     return (-2);
-            //if (redirections)
-                //check_redirection: sym and right fd existant
-            // if (redirections)
-            //     print_list2(redirections);
             data->cmd = cmd;
             data->redirection = redirections;
             *head = data;

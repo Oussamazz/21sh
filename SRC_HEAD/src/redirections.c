@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/15 16:22:19 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 16:52:04 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ static int  calc_symbol(char *str)
 
 char **split_redir(char *str, int pos)
 {
-    int symbol;
     int i;
     int j;
     char **agg;
@@ -156,7 +155,6 @@ char **split_redir(char *str, int pos)
                 {
                     agg[j][0] = str[i];
                     agg[j][1] = str[i];
-                    // incr
                     active_word = 0;
                     j++;
                     i = i + 2;
@@ -271,35 +269,6 @@ char **split_redir(char *str, int pos)
     return (agg);
 }
 
-static char *modify_right_redir(char **agg)
-{
-    size_t len;
-    int i;
-    char *str;
-    char *tmp;
-
-    str = NULL;
-    if (agg)
-    {
-        i = 0;
-        str = *agg;
-        tmp = str;
-        len = ft_strchr(str, ';') - str;
-        str = ft_strsub(str, 0, len);
-        ft_strdel(&tmp);       
-    }
-    return (str);
-}
-
-// static int check_redirection_order(char *s1, char *s2)
-// {
-//     if (ft_isdigit(s1[0]) && !ft_is_there(AGG_REDI, s2[0]))
-//         return (0);
-//     else if (ft_is_there(AGG_REDI, s1[0]) && !ft_isascii(s2[0]))
-//         return (0);
-//     return (1);
-// }
-
 size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, int *i_p) // ls >a>b>c
 {
     int i;
@@ -311,11 +280,11 @@ size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, i
     i = *i_p;
     while (agg[j] != NULL && agg[j][0] != '\0')
     {
-        if (ft_isdigit(agg[j][0]) && j == 0 && i >= 1) // i >= 2
+        if (ft_isdigit(agg[j][0]) && j == 0 && i >= 1)
             append_list_redi(token_node, ft_strdup(agg[j]), L_REDIR, cor);
         else if (ft_is_there(AGG_REDI, agg[j][0]))
             append_list_redi(token_node, ft_strdup(agg[j]), AGGR_SYM, cor);
-        else if (ft_isascii(agg[j][0])) // right_fd
+        else if (ft_isascii(agg[j][0]))
             append_list_redi(token_node, ft_strdup(agg[j]), R_REDIR, cor);
         j++;
     }

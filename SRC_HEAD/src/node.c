@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/12/12 22:35:10 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/18 16:47:16 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void    append_list(t_lexer **root, char *data, t_type type, t_pointt *cor)
     t_lexer *ret;
 
     last = *root;
-
     ret = (t_lexer*)ft_memalloc(sizeof(t_lexer));
     if (ret == NULL)
         return ;

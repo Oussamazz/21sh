@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 16:29:56 by macos             #+#    #+#             */
-/*   Updated: 2020/12/05 15:02:01 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/18 16:48:53 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int      parse_pipe(t_lexer **token_node, char *str, t_pointt *cor)
 
     i = 0;
     j = 0;
-    while (str[i]) // ls |  |  |
+    while (str[i])
     {
         if (str[i] == '|' && str[i - 1] != '\\' && ft_isascii(str[i + 1]))
         {
