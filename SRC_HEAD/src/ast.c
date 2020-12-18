@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 16:56:19 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 19:23:04 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
     while (tokenz && tokenz->coor.node_index <= AlltokenzSize)
     {
         redirections = NULL;
-        if ((*head) == NULL && env)
+        if ((*head) == NULL && env && tokenz && tokenz->data)
         {
             if (!(data = (t_miniast*)ft_memalloc(sizeof(t_miniast))))
                 return (-1);
@@ -144,8 +144,7 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
             data->sep = NULL;
             data->cmd = NULL;
             data->redirection = NULL;    
-            if (tokenz && tokenz->data)
-                if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize)))
+            if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize)))
                     return (-2);
             data->cmd = cmd;
             data->redirection = redirections;
@@ -153,9 +152,9 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
         }
         else
         {
-            if (tokenz->type == PIPE_SYM)
+            if (tokenz->type == PIPE_SYM && tokenz->next)
                 parse_commands(&(*head)->pipe, tokenz->next, env);
-            else if (tokenz->type == SEP)
+            else if (tokenz->type == SEP && tokenz->next)
                 parse_commands(&(*head)->sep, tokenz->next, env);
         }
         tokenz = move_list(tokenz, AlltokenzSize);

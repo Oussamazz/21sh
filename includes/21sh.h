@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 02:10:02 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/18 19:39:22 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,5 +283,11 @@ void    ft_free_tree(t_miniast **tree);
 */
 char  *err_ret(char *s, char *addrr);
 void  error_message(char *err_message, int flag);
+
+/*
+** EXIT AND FREE
+*/
+void    exit_blt(t_miniast **root, t_lexer **lex, t_env **env_list ,char **buff);
+void    free_env_list(t_env **head);
 
 #endif

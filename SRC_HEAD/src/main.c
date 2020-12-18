@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 14:15:15 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/18 19:45:08 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int main(int ac,char **av, char **env)
     if(!(g_tty_name = ttyname(0)))
         return (1); // free
     source_sh(&env_list);
-    free_env_list(&env_list);
     return 0;
 }
 
@@ -161,6 +160,7 @@ void    source_sh(t_env **head)
         //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
+        add_to_history(buffer);
         // if (status[1] && ast)
         // {
         //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
@@ -171,22 +171,13 @@ void    source_sh(t_env **head)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
-        {
-            ft_strdel(&(buffer));
-            ft_free_history();
-            break;
-        }
-        // else if (ft_strequ(buffer, "clear"))
-        //     ft_putstr_fd("\e[1;1H\e[2J", 1);
+            return (exit_blt(&ast, &tokenz, head, &buffer));
+        else if (ft_strequ(buffer, "clear"))
+             ft_putstr_fd("\e[1;1H\e[2J", 1);
         else if (status[1] && ast && head)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
-        free(tokenz);
-        tokenz = NULL;
         ft_free_tree(&ast);
-        free(ast);
-        ast = NULL;
-        add_to_history(buffer);
         ft_strdel(&buffer);
     } 
 }

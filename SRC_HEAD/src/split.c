@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 19:11:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 17:27:52 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/18 17:32:26 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char				**strsplit(char const *s)
 
 	if (!s)
 		return (NULL);
-	word_countx = (word_count((char*)s) * 2); // * 2 for blank strings.
+	word_countx = (word_count((char*)s) * 2);
 	str = (char**)ft_memalloc(sizeof(char*) * (word_countx + 1));
 	i = 0;
 	if (!str)
