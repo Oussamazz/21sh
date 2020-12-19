@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 19:45:08 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 00:07:55 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,6 @@ void    source_sh(t_env **head)
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
             return (exit_blt(&ast, &tokenz, head, &buffer));
-        else if (ft_strequ(buffer, "clear"))
-             ft_putstr_fd("\e[1;1H\e[2J", 1);
         else if (status[1] && ast && head)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
@@ -194,7 +192,6 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
     char *temp;
     t_lexer *token_node;
     t_quote *quot;
-    size_t size;
 
     token_node = NULL;
     quot = NULL;
@@ -208,6 +205,8 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             return ((t_lexer*)err_ret("21sh: parse error near `;'\n", NULL));
         if (buf[i] == ';')
         {
+            if (!buf[i + 1])
+                break ;
             coord->pipe_index = 1;
             coord->aggr_index= 1;
             i++;
@@ -230,7 +229,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             }
             return (NULL);
         }
-        else if (ft_is_there(AGG_REDI, buf[i]) && buf[i] && !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index))
+        else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) // && !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
         {
             if (!buf[i + 1])
                 error_message("21sh: Unexpected token. {2020}\n", 1);

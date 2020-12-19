@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/14 20:02:06 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 00:03:01 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,5 @@ void    execute_builtin(char **cmd, char **tabs, t_env **env_list) // <- t_minia
             blt_unsetenv(cmd, env_list);
         else if (ft_strequ(cmd[0] , "env") && !cmd[1])
             print_env_list(env_list);
-        // else if (ft_strequ(cmd[0] , "exit"))
-        //     blt_exit(cmd, tabs, env_list);
     }
 }

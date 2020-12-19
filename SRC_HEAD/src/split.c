@@ -6,13 +6,13 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 19:11:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 17:32:26 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 01:20:59 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int			word_count(char *s) //     "$HOME             $TERM haha $TERM f  "
+static int			word_count(char *s) //    echo  " dd $PWD $HOME$TERM dsfdsf "
 {
 	int				i;
 	int				res;
@@ -22,6 +22,8 @@ static int			word_count(char *s) //     "$HOME             $TERM haha $TERM f  "
 	while (s[i] != '\0' && s[i + 1])
 	{
 		if (!is_blank(s[i]) && is_blank(s[i + 1]))
+			res++;
+		if (i && s[i] == '$')
 			res++;
         else if (is_blank(s[i]))
         {
@@ -54,6 +56,8 @@ static int			word_len(char *s)
 	type = get_type(*s);
 	while (*s != '\0')
 	{
+		if (len && *s == '$')
+			break ;
 		if (get_type(*s) == type)
 			len++;
 		else if (len && (!ft_isalnum(*s)))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 14:52:15 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/19 01:30:26 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int check_builtins(char *cmd_name)
 {
     if (ft_strequ(cmd_name, "echo") || ft_strequ(cmd_name, "setenv") ||
      ft_strequ(cmd_name, "unsetenv") || ft_strequ(cmd_name, "env") ||
-     ft_strequ(cmd_name, "cd") || ft_strequ(cmd_name, "exit"))
+     ft_strequ(cmd_name, "cd"))
          return (1);
     return (0);
         
@@ -110,10 +110,7 @@ char        *get_bin_file(char **cmd,  t_env **env) //       cmd =  ls  -la     
     if (cmd[0] && env)
     {
         if (!(env_path_value = get_value_expansion("PATH", env)))
-        {
-            ft_putendl_fd("21sh: Error: PATH variable not found.", 2);
             return (NULL);
-        }
         if (!(dirs = ft_strsplit(env_path_value, ':')))
             return (NULL);
         ft_strdel(&env_path_value);
