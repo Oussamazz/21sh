@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 16:52:04 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 23:54:29 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,35 +50,32 @@ char    *redirection_varname(char ***arr, char *str, int *i)
     return (tmp);
 }
 
-static char *get_digits(char *str, int i)
-{
-    int j;
-    int k;
-    char *s;
+// static char *get_digits(char *str, int i)
+// {
+//     int j;
+//     int k;
+//     char *s;
 
-    s = ft_strnew(5);
-    if (!s)
-    {
-        j = i;
-        k = 0;
-        while (str[j] && j >= 0 && k <= 4)
-        {
-            if (ft_isdigit(str[j]))
-            {
-                s[k] = str[j];
-                k++;
-            }
-            else if (j >= 0 && k <= 0 && is_blank(str[j]))
-            {
-                ft_strdel(&s);
-                return (err_ret(ERR_BAD_FD, NULL));
-            }
-            j--;
-        }
-        return (s);
-    }
-    return (NULL);
-}
+//     s = ft_strnew(5);
+//     if (s)
+//     {
+//         j = i;
+//         k = 0;
+//         while (str[j] && j >= 0 && k <= 4)
+//         {
+//             if (ft_isdigit(str[j]))
+//                 s[k++] = str[j];
+//             else if (j >= 0 && k <= 0 && is_blank(str[j]))
+//             {
+//                 ft_strdel(&s);
+//                 return (err_ret(ERR_BAD_FD, NULL));
+//             }
+//             j--;
+//         }
+//         return (s);
+//     }
+//     return (NULL);
+// }
 
 //  *str must be  at aggr_symbol {><&}
 static char *get_left_fd(char *str, int pos)

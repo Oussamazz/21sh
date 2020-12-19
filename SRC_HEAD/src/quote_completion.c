@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 17:08:11 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 23:56:14 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
     new_buff = NULL;
     str = NULL;
     string = NULL;
-    if (data)
+    if (data) // quote_completion_check(t_quote ** data)
     {
         tmp_string = (*data)->string;
         if (tmp_string)

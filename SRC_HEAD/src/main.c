@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 17:14:45 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 23:57:03 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ void    source_sh(t_env **head)
 
 t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
 {
+    t_mystruct var;
     int i; //
     int j; //
     int position = 0;
@@ -215,7 +216,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             i++;
         if ((buf[i] == ';' && buf[i + 1] == ';') || (buf[i] == ';' && !token_node))
             return ((t_lexer*)err_ret("21sh: parse error near `;'\n", NULL));
-        if (buf[i] == ';')
+        if (buf[i] == ';') // int   sep_function(char *buf, t_lexer ** , t_pointt *)
         {
             if (!buf[i + 1])
                 break ;
@@ -225,14 +226,14 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             append_list(&token_node, ";", SEP, coord);
             continue ;
         }
-        else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1]))
+        else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
         {
             if (buf[i] == '$' && (buf[i + 1] == '(' || buf[i + 1] == ')'))
                 error_message("21sh: Unexpected token `( or )'\n", 1); // free
             i = i + expansion_parse(&token_node, buf + i, env_list, coord);
             continue ;
         }
-        else if (buf[i] && ft_is_there(PIPE, buf[i]))
+        else if (buf[i] && ft_is_there(PIPE, buf[i])) //-> int    pipe_function (char *, t_pointt *, t_lexer **)
         {
             if ((position = parse_pipe(&token_node, buf + i - 1, coord)))
             {
@@ -241,7 +242,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             }
             return (NULL);
         }
-        else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) // && !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
+        else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_point *, , t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
         {
             if (!buf[i + 1])
                 error_message("21sh: Unexpected token. {2020}\n", 1);
@@ -253,7 +254,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             ft_strdel(&buf_dup);
             continue ;
         }
-        else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';')))
+        else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)
         {
             if (buf[i] == '$')
                 i++;
@@ -272,20 +273,15 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             else
                 append_list(&token_node, quot->string, DQUOT, coord);
             i += quot->size; // -1
-            // if (quot && quot->string && buf[i] != '\'' && buf[i] != '\"')
-            // {
-            //     ft_strdel(&(quot->string));
-            //     ft_memdel((void**)&quot);
-            // }
             ft_strdel(&(quot->string));
             ft_memdel((void**)&quot);
         }
-        else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] != '\n' && buf[i] != '\t' && buf[i] && !is_quote(buf[i]))
+        else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] != '\n' && buf[i] != '\t' && buf[i] && !is_quote(buf[i])) // word
         {
-            //here the prob // dquot Squot
             if (is_quote(q = valid_string_quot(buf + i)) || buf[i] == '\\') // before quote " or ' joining
             {
-                quot = quote_handling(buf + i, q, 0, env_list);
+                quot = quote_handling(buf + i, q, 0, env_list); 
+                //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
                 if (!quot)
                 {
                     i++;
@@ -299,7 +295,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
                 ft_strdel(&quot->string);
                 ft_memdel((void**)&quot);
             }
-            else if (buf + i && *(buf + i)) // simple command
+            else if (buf + i && *(buf + i)) // simple command simple_word_function(char *, int *i,  t_lexer **, t_pointt *)
             {
                 if (i > 1 && buf[i - 1] != '\\' && ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]) && buf[i + 1] != '\0')
                 {
@@ -336,9 +332,9 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
                 }
             }
         }
-        else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i])
+        else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i]) // int      meta_function(char *, int *i, t_lexer **, t_pointt *)
         {
-            ft_putendl_fd("    dkhlt azbii ", 1);
+            //ft_putendl_fd("    dkhlt azbii ", 1);
             j = 0;
             while (ft_is_there(METACHARACTER, buf[i + j]) && !is_blank(buf[i + j]) && buf[i + j])
             {
@@ -401,12 +397,7 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
                 break;
             }
             else if(s[i] != quote || !start)
-            {
-                rec_quote = quote_completion(&quot, s[i], env_list);
-                // ft_strdel(&quot->string);
-                // ft_memdel((void**)&quot);
-                return (rec_quote);
-            }
+                return (quote_completion(&quot, s[i], env_list));
             i++;
             break ;
         }
@@ -421,9 +412,7 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
             flag = false;
         }
         if (!s[i + 1] && start)
-        {
             return (quote_completion(&quot, quote, env_list));
-        }
         i++;
     }
     quot->size = i;
