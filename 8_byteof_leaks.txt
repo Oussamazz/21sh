@@ -1,0 +1,13 @@
+==27338== 8 bytes in 1 blocks are definitely lost in loss record 5 of 61
+==27338==    at 0x1000E7CF5: malloc (in /Users/oelazzou/.brew/Cellar/valgrind/HEAD-0b5ae2f/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==27338==    by 0x100380C03: strdup (in /usr/lib/system/libsystem_c.dylib)
+==27338==    by 0x10010EF0F: _nc_trim_sgr0 (in /usr/lib/libncurses.5.4.dylib)
+==27338==    by 0x100106CF4: tgetent (in /usr/lib/libncurses.5.4.dylib)
+==27338==    by 0x10000B461: ft_set_terminal (in ./21sh)
+==27338==    by 0x10000B544: ft_init (in ./21sh)
+==27338==    by 0x10000BC4B: ft_readline (in ./21sh)
+==27338==    by 0x100007DAC: quote_completion (in ./21sh)
+==27338==    by 0x10000303F: quote_handling (in ./21sh)
+==27338==    by 0x10000216B: lexer (in ./21sh)
+==27338==    by 0x1000016E0: source_sh (in ./21sh)
+==27338==    by 0x1000015F8: main (in ./21sh)
