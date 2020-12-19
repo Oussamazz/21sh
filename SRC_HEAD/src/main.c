@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 02:04:27 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 17:14:45 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,11 @@ void ft_ctrlc(int sig_no)
 
 void    source_sh(t_env **head)
 {
-    int status[2];
+    int status[2]; // 
     char *buffer;
-    t_lexer *tokenz;
-    t_miniast *ast;
-    t_pointt coord;
+    t_lexer *tokenz; //
+    t_miniast *ast; //
+    t_pointt coord; //
 
     buffer = NULL;
     tokenz = NULL;
@@ -194,10 +194,10 @@ void    source_sh(t_env **head)
 
 t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
 {
-    int i;
-    int j;
+    int i; //
+    int j; //
     int position = 0;
-    bool flag;
+    bool flag; //
     char q;
     char **agg;
     char tmp[4096];
@@ -361,7 +361,6 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
     int i;
     int j;
     bool flag;
-    char *part_string;
     char *tmp;
 
     i = 0;

@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 01:55:32 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 17:12:10 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,23 @@
 size_t	g_agg_len;
 char	*g_tty_name;
 int		prompt_flag;
+
+
+
+typedef struct s_mystruct
+{
+	int i;
+	int j;
+	int flag;
+	size_t size;
+	char c;
+	char **arr;
+	char *str;
+	char *tmp;
+	t_lexer *token_node;
+    t_quote *quot;
+    t_quote *rec_quot;
+}				t_mystruct;
 
 /*
 ** nodes index
