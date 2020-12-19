@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 00:07:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/19 02:04:27 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,15 @@ static void init_status(int *status)
     status[1] = 0;
 }
 
+void ft_ctrlc(int sig_no)
+{
+    while (wait(NULL) > 0)
+        ;
+    ft_putchar_fd('\n', 1);
+    ft_prompte();
+    prompt_flag = 1;
+}
+
 void    source_sh(t_env **head)
 {
     int status[2];
@@ -140,13 +149,15 @@ void    source_sh(t_env **head)
 
     buffer = NULL;
     tokenz = NULL;
+    signal(SIGINT, ft_ctrlc);
     init_status(&status[0]);
     while (status[0] && g_tty_name)
     {
         ast = NULL;
         tokenz = NULL;
         init_coord(&coord);
-        ft_prompte();
+        if (!prompt_flag)
+            ft_prompte();
         if (!(buffer = ft_readline()))
             break ;
         tokenz = lexer(buffer, head, &coord);
@@ -160,6 +171,7 @@ void    source_sh(t_env **head)
         //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
+        prompt_flag = 0;
         add_to_history(buffer);
         // if (status[1] && ast)
         // {
@@ -326,6 +338,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         }
         else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i])
         {
+            ft_putendl_fd("    dkhlt azbii ", 1);
             j = 0;
             while (ft_is_there(METACHARACTER, buf[i + j]) && !is_blank(buf[i + j]) && buf[i + j])
             {
