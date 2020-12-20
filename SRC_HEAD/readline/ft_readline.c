@@ -61,9 +61,19 @@ void ft_ctl_l(t_line *line, char *str)
 	cur_goto(line, line->cursor);
 }
 
+void ft_ctl_c(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ioctl(0, TIOCSTI, "\12");
+		g_clt_c = 1;
+	}
+}
+
 void ft_signale(void)
 {
 	signal(SIGWINCH, handle_sigwindch);
+	signal(SIGINT, ft_ctl_c);
 }
 
 void ft_prompte(void)
@@ -115,8 +125,6 @@ void ft_set_terminal(void)
     config.c_lflag &= ~(ECHO | ICANON);
     if (tcsetattr(0, 0, &config) < 0)
         ft_putendl_fd("error",2);
-    // if (tgetent(buf, getenv("TERM")) < 0)
-    //     ft_putendl_fd(getenv("TERM"),2);
 	tgetent(buf, getenv("TERM"));
 }
 void ft_unset_terminal(void)
@@ -132,17 +140,18 @@ void ft_unset_terminal(void)
 
 void ft_init(t_line *line, t_node **current)
 {
-        struct winsize w;
+    struct winsize w;
 
-        ft_set_terminal();
-        ioctl(0, TIOCGWINSZ, &w);
-        ft_bzero(line, sizeof(t_line));
-        line->col = w.ws_col;
-        line->row = w.ws_row;
-        get_cursor_position(line);
-        tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
-        *current = add_to_history("");
-        ft_history_goto(current, *current, line);
+    ft_set_terminal();
+    ioctl(0, TIOCGWINSZ, &w);
+    ft_bzero(line, sizeof(t_line));
+    line->col = w.ws_col;
+    line->row = w.ws_row;
+	g_clt_c = 0;
+    get_cursor_position(line);
+    tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
+    *current = add_to_history("");
+    ft_history_goto(current, *current, line);
 }
 
 void print_line(char *str)
@@ -228,11 +237,16 @@ int keyshendle2(t_line *line, char **str)
 		ft_delet(str, line);
 	else if (line->r == CTRL_L && line->slct == 0 && (r = 1))
 		ft_ctl_l(line, *str);
-	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0) // -> free and exit() exit
+	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0)
 	{
-		
-		ft_free_history();
-		exit(0);
+		if (!g_clt_D)
+		{
+			ft_free_history();
+			exit(0);
+		}
+		// else
+		// 	ioctl(0, TIOCSTI, "\12");
+
 	}
 	return (r);
 }
@@ -259,10 +273,10 @@ char *ft_readline(void)
 	ft_init(&(line), &current);
 	while (TRUE)
 	{
+		ft_signale();
 		g_line = &line;
 		g_str = current->tmp;
 		line.r = 0;
-		ft_signale();
 		ft_bzero(buff, 1024);
 		if (read(0, buff, 1023) > 0)
 		{
@@ -273,7 +287,7 @@ char *ft_readline(void)
 				continue ;
 			else if (keyshendle2(&(line), &current->tmp))
 				continue ;
-			else if (line.r == END && line.slct == 0)
+			else if ((line.r == END && line.slct == 0 ) || g_clt_c == 1)
 				break ;
 			else if (line.slct == 0)
 				ft_print_print(&current->tmp, &(line), buff);
