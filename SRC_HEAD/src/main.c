@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/20 03:19:13 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/20 04:16:53 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void    free_env_list(t_env **head)
         free(cur);
         cur = tmp;
     }
-    *head = NULL;
 }
 
 t_type ret_last_node_type(t_lexer **head)
@@ -53,7 +52,6 @@ static void init_coord(t_pointt *cor)
         cor->aggr_index = 1; // redirections
         cor->pipe_index = 1; // pipes     
     }
-
     return ;
 }
 
@@ -76,7 +74,10 @@ int main(int ac,char **av, char **env)
     if(!(g_tty_name = ttyname(0)))
         return (1); // free
     source_sh(&env_list);
-    return 0;
+    env_list = NULL;
+    if (g_tty_name)
+        free(g_tty_name);
+    return (0);
 }
 
 static void ft_print_redirections(t_redir   *node)
@@ -161,10 +162,11 @@ void    source_sh(t_env **head)
         if (!(buffer = ft_readline()))
             break ;
         tokenz = lexer(buffer, head, &coord);
-        // print_list(tokenz = lexer(buffer, head, &coord));
+        //print_list(tokenz);
         // ft_putendl_fd("\n_________________________", 1);
         //fflush(stdout); // not allowed
-        status[1] = check_grammar_tokenz(tokenz);
+        if (tokenz)
+            status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
         //  ft_putendl_fd("THIS IS STATUS[1]:", 1);
         //  ft_putnbr_fd(status[1], 1);
@@ -218,13 +220,16 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             if (position > 0)
                 i = i + position - 1;
             else
-                break ;
+            {
+                ft_free_tokenz(&token_node);
+                return (NULL);
+            }
         }
         else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
         {
             position = expansion_function(buf + i, &token_node, coord, env_list);
             if (position > 0)
-                i = i + position;
+                i = i + position - 1;
             else
                 break ;
         }
@@ -252,8 +257,8 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             else if (buf + i && *(buf + i)) // simple command simple_word_function(char *, int *i,  t_lexer **, t_pointt *, size_t buf_len)
                 i += simple_word_function(buf + i, &token_node, coord, buf_len);
         }
-        // else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i]) // int      meta_function(char *, int *i, t_lexer **, t_pointt *)
-        //     i += meta_function(buf + i, &token_node, coord);
+        else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i]) // int      meta_function(char *, int *i, t_lexer **, t_pointt *)
+            i += meta_function(buf + i, &token_node, coord);
         i++;
     }
     return (token_node);

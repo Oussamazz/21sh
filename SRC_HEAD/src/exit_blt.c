@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:26:11 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/20 02:05:37 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/20 04:05:08 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void    exit_blt(t_miniast **root, t_lexer **lex, t_env **env_list ,char **buff)
 {
+    ft_free_history();
     if (lex)
         ft_free_tokenz(lex);
     if (root)
@@ -22,5 +23,4 @@ void    exit_blt(t_miniast **root, t_lexer **lex, t_env **env_list ,char **buff)
         free_env_list(env_list);
     if (buff)
         ft_strdel(buff);
-    ft_free_history();
 }
