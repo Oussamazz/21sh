@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 23:57:03 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/20 03:08:44 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void    free_env_list(t_env **head)
     *head = NULL;
 }
 
-static t_type ret_last_node_type(t_lexer **head)
+t_type ret_last_node_type(t_lexer **head)
 {
     t_lexer *cur;
 
@@ -195,14 +195,10 @@ void    source_sh(t_env **head)
 t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
 {
     t_mystruct var;
-    int i; //
-    int j; //
+    int i;
+    int j;
     int position = 0;
-    bool flag; //
     char q;
-    char **agg;
-    char tmp[4096];
-    char *temp;
     t_lexer *token_node;
     t_quote *quot;
 
@@ -216,135 +212,48 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             i++;
         if ((buf[i] == ';' && buf[i + 1] == ';') || (buf[i] == ';' && !token_node))
             return ((t_lexer*)err_ret("21sh: parse error near `;'\n", NULL));
-        if (buf[i] == ';') // int   sep_function(char *buf, t_lexer ** , t_pointt *)
+        if (buf[i] == ';')
         {
-            if (!buf[i + 1])
+            position = sep_function(buf + i, &token_node, coord);
+            if (position > 0)
+                i = i + position;
+            else
                 break ;
-            coord->pipe_index = 1;
-            coord->aggr_index= 1;
-            i++;
-            append_list(&token_node, ";", SEP, coord);
-            continue ;
         }
         else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
         {
-            if (buf[i] == '$' && (buf[i + 1] == '(' || buf[i + 1] == ')'))
-                error_message("21sh: Unexpected token `( or )'\n", 1); // free
-            i = i + expansion_parse(&token_node, buf + i, env_list, coord);
-            continue ;
+            position = expansion_function(buf + i, &token_node, coord, env_list);
+            if (position > 0)
+                i = i + position;
+            else
+                break ;
         }
         else if (buf[i] && ft_is_there(PIPE, buf[i])) //-> int    pipe_function (char *, t_pointt *, t_lexer **)
         {
             if ((position = parse_pipe(&token_node, buf + i - 1, coord)))
-            {
                 i = i + position;
-                continue ;
-            }
-            return (NULL);
+            else
+                break ;
         }
-        else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_point *, , t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
+        else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_pointt *, t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
         {
-            if (!buf[i + 1])
-                error_message("21sh: Unexpected token. {2020}\n", 1);
-            char *buf_dup = ft_strdup(buf + i);
-            if (!(agg = split_redir(buf_dup, i)))
-                return (NULL);
-            i = i + redirerction_parse(&token_node, agg, coord, &i);
-            g_agg_len = 0;
-            ft_strdel(&buf_dup);
-            continue ;
+            if (aggr_function(buf, coord, &token_node, &i) == -1)
+                break ;
         }
         else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)
-        {
-            if (buf[i] == '$')
-                i++;
-            quot = quote_handling(buf + i + 1, buf[i], 1, env_list);
-            if (!quot)
-            {
-                i++;
-                continue ;   
-            }
-            if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && ret_last_node_type(&token_node) == AGGR_SYM)
-            {
-                append_list_redi(&token_node, ft_strdup(quot->string), R_REDIR, coord);
-            }
-            else if (buf[i] == '\'')
-                append_list(&token_node, quot->string, SQUOT, coord);
-            else
-                append_list(&token_node, quot->string, DQUOT, coord);
-            i += quot->size; // -1
-            ft_strdel(&(quot->string));
-            ft_memdel((void**)&quot);
-        }
-        else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] != '\n' && buf[i] != '\t' && buf[i] && !is_quote(buf[i])) // word
+            i += quote_function(buf + i, &token_node, coord, env_list);
+        else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] && !is_quote(buf[i])) // word
         {
             if (is_quote(q = valid_string_quot(buf + i)) || buf[i] == '\\') // before quote " or ' joining
             {
-                quot = quote_handling(buf + i, q, 0, env_list); 
-                //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
-                if (!quot)
-                {
-                    i++;
-                    continue ;   
-                }
-                if (q == '\'')
-                    append_list(&token_node, quot->string, SQUOT, coord);
-                else
-                    append_list(&token_node, quot->string, DQUOT, coord);
-                i += quot->size;
-                ft_strdel(&quot->string);
-                ft_memdel((void**)&quot);
+                quot = quote_handling(buf + i, q, 0, env_list); //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
+                i += quote_handling_function(&token_node, quot, q, coord);
             }
-            else if (buf + i && *(buf + i)) // simple command simple_word_function(char *, int *i,  t_lexer **, t_pointt *)
-            {
-                if (i > 1 && buf[i - 1] != '\\' && ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]) && buf[i + 1] != '\0')
-                {
-                    temp = get_left_fd_(buf + i);
-                    append_list_redi(&token_node, ft_strdup(temp), L_REDIR, coord);
-                    i = i + ft_strlen(temp) - 1;
-                    ft_strdel(&temp);
-                }
-                else if (buf + i)
-                {
-                    j = 0;
-                    int c = 0;
-                    while (i < buf_len && !ft_is_there(METACHARACTER, buf[i + j]) && !ft_is_aggr(buf[i + j]) && buf[i + j] != '\n' && buf[i + j] != '\t' && buf[i + j] != '|' && buf[i + j])
-                    {
-                        if (buf[i + j] == '\\')
-                        {
-                            if (buf[i + j + 1] == '\\')
-                            {
-                                tmp[j] = buf[i + j];
-                                j++;
-                            }
-                            i++;
-                            continue ;
-                        }
-                        tmp[j] = buf[i + j];
-                        j++;
-                    }
-                    tmp[j] = '\0';
-                    append_list(&token_node, tmp, WORD, coord);
-                    if (buf[i + j] == ';' || buf[i + j] == '<' || buf[i + j] == '>' || buf[i + j] == '|')
-                        i--;
-                    i = i + ft_strlen(tmp);
-                    ft_strclr(tmp);
-                }
-            }
+            else if (buf + i && *(buf + i)) // simple command simple_word_function(char *, int *i,  t_lexer **, t_pointt *, size_t buf_len)
+                i += simple_word_function(buf + i, &token_node, coord, buf_len);
         }
         else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i]) // int      meta_function(char *, int *i, t_lexer **, t_pointt *)
-        {
-            //ft_putendl_fd("    dkhlt azbii ", 1);
-            j = 0;
-            while (ft_is_there(METACHARACTER, buf[i + j]) && !is_blank(buf[i + j]) && buf[i + j])
-            {
-                tmp[j] = buf[i + j];
-                j++;
-            }
-            append_list(&token_node, tmp, METACHAR, coord);
-            i = i + ft_strlen(tmp) - 1;
-            ft_strclr(tmp);
-        }
+            i += meta_function(buf + i, &token_node, coord);
         i++;
     }
     return (token_node);

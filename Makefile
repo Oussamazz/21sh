@@ -33,7 +33,8 @@ SRC_NAME= main.c \
 			execute_builtins.c \
 			blt_echo.c \
 			agg_redir.c \
-			exit_blt.c
+			exit_blt.c \
+			lexer.c \
 
 SRC_NAME2= ft_readline.c \
 			history.c \

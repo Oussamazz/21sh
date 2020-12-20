@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 17:25:40 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/20 03:04:40 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,14 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list);
 int      	parse_pipe(t_lexer **token_node, char *str, t_pointt *coor);
 int     	check_tokenz_grammar(t_lexer *tokenz);
 
+// norme
+int     expansion_function(char *buf, t_lexer **tokenz, t_pointt *coord, t_env **env_list);
+int   	sep_function(char *buf, t_lexer ** , t_pointt *);
+int  	aggr_function(char *, t_pointt *, t_lexer **, int *);
+int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list);
+int     quote_handling_function(t_lexer **token_node, t_quote *quot, char quote, t_pointt *coord);
+int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size_t buf_len);
+int     meta_function(char *buf, t_lexer **token_node, t_pointt *coord);
 /*
 ** Execution functions
 */
@@ -224,6 +232,7 @@ char		*get_cwd(void);
 void		gen_oldpwd(char *cwd, t_env **env_list);
 void		gen_pwd(char *new_path, t_env **env_list);
 int			ft_str_is_digit(char *lfd);
+t_type 		ret_last_node_type(t_lexer **head);
 
 /*
 ** btree Functions _________________________________________________________
