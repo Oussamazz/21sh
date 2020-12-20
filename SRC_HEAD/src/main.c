@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/20 03:08:44 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/20 03:19:13 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         {
             position = sep_function(buf + i, &token_node, coord);
             if (position > 0)
-                i = i + position;
+                i = i + position - 1;
             else
                 break ;
         }
@@ -231,7 +231,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         else if (buf[i] && ft_is_there(PIPE, buf[i])) //-> int    pipe_function (char *, t_pointt *, t_lexer **)
         {
             if ((position = parse_pipe(&token_node, buf + i - 1, coord)))
-                i = i + position;
+                i = i + position - 1;
             else
                 break ;
         }
@@ -252,8 +252,8 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             else if (buf + i && *(buf + i)) // simple command simple_word_function(char *, int *i,  t_lexer **, t_pointt *, size_t buf_len)
                 i += simple_word_function(buf + i, &token_node, coord, buf_len);
         }
-        else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i]) // int      meta_function(char *, int *i, t_lexer **, t_pointt *)
-            i += meta_function(buf + i, &token_node, coord);
+        // else if (ft_is_there(METACHARACTER, buf[i]) && !is_blank(buf[i]) && buf[i]) // int      meta_function(char *, int *i, t_lexer **, t_pointt *)
+        //     i += meta_function(buf + i, &token_node, coord);
         i++;
     }
     return (token_node);
