@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blt_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:12:01 by macos             #+#    #+#             */
-/*   Updated: 2020/12/13 14:32:25 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/21 04:19:21 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,10 @@ void    blt_echo(char **cmd)
     if (!flag)
         ft_putchar_fd('\n', 1);
 }
+
+// echo $HOME$PWD
+
+
+//  echo = WORD
+//  $HOME = /Users/oelazzou
+//  $PWD = xterm-256

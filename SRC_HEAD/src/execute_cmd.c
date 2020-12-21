@@ -6,20 +6,21 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 01:30:26 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 02:59:38 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int check_builtins(char *cmd_name)
+int check_builtins(char *cmd_name)
 {
     if (ft_strequ(cmd_name, "echo") || ft_strequ(cmd_name, "setenv") ||
      ft_strequ(cmd_name, "unsetenv") || ft_strequ(cmd_name, "env") ||
      ft_strequ(cmd_name, "cd"))
          return (1);
     return (0);
-        
+        // parent process (no fork !!): cd setenv unsetenv exit 
+        // child process (with fork): echo env
 }
 
 void	execute_direct(char **cmd, char **tabs)
@@ -62,9 +63,7 @@ void	execute_undirect(char **cmd, char **tabs, t_env **env)
     char *bin_file;
 	pid_t	pid;
 
-    if (check_builtins(cmd[0]))
-        return (execute_builtin(cmd, tabs, env));
-    else if (!(bin_file = get_bin_file(cmd, env)))
+    if (!(bin_file = get_bin_file(cmd, env)))
         return (ft_putendl_fd_error("21sh: command not found: ", cmd[0], "\n", NULL));
 	if ((pid = fork()) < 0)
         return (ft_putendl_fd("21sh: Error: forking Failded.", 2));

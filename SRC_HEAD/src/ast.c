@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 19:23:04 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 04:10:52 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static t_lexer      *move_list(t_lexer *tokenz, size_t alltokenzsize) //  ls -la
 {
     t_lexer *cur;
 
+    if (!tokenz->next)
+        return (NULL);
     cur = tokenz;
     while (cur != NULL && (cur->coor.node_index <= alltokenzsize))
     {
@@ -99,7 +101,16 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                  token->type == SQUOT || token->type == EXPANSION)
             {
                 if (token->type != DQUOT)
-                    ret[i] = ft_strdup(token->data);
+                {
+                    if (token->next && token->type == EXPANSION && token->next->type == EXPANSION)
+                    {
+                        if (token->data && token->next->data)
+                            ret[i] = ft_strjoin(token->data, token->next->data);
+                        token = token->next;
+                    }
+                    else
+                        ret[i] = ft_strdup(token->data);
+                }
                 else
                 {
                     ret[i] = expanded(env, token->data);
@@ -136,7 +147,7 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
     while (tokenz && tokenz->coor.node_index <= AlltokenzSize)
     {
         redirections = NULL;
-        if ((*head) == NULL && env && tokenz && tokenz->data)
+        if ((*head) == NULL && env && tokenz && tokenz->data) // ls -la;
         {
             if (!(data = (t_miniast*)ft_memalloc(sizeof(t_miniast))))
                 return (-1);
@@ -144,10 +155,8 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
             data->sep = NULL;
             data->cmd = NULL;
             data->redirection = NULL;    
-            if (!(cmd = fill_node(tokenz, &redirections, env, AlltokenzSize)))
+            if (!(data->cmd = fill_node(tokenz, &(data->redirection), env, AlltokenzSize)))
                     return (-2);
-            data->cmd = cmd;
-            data->redirection = redirections;
             *head = data;
         }
         else

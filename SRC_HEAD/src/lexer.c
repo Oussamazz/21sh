@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/20 04:01:18 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 03:14:20 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int   sep_function(char *buf, t_lexer **token_node, t_pointt *coord)
     int i;
 
     i = 0;
-    if (!buf[i + 1])
-        return (-1);
     coord->pipe_index = 1;
     coord->aggr_index= 1;
     append_list(token_node, ";", SEP, coord);

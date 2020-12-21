@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/20 03:04:40 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 04:42:30 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 size_t	g_agg_len;
 char	*g_tty_name;
 int		prompt_flag;
+int		g_ex_flag;
 
 
 
@@ -152,6 +153,7 @@ typedef struct s_mystruct
 	t_lexer *token_node;
     t_quote *quot;
     t_quote *rec_quot;
+	t_env 	**env_list;
 }				t_mystruct;
 
 /*
@@ -181,10 +183,11 @@ int     meta_function(char *buf, t_lexer **token_node, t_pointt *coord);
 ** Execution functions
 */
 int				execute(t_miniast *tree, t_env **env_list);
-void			execute_direct(char **cmd, char **tabs);
-void			execute_builtin(char **cmd, char **tabs, t_env **env_list);
-void			execute_undirect(char **cmd, char **tabs, t_env **env);
 int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list); // PIPES
+void			execute_direct(char **cmd, char **tabs);
+void			execute_undirect(char **cmd, char **tabs, t_env **env);
+void   			execute_blt_without_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list);
+void    		execute_blt_with_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list);
 /*
 ** Redirection fucntions:
 */
@@ -233,7 +236,7 @@ void		gen_oldpwd(char *cwd, t_env **env_list);
 void		gen_pwd(char *new_path, t_env **env_list);
 int			ft_str_is_digit(char *lfd);
 t_type 		ret_last_node_type(t_lexer **head);
-
+int			check_builtins(char *cmd_name);
 /*
 ** btree Functions _________________________________________________________
 */

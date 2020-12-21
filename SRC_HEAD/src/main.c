@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/20 04:16:53 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 04:41:23 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,9 @@ void    source_sh(t_env **head)
         if (!(buffer = ft_readline()))
             break ;
         tokenz = lexer(buffer, head, &coord);
-        //print_list(tokenz);
-        // ft_putendl_fd("\n_________________________", 1);
-        //fflush(stdout); // not allowed
+        print_list(tokenz);
+        ft_putendl_fd("\n_________________________", 1);
+        fflush(stdout); // not allowed
         if (tokenz)
             status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
@@ -174,16 +174,17 @@ void    source_sh(t_env **head)
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
         prompt_flag = 0;
-        add_to_history(buffer);
-        // if (status[1] && ast)
-        // {
-        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-        //     print_btree(ast);
-        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        // }
-        // else if (!status[1] && tokenz)
-        //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
+        if (buffer[0] != '\0')
+            add_to_history(buffer);
+        if (status[1] && ast)
+        {
+            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+            print_btree(ast);
+            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        }
+        else if (!status[1] && tokenz)
+            ft_putendl_fd("__________[Parse commands Failed]______________", 1);
+        ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
             return (exit_blt(&ast, &tokenz, head, &buffer));
         else if (status[1] && ast && head)
@@ -192,6 +193,36 @@ void    source_sh(t_env **head)
         ft_free_tree(&ast);
         ft_strdel(&buffer);
     } 
+}
+
+static int      func_comp1(char *buf, t_lexer **token_node, t_env **env_list, t_pointt *coord)
+{
+    int i;
+    int position;
+
+    position = 0;
+    i = 0;
+    if (buf[i] == ';')
+    {
+        if ((position = sep_function(buf + i, token_node, coord)) > 0)
+            i = i + position - 1;
+        else
+        {
+            ft_free_tokenz(token_node);
+            return (-1);
+        }
+    }
+    else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
+    {
+        if ((position = expansion_function(buf + i, token_node, coord, env_list)) > 0)
+            i = i + position - 1;
+        else
+        {
+            ft_free_tokenz(token_node);
+            return (-1);
+        }
+    }
+    return (i);
 }
 
 t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
@@ -214,25 +245,13 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
             i++;
         if ((buf[i] == ';' && buf[i + 1] == ';') || (buf[i] == ';' && !token_node))
             return ((t_lexer*)err_ret("21sh: parse error near `;'\n", NULL));
-        if (buf[i] == ';')
-        {
-            position = sep_function(buf + i, &token_node, coord);
-            if (position > 0)
-                i = i + position - 1;
+        if (buf[i] == ';' || ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') &&
+         (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1]))) {
+            if ((position = func_comp1(buf + i, &token_node, env_list, coord)) != -1)
+                i += position;
             else
-            {
-                ft_free_tokenz(&token_node);
                 return (NULL);
-            }
-        }
-        else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
-        {
-            position = expansion_function(buf + i, &token_node, coord, env_list);
-            if (position > 0)
-                i = i + position - 1;
-            else
-                break ;
-        }
+         }
         else if (buf[i] && ft_is_there(PIPE, buf[i])) //-> int    pipe_function (char *, t_pointt *, t_lexer **)
         {
             if ((position = parse_pipe(&token_node, buf + i - 1, coord)))

@@ -6,11 +6,27 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/19 00:03:01 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 04:21:22 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+static int  check_varname(char *cmd)
+{
+    int i;
+
+    i = 0;
+    if (!cmd || !ft_isalpha(*cmd))
+        return (0);
+    while (cmd[i])
+    {
+        if (i && !ft_isalnum(cmd[i]))
+            return (0);
+        i++;
+    }
+    return (1);
+}
 
 static int check_args_no(char **cmd)
 {
@@ -76,7 +92,7 @@ void    blt_cd(char **cmd, t_env **env_list)
     char    *new_path;
     char    *cwd;
     char    buff[MAX_INDEX];
-                                                // cd /Users  ; cd - ; cd cd .. ; cd ;
+
     new_path = NULL;
     cwd = NULL;
     if (check_args_no(cmd) > 2)
@@ -127,8 +143,8 @@ void    blt_setenv(char **cmd, t_env **env_list)
         return (print_env_list(env_list));
     if ((check_args_no(cmd)) != 3)
         return (ft_putendl_fd("21sh: Error: [setenv [var_name] [var_value]].", 2));
-    else if (!ft_isalpha(cmd[1][0]))
-        return (ft_putendl_fd("21sh: setenv: Variable name must begin with a letter.", 2));
+    else if (!check_varname(cmd[1]))
+        return (ft_putendl_fd("21sh: setenv: Variable name must begin with a letter and contains only alpha-numeric characters.", 2));
     if (env_exist(env_list, cmd[1]) == 0)
         addtolist(env_list, ft_strdup(cmd[1]), ft_strdup(cmd[2]));
     else
@@ -136,19 +152,30 @@ void    blt_setenv(char **cmd, t_env **env_list)
     return ;
 }
 
-void    execute_builtin(char **cmd, char **tabs, t_env **env_list) // <- t_miniast **
+void    execute_blt_without_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list)
+{
+    if (cmd && tabs && *env_list)
+    {
+        if (ft_strequ(cmd[0] , "cd")) // no fork
+            blt_cd(cmd, env_list);
+        else if (ft_strequ(cmd[0] , "setenv")) // no fork
+            blt_setenv(cmd, env_list);
+        else if (ft_strequ(cmd[0] , "unsetenv")) // no fork
+            blt_unsetenv(cmd, env_list);
+        else if (ft_strequ(cmd[0] , "exit")) // no fork
+            exit(0); 
+    }
+    return ;
+}
+
+void    execute_blt_with_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list)
 {
     if (cmd && tabs && *env_list)
     {
         if (ft_strequ(cmd[0] , "echo"))
             blt_echo(cmd);
-        else if (ft_strequ(cmd[0] , "cd"))
-            blt_cd(cmd, env_list);
-        else if (ft_strequ(cmd[0] , "setenv"))
-            blt_setenv(cmd, env_list);
-        else if (ft_strequ(cmd[0] , "unsetenv"))
-            blt_unsetenv(cmd, env_list);
-        else if (ft_strequ(cmd[0] , "env") && !cmd[1])
+        else if (ft_strequ(cmd[0] , "env"))
             print_env_list(env_list);
     }
+    return ;
 }

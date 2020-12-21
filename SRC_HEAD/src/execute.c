@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 02:09:46 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/21 04:44:50 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 		if (fd < 0)
 		{
 			ft_putendl_fd_error("21sh: No such file or directory: ", right_fd, "\n", NULL);
+			exit(0);
 			return (fd);
 		}
 	}
@@ -190,29 +191,19 @@ int				execute(t_miniast *tree, t_env **env_list)
 {
 	t_miniast *sepa;
 	char	**tabs;
-	int		status;
 	int		fd;
 
-	status = 1;
 	fd = 0;
 	if (!(tabs = list_to_tabs(env_list)))
         return (0);
 	while (tree != NULL)
 	{
-		if (tree->pipe)
-			fd = execute_pipes(tree, tabs, env_list);
-        else
-        {
-			if (tree->redirection)
-				fd = execute_redirection(tree->redirection, g_tty_name);
-            if (fd >= 0 && (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/')))
-                execute_direct(tree->cmd, tabs);
-            else if (fd >= 0)
-                execute_undirect(tree->cmd, tabs, env_list);
-        }
+		fd = execute_pipes(tree, tabs, env_list);
 		ft_reset_fd(g_tty_name, fd);
+		if (g_ex_flag)
+			break ;
 		tree = tree->sep;
 	}
 	ft_free_arr(tabs);
-	return (status);
+	return (1);
 }

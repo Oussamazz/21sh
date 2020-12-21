@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/20 02:09:56 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 01:45:22 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             if (buf[i] == '$')
                 buf++;
             j = 0;
-            while (buf[i] && (ft_isalnum(buf[i]) || (buf[i] == '~' && i == 0)) && i < data_size)
+            while (buf[i] && (ft_isalnum(buf[i]) || (buf[i] == '~' && i == 0) || buf[i] == '/') && i < data_size)
             {
                 if (i == 0 && (ft_is_tilde(buf + i) || (buf[i] == '~' && buf[i - 1] != '\\')))
                 {
@@ -192,7 +192,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             }
             env_value = get_value_expansion(data, env_list);
             ft_strdel(&data);
-            if (buf[i] && buf[i] != '$' && !ft_is_there(AGG_REDI, buf[i])&& buf[i] != '|' && !is_blank(buf[i]) && buf[i] != ';' && !is_quote(buf[i]))
+            if (buf[i] && buf[i] != '$' && !ft_is_there(AGG_REDI, buf[i]) && buf[i] != '|' && buf[i] != '/' && !is_blank(buf[i]) && buf[i] != ';' && !is_quote(buf[i]))
             {
                 data = env_value;
                 if (!(env_value = ft_strjoin_until_char(env_value, buf + i, ' ')))

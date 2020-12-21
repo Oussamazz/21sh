@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/20 04:15:48 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 01:29:06 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int keyshendle2(t_line *line, char **str)
 	{
 		
 		ft_free_history();
-		exit(0);
+		exit(0); // 
 	}
 	return (r);
 }
