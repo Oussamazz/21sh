@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 02:59:38 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 19:51:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ int check_builtins(char *cmd_name)
 {
     if (ft_strequ(cmd_name, "echo") || ft_strequ(cmd_name, "setenv") ||
      ft_strequ(cmd_name, "unsetenv") || ft_strequ(cmd_name, "env") ||
-     ft_strequ(cmd_name, "cd"))
+     ft_strequ(cmd_name, "cd") || ft_strequ(cmd_name, "type"))
          return (1);
     return (0);
-        // parent process (no fork !!): cd setenv unsetenv exit 
-        // child process (with fork): echo env
 }
 
 void	execute_direct(char **cmd, char **tabs)

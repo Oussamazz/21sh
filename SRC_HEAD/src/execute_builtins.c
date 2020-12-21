@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 04:21:22 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 19:44:38 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int  check_varname(char *cmd)
     return (1);
 }
 
-static int check_args_no(char **cmd)
+
+int check_args_no(char **cmd)
 {
     int i;
 
@@ -176,6 +177,8 @@ void    execute_blt_with_fork(t_miniast *tree, char **cmd, char **tabs, t_env **
             blt_echo(cmd);
         else if (ft_strequ(cmd[0] , "env"))
             print_env_list(env_list);
+        else if (ft_strequ(cmd[0] , "type"))
+            type_builtin(cmd, env_list);
     }
     return ;
 }

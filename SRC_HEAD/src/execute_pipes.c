@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 04:43:05 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:23:46 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static void    execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
             execute_redirection(tree->redirection, g_tty_name);
         if (!tree->pipe && pipes->cmd_no)
             close(pipes->temp);
-        if (!ft_strcmp(tree->cmd[0], "echo") || !ft_strcmp(tree->cmd[0], "env"))
+        if (!ft_strcmp(tree->cmd[0], "echo") ||
+         !ft_strcmp(tree->cmd[0], "env") || !ft_strcmp(tree->cmd[0], "type"))
             execute_blt_with_fork(tree, tree->cmd, tabs, env_list);
         else if (tree->cmd[0][0] == '/' || (tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/'))
             execute_direct(tree->cmd, tabs);
@@ -89,7 +90,7 @@ int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list)
     init_pipes(&pipes);
     fd = 0;
     while (tree)
-    { // echo 1; echo 69
+    {
         execute_pipes1(tree, &pipes, tabs, env_list);
         if (tree->sep)
         {

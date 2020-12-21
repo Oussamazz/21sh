@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readline.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/21 07:13:03 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 20:41:22 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void ft_init(t_line *line, t_node **current)
     line->col = w.ws_col;
     line->row = w.ws_row;
 	g_clt_c = 0;
+	g_clt_D = 0;
     get_cursor_position(line);
     tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
     *current = add_to_history("");
@@ -244,8 +245,8 @@ int keyshendle2(t_line *line, char **str)
 			ft_free_history();
 			exit(0);
 		}
-		// else
-		// 	ioctl(0, TIOCSTI, "\12");
+		else
+			ioctl(0, TIOCSTI, "\12");
 
 	}
 	return (r);

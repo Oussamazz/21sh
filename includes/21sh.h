@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 04:42:30 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 17:27:22 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,8 @@ void		gen_pwd(char *new_path, t_env **env_list);
 int			ft_str_is_digit(char *lfd);
 t_type 		ret_last_node_type(t_lexer **head);
 int			check_builtins(char *cmd_name);
+int 		check_args_no(char **cmd);
+void        type_builtin(char **cmd, t_env **env_list);
 /*
 ** btree Functions _________________________________________________________
 */
