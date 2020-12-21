@@ -351,3 +351,16 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
     quot->size = i;
     return (quot);
 }
+
+
+///cat < out | ls > out
+/// cd - fiha tkhawar
+//bash-3.2$ ./libft/
+//bash: ./libft/: is a directory
+//bash-3.2$ cd .
+// cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+///add env erroe in special character
+//echo "$"PWD 
+//echo $""PWD
+//echo $"PWD"
+//echo '\"'

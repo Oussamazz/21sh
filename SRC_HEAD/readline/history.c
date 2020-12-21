@@ -81,7 +81,7 @@ char *ft_end(t_node **current, t_line *line)
 	tcgetattr(0, &config);
 	config.c_lflag |= (ECHO | ICANON);
 	tcsetattr(0, 0, &config);
-	return_line = ft_strdup((*current)->tmp);
+	return_line = (g_clt_c) ? ft_strdup("") : ft_strdup((*current)->tmp);
 	ft_strdel(&(*current)->tmp);
 	free_history_node(history_head);
 	ft_memdel((void**)&(line->tabl));

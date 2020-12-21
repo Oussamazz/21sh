@@ -98,6 +98,8 @@ typedef struct s_line
 } t_line;
 t_line	*g_line;
 char	*g_str;
+int		g_clt_c;
+int		g_clt_D;
 /*
 ** readline function
 */
