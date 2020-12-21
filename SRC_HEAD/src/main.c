@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 04:41:23 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 05:28:48 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,14 @@ void    source_sh(t_env **head)
         prompt_flag = 0;
         if (buffer[0] != '\0')
             add_to_history(buffer);
-        if (status[1] && ast)
-        {
-            ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
-            print_btree(ast);
-            ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
-        }
-        else if (!status[1] && tokenz)
-            ft_putendl_fd("__________[Parse commands Failed]______________", 1);
+        // if (status[1] && ast)
+        // {
+        //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
+        //     print_btree(ast);
+        //     ft_putendl_fd("__________[Parse commands Completed END.]______________", 1);
+        // }
+        // else if (!status[1] && tokenz)
+        //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
             return (exit_blt(&ast, &tokenz, head, &buffer));
