@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 04:10:52 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/22 02:15:28 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,16 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
             {
                 if (token->type != DQUOT)
                 {
-                    if (token->next && token->type == EXPANSION && token->next->type == EXPANSION)
-                    {
-                        if (token->data && token->next->data)
-                            ret[i] = ft_strjoin(token->data, token->next->data);
-                        token = token->next;
-                    }
-                    else
+                    if (!token->coor.no_space)
                         ret[i] = ft_strdup(token->data);
+                    else
+                    {
+                        if (token->next && token->next->type == token->type && token->next->data)
+                        {
+                            ret[i] = ft_strjoin(token->data, token->next->data);
+                            token = token->next;
+                        }
+                    }
                 }
                 else
                 {

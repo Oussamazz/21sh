@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/21 20:41:22 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/21 23:46:49 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void ft_set_terminal(void)
         ft_putendl_fd("error",2);
 	tgetent(buf, getenv("TERM"));
 }
+
 void ft_unset_terminal(void)
 {
     struct termios config;
@@ -225,7 +226,7 @@ void ft_free_history(void)
 	}
 }
 
-int keyshendle2(t_line *line, char **str)
+int keyshendle2(t_line *line, char **str,int flag)
 {
 	int r = 0;
 	if (line->r == ALT_RTH && line->slct == 0 && (r = 1))
@@ -240,14 +241,16 @@ int keyshendle2(t_line *line, char **str)
 		ft_ctl_l(line, *str);
 	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0)
 	{
-		if (!g_clt_D)
+		if (!flag)
 		{
 			ft_free_history();
 			exit(0);
 		}
 		else
+		{
 			ioctl(0, TIOCSTI, "\12");
-
+			g_clt_D = 1;
+		}
 	}
 	return (r);
 }
@@ -266,7 +269,7 @@ int keyshendle1(t_line *line, char **str, t_node **current)
 	return (r);
 }
 
-char *ft_readline(void)
+char *ft_readline(int flag)
 {
 	t_node *current;
 	char buff[MAX_INDEX];
@@ -286,7 +289,7 @@ char *ft_readline(void)
 				continue ;
 			else if (keyshendle1(&line, &current->tmp, &current))
 				continue ;
-			else if (keyshendle2(&(line), &current->tmp))
+			else if (keyshendle2(&(line), &current->tmp, flag))
 				continue ;
 			else if ((line.r == END && line.slct == 0 ) || g_clt_c == 1)
 				break ;

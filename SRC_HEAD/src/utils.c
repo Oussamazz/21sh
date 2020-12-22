@@ -126,6 +126,16 @@ size_t ft_strlen_char(char *s, char c)
     return (len);
 }
 
+size_t ft_strlen_char_2(char *s, char c, char c2)
+{
+    size_t len;
+
+    len = 0;
+    while (s[len] != '\0' && s[len] != c && s[len] != c2)
+        len++;
+    return (len);
+}
+
 size_t ft_strlen_blank(char *s)
 {
     size_t len;

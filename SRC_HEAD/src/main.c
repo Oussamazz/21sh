@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 05:28:48 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/22 01:16:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void init_coord(t_pointt *cor)
     {
         cor->node_index = 0;
         cor->node_addr = 0;
+        cor->no_space = 0;
         cor->aggr_index = 1; // redirections
         cor->pipe_index = 1; // pipes     
     }
@@ -159,18 +160,18 @@ void    source_sh(t_env **head)
         init_coord(&coord);
         if (!prompt_flag)
             ft_prompte();
-        if (!(buffer = ft_readline()))
+        if (!(buffer = ft_readline(0)))
             break ;
         tokenz = lexer(buffer, head, &coord);
         print_list(tokenz);
         ft_putendl_fd("\n_________________________", 1);
-        fflush(stdout); // not allowed
+        //fflush(stdout); // not allowed
         if (tokenz)
             status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
-        //  ft_putendl_fd("THIS IS STATUS[1]:", 1);
-        //  ft_putnbr_fd(status[1], 1);
-        //  ft_putchar_fd('\n', 1);
+         ft_putstr_fd("THIS IS STATUS[1]: ", 1);
+         ft_putnbr_fd(status[1], 1);
+         ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
         prompt_flag = 0;
@@ -214,7 +215,7 @@ static int      func_comp1(char *buf, t_lexer **token_node, t_env **env_list, t_
     }
     else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
     {
-        if ((position = expansion_function(buf + i, token_node, coord, env_list)) > 0)
+        if ((position = expansion_function(buf, token_node, coord, env_list)) > 0)
             i = i + position - 1;
         else
         {
@@ -261,8 +262,8 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         }
         else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_pointt *, t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
         {
-            if (aggr_function(buf, coord, &token_node, &i) == -1)
-                break ;
+            if (aggr_function(buf, coord, &token_node, &i) == -1 && g_clt_c)
+                return (NULL);
         }
         else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)
             i += quote_function(buf + i, &token_node, coord, env_list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 16:47:16 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/22 01:25:42 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ void    append_list(t_lexer **root, char *data, t_type type, t_pointt *cor)
     ret->type = type;
     if (type != METACHAR)
     {
-        cor->node_index = cor->node_index + 1;
+        cor->node_index += 1;
         ret->coor.node_index = cor->node_index;
+        ret->coor.no_space = cor->no_space;
     }
     ret->next = NULL;
     if (last == NULL)
@@ -141,6 +142,7 @@ void    print_list(t_lexer *token_list)
         ft_putnbr_fd(token_list->coor.pipe_index, 1);
         ft_putstr_fd(" || node_index = ", 1);
         ft_putnbr_fd(token_list->coor.node_index, 1);
+        ft_putnbr_fd(token_list->coor.no_space, 1);
         ft_putchar_fd('\n', 1);
         token_list = token_list->next;
         i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_grammar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:32:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/18 16:54:44 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/22 01:17:52 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int     check_token_type(t_type type, t_lexer *tokenz, t_lexer *next, siz
 int     check_grammar_tokenz(t_lexer *tokenz)
 {
     char *data;
+
+    data = NULL;
     if (tokenz)
     {
         size_t tokenz_size = get_list_size(tokenz);

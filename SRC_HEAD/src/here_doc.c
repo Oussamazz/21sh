@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 11:03:56 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 19:25:07 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/21 23:31:34 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ char    *here_doc(char *delim)
     while (delim)
     {
         if (g_clt_c || g_clt_D)
-            break ;
+            return (NULL);
         prompt_here_doc();
-        if(!(buffer = ft_readline()))
+        if(!(buffer = ft_readline(1)))
             return (NULL);
         if (ft_strequ(buffer, delim))
         {

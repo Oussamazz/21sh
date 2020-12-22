@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 01:45:22 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/22 02:12:39 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static size_t get_size_expansion(char *exp)
+int get_size_expansion(char *exp)
 {
     int i;
     int len;
@@ -23,13 +23,13 @@ static size_t get_size_expansion(char *exp)
         return (len = 1);
     while (exp[i] != '\0')
     {
-        if ((i && exp[i] == '$') || (exp[i] == ';' && exp[i - 1] != '\\') || exp[i] == '|')
+        if ((i && exp[i] == '$') || (exp[i] == ';' && exp[i - 1] != '\\') || exp[i] == '|' || exp[i] == '/')
             break ;
         if (is_blank(exp[i]) || ft_is_there(AGG_REDI, exp[i]) || (is_quote(exp[i]) && exp[i - 1] != '\\'))
             break ;
         if (ft_isalnum(exp[i]) || exp[i] == 47)
             len++;
-        if (exp[0] == '~' && ft_isascii(exp[i]))
+        else if (ft_isascii(exp[i]))
             len++;
         i++;
     }
@@ -43,14 +43,16 @@ static char	*ft_strjoin_until_char(char const *s1, char const *s2, char c)
 	char	*str;
 	size_t	lenstr;
 
+    lenstr = 0;
+    str = NULL;
 	if (s1 && s2)
 	{
-		lenstr = ft_strlen((char *)s1) + ft_strlen_char((char *)s2, c);
+		lenstr = ft_strlen((char *)s1) + ft_strlen_char_2((char *)s2, c, '$');
 		str = ft_strnew(lenstr);
 		if (str == NULL)
 			return (NULL);
 		str = ft_strcpy(str, s1);
-		str = ft_strncat(str, s2, ft_strlen_char((char *)s2, c));
+		str = ft_strncat(str, s2, ft_strlen_char_2((char *)s2, c, '$'));
 		return (str);
 	}
 	return (NULL);
@@ -158,16 +160,17 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
 {
     int     i;
     int     j;
-    size_t  data_size;
+    int     data_size;
     char    *data;
     char    *env_value;
 
     i = 0;
     env_value = NULL;
     data_size = 0;
+    cor->no_space = 0;
     if (buf && *(buf + i))
     {
-        data_size = get_size_expansion(buf + i);
+        data_size = get_size_expansion(buf);
         if (data_size > 0)
         {
             if (!(data = ft_strnew(data_size)))
@@ -175,35 +178,38 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
             if (buf[i] == '$')
                 buf++;
             j = 0;
-            while (buf[i] && (ft_isalnum(buf[i]) || (buf[i] == '~' && i == 0) || buf[i] == '/') && i < data_size)
+            while (buf[i] && (ft_isalnum(buf[i]) || (buf[i] == '~' && i == 0)) && i < data_size)
             {
                 if (i == 0 && (ft_is_tilde(buf + i) || (buf[i] == '~' && buf[i - 1] != '\\')))
                 {
                     tilde_exp(buf + i, &env_value, env_list);
                     if (env_value)
                         append_list(token_node, env_value, EXPANSION, cor);
-                    int env_size = ft_strlen_char(buf + i, ' ');
                     ft_strdel(&env_value);
-                    return (env_size);
+                    return (ft_strlen_char(buf + i, ' '));
                 }
                 else
                     data[j++] = buf[i];
                 i++;
             }
+            if (buf[i] == '$')
+                cor->no_space = 1;
             env_value = get_value_expansion(data, env_list);
             ft_strdel(&data);
-            if (buf[i] && buf[i] != '$' && !ft_is_there(AGG_REDI, buf[i]) && buf[i] != '|' && buf[i] != '/' && !is_blank(buf[i]) && buf[i] != ';' && !is_quote(buf[i]))
+            if (buf[i] && buf[i] != '$' && !ft_is_there(AGG_REDI, buf[i]) && buf[i] != '|' && !is_blank(buf[i]) && buf[i] != ';' && !is_quote(buf[i]))
             {
                 data = env_value;
                 if (!(env_value = ft_strjoin_until_char(env_value, buf + i, ' ')))
                     return (data_size);
-                data_size += ft_strlen(env_value);
+                data_size += ft_strlen_char_2(buf + i, ' ', '$');
+                if (buf[data_size - 1] == '$')
+                    cor->no_space = 1;
                 ft_strdel(&data);
             }
             if (env_value)
                 append_list(token_node, env_value, EXPANSION, cor);
             ft_strdel(&env_value);
-            return (data_size + 1);
+            return (data_size);
         }
     }
     return (data_size + 1);

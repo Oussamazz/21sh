@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh_r.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:55:33 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/14 19:42:15 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/21 23:22:45 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		g_clt_D;
 /*
 ** readline function
 */
-char *ft_readline(void);
+char *ft_readline(int flag);
 
 void ft_stock(char *str, t_node **list, t_line *line);
 int ft_output(int str);

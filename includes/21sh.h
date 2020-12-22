@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 17:27:22 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 01:39:28 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_pointt
 	void *node_addr;
 	int aggr_index;
 	int pipe_index;
+	int no_space;
 }               t_pointt;
 
 /*
@@ -135,6 +136,7 @@ typedef struct s_redir
 typedef struct s_miniast 
 {
 	char **cmd;
+	int no_space;
 	t_redir *redirection;
 	struct s_miniast *pipe;
 	struct s_miniast *sep;
@@ -203,6 +205,7 @@ int			agg_redirection(t_redir *redirections, t_redir *prev, int fd);
 bool		is_quote(int c);
 size_t		ft_strlen_char(char *s, char c);
 size_t      ft_strlen_char2(char *s, char c, char c2);
+size_t      ft_strlen_char_2(char *s, char c, char c2);
 size_t 		ft_strlen_blank(char *s);
 char		*ft_strchr_blank(const char *str, int c);
 size_t 		ft_strlen_exp(char *s);
