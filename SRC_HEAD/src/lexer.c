@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/21 03:14:20 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/22 05:02:00 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node, int *i)
     buf_dup = ft_strdup(buf + *i);
     if (!(agg = split_redir(buf_dup, *i)))
         return (-1);
-    *i = *i + redirerction_parse(token_node, agg, coord, i);
+    *i = *i + redirerction_parse(token_node, agg, coord, i) - 1;
     g_agg_len = 0;
     ft_strdel(&buf_dup);
     return (0);

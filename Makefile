@@ -35,7 +35,8 @@ SRC_NAME= main.c \
 			agg_redir.c \
 			exit_blt.c \
 			lexer.c \
-			type_blt.c
+			type_blt.c \
+			his.c\
 
 SRC_NAME2= ft_readline.c \
 			history.c \

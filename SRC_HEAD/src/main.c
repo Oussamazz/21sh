@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 02:24:22 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 19:25:09 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,16 +141,27 @@ void ft_ctrlc(int sig_no)
     prompt_flag = 1;
 }
 
+void    print_his(t_his *g_his)
+{
+    while (g_his)
+    {
+        ft_putstr_fd(g_his->data, 1);
+        g_his = g_his->next;
+    }
+}
+
 void    source_sh(t_env **head)
 {
     int status[2]; // 
     char *buffer;
+    char *his;
     t_lexer *tokenz; //
     t_miniast *ast; //
     t_pointt coord; //
 
     buffer = NULL;
     tokenz = NULL;
+    his = NULL;
     signal(SIGINT, ft_ctrlc);
     init_status(&status[0]);
     while (status[0] && g_tty_name)
@@ -162,21 +173,25 @@ void    source_sh(t_env **head)
             ft_prompte();
         if (!(buffer = ft_readline(0)))
             break ;
+        add_to_his(buffer, &g_his, 0);
         tokenz = lexer(buffer, head, &coord);
-        print_list(tokenz);
-        ft_putendl_fd("\n_________________________", 1);
-        //fflush(stdout); // not allowed
+        //print_list(tokenz);
+        //ft_putendl_fd("\n_________________________", 1);
+        fflush(stdout); // not allowed
         if (tokenz)
             status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
-         ft_putstr_fd("THIS IS STATUS[1]: ", 1);
-         ft_putnbr_fd(status[1], 1);
-         ft_putchar_fd('\n', 1);
+        //  ft_putstr_fd("THIS IS STATUS[1]: ", 1);
+        //  ft_putnbr_fd(status[1], 1);
+        //  ft_putchar_fd('\n', 1);
         if (tokenz && head && status[1])
             status[1] = parse_commands(&ast, tokenz, head);
         prompt_flag = 0;
+        //print_his(g_his);
         if (buffer[0] != '\0')
-            add_to_history(buffer);
+            add_to_history(join_all_bufs(g_his));
+        // if (buffer[0] != '\0')
+        //     add_to_history(buffer);
         // if (status[1] && ast)
         // {
         //     ft_putendl_fd("__________[Parse commands Completed BEGIN.]______________", 1);
@@ -185,14 +200,16 @@ void    source_sh(t_env **head)
         // }
         // else if (!status[1] && tokenz)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
-        ft_putendl_fd("\n__________[EXECUTION]______________", 1);
+        // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (ft_strequ(buffer, "exit"))
             return (exit_blt(&ast, &tokenz, head, &buffer));
         else if (status[1] && ast && head)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
+        ft_free_his(&g_his);
         ft_strdel(&buffer);
+        ft_strdel(&his);
     } 
 }
 
@@ -262,7 +279,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         }
         else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_pointt *, t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
         {
-            if (aggr_function(buf, coord, &token_node, &i) == -1 || g_clt_c)
+            if (aggr_function(buf, coord, &token_node, &i) == -1)
                 return (NULL);
         }
         else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)

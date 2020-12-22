@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 01:39:28 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 19:27:35 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct	s_mypipe
 	int temp;
 	int cmd_no;
 }				t_mypipe;
+
+
 
 typedef struct s_pointt
 {
@@ -116,7 +118,13 @@ typedef struct s_lexer // tokenz
 	struct s_lexer *next;
 }               t_lexer;
 
-
+typedef struct s_his
+{
+	char *data;
+	t_type type;
+	struct s_his *next;
+}				t_his;
+t_his *g_his;
 /*
 ** redirections struct
 */
@@ -242,6 +250,8 @@ t_type 		ret_last_node_type(t_lexer **head);
 int			check_builtins(char *cmd_name);
 int 		check_args_no(char **cmd);
 void        type_builtin(char **cmd, t_env **env_list);
+void		add_to_his(char *buffer, t_his **g_his, int flag);
+char    	*join_all_bufs(t_his *his);
 /*
 ** btree Functions _________________________________________________________
 */
@@ -281,9 +291,11 @@ void    blt_setenv(char **cmd, t_env **env_list);
 void    blt_unsetenv(char **cmd, t_env **env_list);
 void    blt_cd(char **cmd, t_env **env_list);
 
+/*
+** history
+*/
 
-
-
+char        *get_history(t_lexer *tokenz);
 
 /*
 ** expansions and Environment
@@ -311,6 +323,7 @@ void    ft_free_arr(char **arr);
 void    ft_free_tokenz(t_lexer **head);
 void    free_quot(t_quote **data);
 void    ft_free_tree(t_miniast **tree);
+void    ft_free_his(t_his **g_his);
 
 /*
 ** error handling

@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   free1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/20 02:00:22 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:27:18 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+void    ft_free_his(t_his **g_his)
+{
+    t_his *cur;
+    t_his *tmp;
+
+    if (g_his)
+    {
+        cur = *g_his;
+        while (cur)
+        {
+            tmp = cur;
+            ft_strdel(&(cur->data));
+            cur = cur->next;
+            free(tmp);
+        }
+        *g_his = NULL;
+    }
+}
 
 void    free_quot(t_quote **data)
 {

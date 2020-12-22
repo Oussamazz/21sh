@@ -6,13 +6,44 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 23:59:46 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/17 19:51:56 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 19:22:25 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
 static t_node *history_head;
+
+static t_node		*add_quote(t_lexer **token_node)
+{
+	t_node *node;
+	t_lexer *cur;
+	char	*data;
+	char	*tmp;
+	int i;
+
+	node = NULL;
+	if (token_node)
+	{
+		data = "";
+		cur = *token_node;
+		while (cur)
+		{
+			if (cur->type == SQUOT || cur->type == DQUOT)
+			{
+				if (cur->type == SQUOT)
+					tmp = ft_strjoin_four("\'", cur->data, "\'", "");
+				else if (cur->type == DQUOT)
+					tmp = ft_strjoin_four("\"", cur->data, "\"", "");
+			}
+			else if (cur->next && cur->next->data)
+				data = ft_strjoin_four(data, " ", cur->data, " ");
+			else
+				data = ft_strjoin_four(data, " ", cur->data, "");
+		}
+	}
+	return (node);
+}
 
 void ft_history_goto(t_node **current, t_node *new, t_line *line)
 {

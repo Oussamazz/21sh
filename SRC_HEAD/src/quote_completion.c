@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/12/21 23:43:05 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 18:09:40 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
         prompt_completion(quote);
         if (!(new_buff = ft_readline(1)))
             return (NULL);
+        add_to_his(new_buff, &g_his, 1);
         if (!ft_strchr(new_buff, quote) || (new_buff[0] == quote && !new_buff[1]))
             ft_str_append(&new_buff, "\n");
         tmp_string = string;
