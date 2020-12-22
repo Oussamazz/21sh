@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 02:15:28 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 02:18:22 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,19 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                 if (token->type != DQUOT)
                 {
                     if (!token->coor.no_space)
-                        ret[i] = ft_strdup(token->data);
+                        ret[i++] = ft_strdup(token->data);
                     else
                     {
                         if (token->next && token->next->type == token->type && token->next->data)
                         {
-                            ret[i] = ft_strjoin(token->data, token->next->data);
+                            ret[i++] = ft_strjoin(token->data, token->next->data);
                             token = token->next;
                         }
                     }
                 }
                 else
                 {
-                    ret[i] = expanded(env, token->data);
+                    ret[i++] = expanded(env, token->data);
                     ft_strdel(&(token->data));
                 }
             }
@@ -127,7 +127,6 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
             }
             else if (token->type == SEP || token->type == PIPE_SYM)
                 break ;
-            i++;
             token = token->next;
         }
         ret[i] = NULL;

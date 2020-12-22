@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 01:16:19 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 02:24:22 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
         }
         else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_pointt *, t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
         {
-            if (aggr_function(buf, coord, &token_node, &i) == -1 && g_clt_c)
+            if (aggr_function(buf, coord, &token_node, &i) == -1 || g_clt_c)
                 return (NULL);
         }
         else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)
