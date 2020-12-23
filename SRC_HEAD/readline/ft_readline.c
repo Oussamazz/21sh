@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/22 16:53:36 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 19:58:25 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ int keyshendle2(t_line *line, char **str,int flag)
 int keyshendle1(t_line *line, char **str, t_node **current)
 {
 	int r;
-	
+
 	r = 0;
 	if ((line->r == HOME || line->r == DEEP) && line->slct == 0 && (r = 1))
 		home_deep(line, *str);

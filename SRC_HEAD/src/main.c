@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 19:25:09 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 00:17:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,9 @@ void    source_sh(t_env **head)
             break ;
         add_to_his(buffer, &g_his, 0);
         tokenz = lexer(buffer, head, &coord);
-        //print_list(tokenz);
-        //ft_putendl_fd("\n_________________________", 1);
-        fflush(stdout); // not allowed
+        // print_list(tokenz);
+        // ft_putendl_fd("\n_________________________", 1);
+        //fflush(stdout); // not allowed
         if (tokenz)
             status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
@@ -201,9 +201,9 @@ void    source_sh(t_env **head)
         // else if (!status[1] && tokenz)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
-        if (ft_strequ(buffer, "exit"))
+        if (buffer && ft_strequ(buffer, "exit"))
             return (exit_blt(&ast, &tokenz, head, &buffer));
-        else if (status[1] && ast && head)
+        else if (status[1] && ast && head && ast->cmd)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
@@ -316,9 +316,7 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
     quot = (t_quote*)ft_memalloc(sizeof(t_quote));
     quot->string = ft_strnew(ft_strlen(s));
     if (s[i] == '\0')
-    {
         return(quote_completion(&quot, quote, env_list));
-    }
     while (s[i] != '\0')
     {
         if (s[i] != quote && start && s[i] != '\\')

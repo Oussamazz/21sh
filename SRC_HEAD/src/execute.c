@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 05:14:59 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/22 19:46:18 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int				execute(t_miniast *tree, t_env **env_list)
 	fd = 0;
 	if (!(tabs = list_to_tabs(env_list)))
         return (0);
-	while (tree != NULL)
+	while (tree != NULL && tree->cmd[0])
 	{
 		fd = execute_pipes(tree, tabs, env_list);
 		ft_reset_fd(g_tty_name, fd);
