@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 23:59:46 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/23 04:48:44 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 04:50:51 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static t_node		*add_quote(t_lexer **token_node)
 	t_lexer *cur;
 	char	*data;
 	char	*tmp;
-	int i;
 
 	node = NULL;
 	if (token_node)

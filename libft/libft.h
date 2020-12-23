@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 14:38:46 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/11/20 11:18:01 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 05:27:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,5 @@ char				*ft_strjoin_four(char const *s1, char const *s2,
 int 				is_blank(int c);
 size_t 				get_arr_size(char **arr);
 char				*ft_print_until(const char *s, int c);
+void    			ft_putstr_c_str(char *str, char c, char *str2, int fd);
 #endif

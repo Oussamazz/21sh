@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 17:38:56 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 06:14:50 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static int  calc_symbol(char *str)
     return (count);
 }
 
-char **split_redir(char *str, int pos)
+char **split_redir(char *str)
 {
     int i;
     int j;
@@ -136,7 +136,7 @@ char **split_redir(char *str, int pos)
                 i++;
                 g_agg_len++;
             }
-            if (ft_is_there(";", str[i]))
+            if (str[i] == ';')
                 return (agg);
             if (!(agg[j] = ft_strnew(agg_len_str)) || i >= len)
                 return (NULL);
@@ -266,18 +266,16 @@ char **split_redir(char *str, int pos)
     return (agg);
 }
 
-size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, int *i_p) // ls >a>b>c
+size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor) // ls >a>b>c
 {
-    int i;
     int j;
     size_t biglen;
     char *delim;
 
     j = 0;
-    i = *i_p;
     while (agg[j] != NULL && agg[j][0] != '\0')
     {
-        if (ft_isdigit(agg[j][0]) && j == 0 && i >= 1)
+        if (ft_isdigit(agg[j][0]) && j == 0)
             append_list_redi(token_node, ft_strdup(agg[j]), L_REDIR, cor);
         else if (ft_is_there(AGG_REDI, agg[j][0]))
             append_list_redi(token_node, ft_strdup(agg[j]), AGGR_SYM, cor);

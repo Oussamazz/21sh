@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 04:08:41 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 05:53:38 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*ft_strchr_quote(const char *s, int c)
 	return (NULL);
 }
 
-t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
+t_quote    *quote_completion(t_quote **data, char quote)
 {
     t_quote *my_quot;
     char *str;
@@ -96,7 +96,7 @@ t_quote    *quote_completion(t_quote **data, char quote, t_env **env_list)
         if (ft_strchr(new_buff, quote) && string)
         {
             t_quote *tmp = *data;
-            my_quot = quote_handling(string, quote, 1, env_list);
+            my_quot = quote_handling(string, quote, 1);
             if (my_quot)
             {
                 ft_memdel((void**)&tmp);

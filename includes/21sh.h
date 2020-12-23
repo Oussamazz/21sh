@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 19:27:35 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 05:57:58 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,15 +177,15 @@ void    	append_list_pipe(t_lexer **root, char *data, t_type type, t_pointt *cor
 void    	print_list(t_lexer *token_list); // delete this func
 void    	print_list2(t_redir  *redirections); // delete this func
 t_lexer 	*lexer(char *buf, t_env **head, t_pointt *coord);
-t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list);
+t_quote     *quote_handling(char *s, char quote, int start);
 int      	parse_pipe(t_lexer **token_node, char *str, t_pointt *coor);
 int     	check_tokenz_grammar(t_lexer *tokenz);
 
 // norme
 int     expansion_function(char *buf, t_lexer **tokenz, t_pointt *coord, t_env **env_list);
 int   	sep_function(char *buf, t_lexer ** , t_pointt *);
-int  	aggr_function(char *, t_pointt *, t_lexer **, int *);
-int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list);
+int  	aggr_function(char *, t_pointt *, t_lexer **);
+int     quote_function(char *buf, t_lexer ** ,t_pointt *);
 int     quote_handling_function(t_lexer **token_node, t_quote *quot, char quote, t_pointt *coord);
 int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size_t buf_len);
 int     meta_function(char *buf, t_lexer **token_node, t_pointt *coord);
@@ -233,7 +233,7 @@ size_t 		calc_size_right_redir(char * str);
 char		**strsplit(char const *s);
 int 		ft_is_aggr(char c);
 int			valide_quote_check(char *str);
-t_quote		*quote_completion(t_quote **data, char quote, t_env **env_list);
+t_quote		*quote_completion(t_quote **data, char quote);
 int 		is_there_in_env(char *str, t_env **env_list);
 size_t 		get_list_size(t_lexer *tokenz);
 int			check_if_is_aggr(t_lexer **root);
@@ -277,8 +277,8 @@ void    deleteNode(t_env **head_ref, char *env_name);
 ** Redirections
 */
 
-char        **split_redir(char *str, int i);
-size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor, int *i_p);
+char        **split_redir(char *str);
+size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor);
 void		ft_reset_fd(char *tty_name, int file_d);
 
 /*

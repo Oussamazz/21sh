@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/23 04:12:07 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 06:25:10 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,30 @@ int   sep_function(char *buf, t_lexer **token_node, t_pointt *coord)
     return (1);
 }
 
-int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node, int *i)
+int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
 {
     char **agg;
     char *buf_dup;
+    int i;
 
     buf_dup = NULL;
     agg = NULL;
-    if (!buf[*i + 1])
+    i = 0;
+    if (!*(buf + 1))
     {
-        ft_putendl_fd("21sh: Unexpected token.", 2);
+        ft_putendl_fd("21sh: syntax error near unexpected token `newline'", 2);
         return (-1);
     }
-    buf_dup = ft_strdup(buf + *i);
-    if (!(agg = split_redir(buf_dup, *i)))
+    buf_dup = ft_strdup(buf);
+    if (!(agg = split_redir(buf_dup)))
         return (-1);
-    *i = *i + redirerction_parse(token_node, agg, coord, i) - 1;
+    i = i + redirerction_parse(token_node, agg, coord) - 1;
     g_agg_len = 0;
     ft_strdel(&buf_dup);
-    return (0);
+    return (i);
 }
 
-int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, t_env **env_list)
+int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord)
 {
     int i;
     t_quote *quot;
@@ -66,7 +68,7 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, t_env *
     i = 0;
     if (buf[i] == '$')
         i++;
-    if (!(quot = quote_handling(buf + i + 1, buf[i], 1, env_list)))
+    if (!(quot = quote_handling(buf + i + 1, buf[i], 1)))
         return (-1);
     if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && ret_last_node_type(token_node) == AGGR_SYM)
         append_list_redi(token_node, ft_strdup(quot->string), R_REDIR, coord);
