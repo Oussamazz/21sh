@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 04:19:26 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 04:41:29 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,11 +157,13 @@ void    source_sh(t_env **head)
     char *his;
     t_lexer *tokenz; //
     t_miniast *ast; //
-    t_pointt coord; //
+    t_pointt coord;
+    char *tmp; //
 
     buffer = NULL;
     tokenz = NULL;
     his = NULL;
+    tmp = NULL;
     signal(SIGINT, ft_ctrlc);
     init_status(&status[0]);
     while (status[0] && g_tty_name)
@@ -189,7 +191,8 @@ void    source_sh(t_env **head)
         prompt_flag = 0;
         //print_his(g_his);
         if (buffer[0] != '\0')
-            add_to_history(join_all_bufs(g_his));
+            add_to_history(tmp = join_all_bufs(g_his));
+        ft_strdel(&tmp);
         // if (buffer[0] != '\0')
         //     add_to_history(buffer);
         // if (status[1] && ast)
