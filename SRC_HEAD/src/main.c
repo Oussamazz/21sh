@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 00:17:59 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 04:06:04 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,8 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
         {
             if (s[i + 1] == '>' || s[i + 1] == '<' || s[i + 1] == '|')
                 i = i + (ft_strchr(s + i, quote) - (s + i));
-            else if (!is_blank(s[i + 1]) && !ft_is_there(METACHARACTER, s[i + 1]))
+            else if ((!is_blank(s[i + 1]) || s[i + 1] == '\n')
+             && (!ft_is_there(METACHARACTER, s[i + 1]) || s[i + 1] == '\n'))
             {
                 rec_quote = quote_handling(s + i + 1, s[i], !start, env_list);
                 tmp = quot->string;
