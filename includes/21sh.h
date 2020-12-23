@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 05:57:58 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 23:28:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,6 +330,7 @@ void    ft_free_his(t_his **g_his);
 */
 char  *err_ret(char *s, char *addrr);
 void  error_message(char *err_message, int flag);
+int		print_error_sym(t_type type);
 
 /*
 ** EXIT AND FREE

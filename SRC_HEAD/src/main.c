@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 06:26:55 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 23:31:12 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void    source_sh(t_env **head)
         //  ft_putstr_fd("THIS IS STATUS[1]: ", 1);
         //  ft_putnbr_fd(status[1], 1);
         //  ft_putchar_fd('\n', 1);
-        if (tokenz && head && status[1])
+        if (tokenz && head && status[1] > 0)
             status[1] = parse_commands(&ast, tokenz, head);
         prompt_flag = 0;
         //print_his(g_his);
@@ -206,7 +206,7 @@ void    source_sh(t_env **head)
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
         if (buffer && ft_strequ(buffer, "exit"))
             return (exit_blt(&ast, &tokenz, head, &buffer));
-        else if (status[1] && ast && head && ast->cmd)
+        else if (status[1] > 0 && ast && head && ast->cmd)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
@@ -262,6 +262,8 @@ static  int     fun_comp2(char *buf, t_lexer **token_node, t_pointt *coord)
     }
     else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_pointt *, t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
     {
+        if (!*token_node)
+            return (print_error_sym(AGGR_SYM));
         if ((position = aggr_function(buf, coord, token_node)) == -1)
             return (-1);
         else
@@ -338,7 +340,7 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
          }
         else if ((buf[i] && ft_is_there(PIPE, buf[i])) || (ft_is_there(AGG_REDI, buf[i]) && buf[i]))
         {
-            if (i && (position = fun_comp2(buf + i, &token_node, coord)) != -1)
+            if ((position = fun_comp2(buf + i, &token_node, coord)) != -1)
                 i += position;
             else
                 return (NULL);
