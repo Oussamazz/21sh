@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/22 05:02:00 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 04:12:07 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, t_env *
     if (buf[i] == '$')
         i++;
     if (!(quot = quote_handling(buf + i + 1, buf[i], 1, env_list)))
-        return (i += 1);
+        return (-1);
     if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && ret_last_node_type(token_node) == AGGR_SYM)
         append_list_redi(token_node, ft_strdup(quot->string), R_REDIR, coord);
     else if (buf[i] == '\'')

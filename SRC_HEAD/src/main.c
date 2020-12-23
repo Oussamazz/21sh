@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 04:06:04 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/23 04:19:26 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,12 +283,26 @@ t_lexer    *lexer(char *buf, t_env **env_list, t_pointt *coord)
                 return (NULL);
         }
         else if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)
-            i += quote_function(buf + i, &token_node, coord, env_list);
+        {
+            position = quote_function(buf + i, &token_node, coord, env_list);
+            if (position < 0)
+            {
+                if (!g_clt_c)
+                {
+                    ft_putstr_fd("21sh: unexpected EOF while looking for matching `", 2);
+                    ft_putchar_fd(buf[i], 2);
+                    ft_putendl_fd("\'", 2);
+                }
+                return (NULL);
+            }
+            i += position;
+        }
         else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] && !is_quote(buf[i])) // word
         {
             if (is_quote(q = valid_string_quot(buf + i)) || buf[i] == '\\') // before quote " or ' joining
             {
-                quot = quote_handling(buf + i, q, 0, env_list); //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
+                if (!(quot = quote_handling(buf + i, q, 0, env_list)))//->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
+                    return (NULL); 
                 i += quote_handling_function(&token_node, quot, q, coord);
             }
             else if (buf + i && *(buf + i)) // simple command simple_word_function(char *, int *i,  t_lexer **, t_pointt *, size_t buf_len)
@@ -337,7 +351,8 @@ t_quote     *quote_handling(char *s, char quote, int start, t_env **env_list)
             else if ((!is_blank(s[i + 1]) || s[i + 1] == '\n')
              && (!ft_is_there(METACHARACTER, s[i + 1]) || s[i + 1] == '\n'))
             {
-                rec_quote = quote_handling(s + i + 1, s[i], !start, env_list);
+                if (!(rec_quote = quote_handling(s + i + 1, s[i], !start, env_list)))
+                    return (NULL);
                 tmp = quot->string;
                 quot->string = ft_strjoin(quot->string, rec_quote->string);
                 i = i + rec_quote->size + 1;
