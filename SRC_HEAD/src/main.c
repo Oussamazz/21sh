@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 23:31:12 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 00:20:05 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,11 @@ void    source_sh(t_env **head)
             break ;
         add_to_his(buffer, &g_his, 0);
         tokenz = lexer(buffer, head, &coord);
-        // print_list(tokenz);
-        // ft_putendl_fd("\n_________________________", 1);
-        // fflush(stdout); // not allowed
+        if (tokenz == NULL)
+            ft_putendl_fd("token = NULL",1);
+        print_list(tokenz);
+        ft_putendl_fd("\n_________________________", 1);
+        fflush(stdout); // not allowed
         if (tokenz)
             status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
@@ -302,8 +304,8 @@ static  int fun_comp3(char *buf,  t_lexer **token_node, t_pointt *coord, size_t 
         }
         else if (buf + i && *(buf + i)) // simple command simple_word_function(char *,  t_lexer **, t_pointt *, size_t buf_len)
         {
-            if (ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]))
-                return (-1);
+            // if (ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]))
+            //     return (-1);
             i += simple_word_function(buf + i, token_node, coord, buf_len);
         }
     }

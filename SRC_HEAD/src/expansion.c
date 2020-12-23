@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 02:12:39 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 00:33:04 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ static void tilde_exp(char *exp, char **data, t_env **env_list)
                     error_message("HOME and USER are unset\n", 1);
                 ft_strdel(&user);
             }
-            if (exp[0] == '~' && exp[1] != 47 && exp[1] && !is_blank(exp[1]))
+            if (exp[0] == '~' && exp[1] != 47 && !ft_is_there(AGG_REDI, exp[1]) &&
+             !is_blank(exp[1]) && exp[1] != '|' && exp[1] != ';')
             {
                 *data = ft_strdup(exp);
                 ft_strdel(&home_value);
@@ -186,7 +187,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                     if (env_value)
                         append_list(token_node, env_value, EXPANSION, cor);
                     ft_strdel(&env_value);
-                    return (ft_strlen_char(buf + i, ' '));
+                    return (1);
                 }
                 else
                     data[j++] = buf[i];

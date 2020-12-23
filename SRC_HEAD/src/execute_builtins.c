@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 01:38:44 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 00:09:22 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void cd_simple(char *path, t_env **env_list)
     {
         stat(path, &st);
         if (!S_ISDIR(st.st_mode))
-            ft_putendl_fd_error("21sh: cd: not a directory: ", ft_strrchr(path, '/') + 1, "\n", NULL);
+            return (ft_putendl_fd_error("21sh: cd: not a directory: ", ft_strrchr(path, '/') + 1, "\n", NULL));
         if (access(path, X_OK) == 0)
 		{
 			gen_oldpwd((tmp = get_cwd()), env_list); // this one
