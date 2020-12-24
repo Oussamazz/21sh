@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 17:40:42 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 00:09:22 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 18:39:51 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,12 @@ void    execute_blt_with_fork(t_miniast *tree, char **cmd, char **tabs, t_env **
             print_env_list(env_list);
         else if (ft_strequ(cmd[0] , "type"))
             type_builtin(cmd, env_list);
+        else if (ft_strequ(cmd[0] , "cd"))
+            blt_cd(cmd, env_list);
+        else if (ft_strequ(cmd[0] , "setenv"))
+            blt_setenv(cmd, env_list);
+        else if (ft_strequ(cmd[0] , "unsetenv"))
+            blt_unsetenv(cmd, env_list);
     }
     return ;
 }

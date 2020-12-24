@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 03:30:59 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 18:31:39 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,8 +177,6 @@ void    source_sh(t_env **head)
             break ;
         add_to_his(buffer, &g_his, 0);
         tokenz = lexer(buffer, head, &coord);
-        if (tokenz == NULL)
-            ft_putendl_fd("token = NULL",1);
         // print_list(tokenz);
         // ft_putendl_fd("\n_________________________", 1);
         // fflush(stdout); // not allowed
