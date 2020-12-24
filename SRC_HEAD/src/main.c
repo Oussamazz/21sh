@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 00:20:05 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 03:30:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,9 @@ void    source_sh(t_env **head)
         tokenz = lexer(buffer, head, &coord);
         if (tokenz == NULL)
             ft_putendl_fd("token = NULL",1);
-        print_list(tokenz);
-        ft_putendl_fd("\n_________________________", 1);
-        fflush(stdout); // not allowed
+        // print_list(tokenz);
+        // ft_putendl_fd("\n_________________________", 1);
+        // fflush(stdout); // not allowed
         if (tokenz)
             status[1] = check_grammar_tokenz(tokenz);
         ast = NULL;
@@ -206,9 +206,9 @@ void    source_sh(t_env **head)
         // else if (!status[1] && tokenz)
         //     ft_putendl_fd("__________[Parse commands Failed]______________", 1);
         // ft_putendl_fd("\n__________[EXECUTION]______________", 1);
-        if (buffer && ft_strequ(buffer, "exit"))
-            return (exit_blt(&ast, &tokenz, head, &buffer));
-        else if (status[1] > 0 && ast && head && ast->cmd)
+        // if (buffer && ft_strequ(buffer, "exit"))
+        //     return (exit_blt(&ast, &tokenz, head, &buffer));
+        if (status[1] > 0 && ast && head && ast->cmd)
             status[0] = execute(ast, head);
         ft_free_tokenz(&tokenz);
         ft_free_tree(&ast);
@@ -303,11 +303,7 @@ static  int fun_comp3(char *buf,  t_lexer **token_node, t_pointt *coord, size_t 
             i += quote_handling_function(token_node, quot, q, coord);
         }
         else if (buf + i && *(buf + i)) // simple command simple_word_function(char *,  t_lexer **, t_pointt *, size_t buf_len)
-        {
-            // if (ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]))
-            //     return (-1);
             i += simple_word_function(buf + i, token_node, coord, buf_len);
-        }
     }
     return (i);
 }

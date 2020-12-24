@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 00:33:04 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 04:44:45 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,11 @@ static void tilde_exp(char *exp, char **data, t_env **env_list)
         if (exp[0] == '~')
         {
             home_value = get_value_expansion("HOME", env_list);
-            if (home_value == NULL)
+            if (home_value == NULL) // home_value = ft_strjoin("/Users/$USER");
             {
                 user = get_value_expansion("USER", env_list);
                 if (!(home_value = ft_strjoin("/Users/", user)))
-                    error_message("HOME and USER are unset\n", 1);
+                    return (ft_putendl_fd("HOME and USER are unset.", 2));
                 ft_strdel(&user);
             }
             if (exp[0] == '~' && exp[1] != 47 && !ft_is_there(AGG_REDI, exp[1]) &&

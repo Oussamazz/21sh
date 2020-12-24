@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 06:14:50 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 04:38:06 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,15 +236,8 @@ char **split_redir(char *str)
             }
             else if (ft_isascii(str[i]) && (i < len) && !active_word &&(!ft_is_there(AGG_REDI, str[i + 1]) || !str[i + 1]))
             { // {varname}
+           
                 ft_strdel(&agg[j]);
-                agg[j] = redirection_varname(&agg, str, &i);
-                j++;
-                active_word = 1;
-                break ;
-            }
-            else if (ft_isascii(str[i]) && (i < len) && !active_word && ft_is_there(AGG_REDI, str[i + 1]))
-            {// varneme
-                free(agg[j]);
                 agg[j] = redirection_varname(&agg, str, &i);
                 j++;
                 active_word = 1;
@@ -252,12 +245,13 @@ char **split_redir(char *str)
             }
             else if (ft_isascii(str[i]) && active_word) // breaker
                 break ;
-            else // error handling!
-            {
-                ft_free_arr(agg);
-                err_ret("21sh: syntax error near unexpected token `> or <'\n", NULL);
-                return (NULL);
-            }
+            // else // error handling!
+            // {
+            //      ft_putendl_fd("dkhlt hhhhh", 1);
+            //     ft_free_arr(agg);
+            //     err_ret("21sh: syntax error near unexpected token `> or <'\n", NULL);
+            //     return (NULL);
+            // }
             i++;
         }
     }

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:32:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 00:35:45 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 04:40:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int     check_grammar_tokenz(t_lexer *tokenz)
             data = tokenz->data;
             if (tokenz->type == AGGR_SYM && tokenz->coor.node_index == 1)
                 return (print_error_sym(AGGR_SYM));
-            if (tokenz->type == AGGR_SYM && !tokenz->next)
+            if (tokenz->type == AGGR_SYM && !tokenz->next && !(ft_strlen(tokenz->data) > 2))
                 return (print_error_sym(AGGR_SYM));
             else if (tokenz->type == PIPE_SYM && (!tokenz->next || tokenz->coor.node_index == 1))
                 return (print_error_sym(PIPE_SYM));
