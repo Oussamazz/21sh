@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 23:28:24 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 19:33:05 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,7 @@ int 		check_args_no(char **cmd);
 void        type_builtin(char **cmd, t_env **env_list);
 void		add_to_his(char *buffer, t_his **g_his, int flag);
 char    	*join_all_bufs(t_his *his);
+int     	str_is_blank(char *buffer);
 /*
 ** btree Functions _________________________________________________________
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 09:38:58 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 01:22:19 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/24 19:32:50 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,15 @@ void			gen_pwd(char *new_path, t_env **env_list)
     cmd[3] = NULL;
     blt_setenv(cmd, env_list);
     return ;
+}
+
+int     str_is_blank(char *buffer)
+{
+    while (*buffer)
+    {
+        if (!is_blank(*buffer))
+            return (0);
+        buffer++;
+    }
+    return (1);
 }

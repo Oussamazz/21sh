@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 18:31:39 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/24 19:33:17 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void    source_sh(t_env **head)
             status[1] = parse_commands(&ast, tokenz, head);
         prompt_flag = 0;
         //print_his(g_his);
-        if (buffer[0] != '\0')
+        if (buffer[0] != '\0' && !str_is_blank(buffer))
             add_to_history(tmp = join_all_bufs(g_his));
         ft_strdel(&tmp);
         // if (buffer[0] != '\0')
