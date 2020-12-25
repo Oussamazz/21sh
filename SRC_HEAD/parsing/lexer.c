@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/23 06:25:10 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/25 15:11:08 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord)
     i += quot->size; // -1
     ft_strdel(&(quot->string));
     ft_memdel((void**)&quot);
-    return (i);
+    return (i + 1); // qout position == size + 1
 }
 
 int     quote_handling_function(t_lexer **token_node, t_quote *quot, char q, t_pointt *coord)

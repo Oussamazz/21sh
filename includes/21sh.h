@@ -6,7 +6,11 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2020/12/24 19:33:05 by oelazzou         ###   ########.fr       */
+=======
+/*   Updated: 2020/12/25 13:07:13 by macos            ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +40,15 @@
 # define ERR_BAD_FD "21sh: bad file descriptor.\n"
 # define MAX_INDEX 4096
 # define WELCOME_MSG "\t\033[1;32m⬇⬇  w3lc0m3 70 7h3_qu173r & ph30n1x 5h3ll ⚙️  ⬇⬇\033[0m\t\t"
+
+// free variables enum
+enum{
+	F_TOKENZ,
+	F_TMP,
+	F_AST,
+	F_STR,
+	F_G_HIS
+};
 
 
 
@@ -155,15 +168,19 @@ typedef struct s_mystruct
 	int i;
 	int j;
 	int flag;
+	int position;
 	size_t size;
 	char c;
 	char **arr;
 	char *str;
 	char *tmp;
-	t_lexer *token_node;
+	int status[2];
+	t_miniast *ast;
+	t_lexer *tokenz;
     t_quote *quot;
     t_quote *rec_quot;
 	t_env 	**env_list;
+	t_pointt coord;
 }				t_mystruct;
 
 /*
@@ -338,5 +355,6 @@ int		print_error_sym(t_type type);
 */
 void    exit_blt(t_miniast **root, t_lexer **lex, t_env **env_list ,char **buff);
 void    free_env_list(t_env **head);
+void free_vars(t_mystruct *v, int *to_free,int size);
 
 #endif

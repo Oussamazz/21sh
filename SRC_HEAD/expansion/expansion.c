@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 15:17:36 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/25 15:32:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char        *get_value_expansion(char *env_name, t_env **head)
     char    *env_value;
     t_env   *curr;
 
+    curr = NULL;
     env_value = NULL;
     if (head)
         curr = *head;

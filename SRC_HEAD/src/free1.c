@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 19:27:18 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/25 12:40:02 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,23 @@ void    ft_free_tokenz(t_lexer **head)
        *head = NULL;
     }
     return ;
+}
+
+void free_vars(t_mystruct *v, int *to_free,int size)
+{
+    int i = 0;
+    while(i < size)
+    {
+        if(to_free[i] == F_TMP)
+            ft_strdel(&v->tmp);
+        else if(to_free[i] == F_TOKENZ)
+		    ft_free_tokenz(&v->tokenz);
+        else if(to_free[i] == F_AST)
+		    ft_free_tree(&v->ast);
+        else if(to_free[i] == F_G_HIS)
+		    ft_free_his(&g_his);
+        else if(to_free[i] == F_STR)
+		    ft_strdel(&v->str);
+        i++;
+    }
 }

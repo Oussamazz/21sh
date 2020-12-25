@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 04:38:06 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/25 11:38:52 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,8 @@ char **split_redir(char *str)
     if (str && (agg = (char**)ft_memalloc(sizeof(char*) * agg_len)) != NULL) // word size must be calculated!! (agg_len?)
     {
         size_t len = ft_strlen(str);
-        i = 0; // pos
+        i = 0;
         j = 0;
-        //agg_len_str = wordinstr_size(str + i, agg_len - 1);
         agg_len_str = len;
         while (i < len && str[i] != '\0' && j < agg_len)
         {
@@ -157,9 +156,8 @@ char **split_redir(char *str)
                     i = i + 2;
                     continue ;
                 }
-                //g_agg_len += 2;
             }
-            else if (str[i] == '&') // for &??? &> >&- <&- &>-
+            else if (str[i] == '&')
             {
                 if (ft_isascii(str[i + 1]) && str[i + 1] != '<' && str[i +1] != '>' && str[i + 1] != '-')
                 {

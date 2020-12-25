@@ -7,7 +7,9 @@ SRC_DIR_READLINE= ./SRC_HEAD/readline/
 OBJ_DIR_READLINE= ./obj_readline/
 OBJ_DIR_HEAD= ./obj_HEAD/
 
-FLAGS= -g -Wall -Wextra -Werror
+FLAGS= -Wall -Wextra -Werror
+FLAGS= -g 
+
 
 SRC_NAME= main.c \
 			envirement.c \
@@ -16,7 +18,6 @@ SRC_NAME= main.c \
 			redirections.c \
 			utils.c \
 			utils2.c \
-			parse_pipe.c \
 			printing.c \
 			expansion.c \
 			split.c \
@@ -37,6 +38,7 @@ SRC_NAME= main.c \
 			lexer.c \
 			type_blt.c \
 			his.c\
+			lexerCore.c\
 
 SRC_NAME2= ft_readline.c \
 			history.c \
@@ -59,11 +61,11 @@ $(NAME): $(OBJECT) $(INC)
 	@echo "\033[1m\033[35m|⩺▾ 21sh Successfully Created ☯ ⩹|\033[0m"
 $(OBJ_DIR_HEAD)%.o: $(SRC_DIR_PARSE)%.c
 	@mkdir -p obj_HEAD
-	@gcc -c $^ $(INCLUDE) -o $@
+	@gcc $(FLAGS) -c $^ $(INCLUDE) -o $@
 	@echo "\033[92m|⩺  Object file Created ⩹|"
 $(OBJ_DIR_READLINE)%.o: $(SRC_DIR_READLINE)%.c
 	@mkdir -p obj_readline
-	@gcc -c $^ $(INCLUDE) -o $@
+	@gcc $(FLAGS) -c $^ $(INCLUDE) -o $@
 	@echo "\033[92m|⩺  Object file Created ⩹|"
 clean:
 	@echo "\033[1m\033[93m|⩺  cleaning...\033[0m"
