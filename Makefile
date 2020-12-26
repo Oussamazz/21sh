@@ -16,7 +16,7 @@ SRC_EXPANSION = expand.o expansion.o
 
 SRC_PARSING = ast.o check_grammar.o lexer.o lexerCore.o quote_completion.o split.o syntax_checker.o
 
-SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o
+SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o split_redir.o
 
 SRC_MAIN =	envirement.o error_handler.o execute.o execute_cmd.o free1.o\
 			ft_free.o his.o main.o node.o printing.o utils.o utils2.o

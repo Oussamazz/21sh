@@ -6,7 +6,7 @@
 /*   By: aait-ihi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 01:06:58 by aait-ihi         ###   ########.fr       */
+/*   Updated: 2020/12/26 02:31:54 by aait-ihi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,14 @@ enum{
 	F_STR,
 	F_G_HIS
 };
-
+// split_redir status enum
+enum{
+	Normal,
+	Continue,
+	Break,
+	ReturnNull,
+	Returnagg
+};
 
 
 size_t	g_agg_len;
@@ -178,6 +185,21 @@ typedef struct s_mystruct
 	t_env 	**env_list;
 	t_pointt coord;
 }				t_mystruct;
+
+typedef struct	s_split_redir
+{
+    int i;
+    int j;
+    char **agg;
+    char *tmp;
+    int active_word;
+    size_t delim_len;
+	size_t len;
+	size_t agg_len;
+    size_t agg_len_str;
+	int status;
+}				t_split_redir;
+
 
 /*
 ** principale functions
