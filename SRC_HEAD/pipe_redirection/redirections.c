@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aait-ihi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 17:41:00 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 02:46:30 by aait-ihi         ###   ########.fr       */
+/*   Updated: 2020/12/26 11:14:34 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,23 +235,6 @@ static int  calc_symbol(char *str)
 //             else if (ft_isascii(str[i]) && (i < len) && !active_word &&(!ft_is_there(AGG_REDI, str[i + 1]) || !str[i + 1]))
 //             { // {varname}
            
-<<<<<<< HEAD
-                ft_strdel(&agg[j]);
-                agg[j] = redirection_varname(&agg, str, &i);
-                j++;
-                active_word = 1;
-                break ;
-            }
-            else if (ft_isascii(str[i]) && active_word) // breaker
-                break ;
-            i++;
-        }
-    }
-    g_agg_len += countall_arr(agg, delim_len);
-    agg[j] = NULL;
-    return (agg);
-}
-=======
 //                 ft_strdel(&agg[j]);
 //                 agg[j] = redirection_varname(&agg, str, &i);
 //                 j++;
@@ -274,7 +257,6 @@ static int  calc_symbol(char *str)
 //     agg[j] = NULL;
 //     return (agg);
 // }
->>>>>>> ced193a4d949b05bfc8d3c9e111354fda34266de
 
 size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor) // ls >a>b>c
 {

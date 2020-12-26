@@ -15,17 +15,10 @@ SRC_EXPANSION = expand.o expansion.o
 
 SRC_PARSING = ast.o check_grammar.o lexer.o lexerCore.o quote_completion.o split.o syntax_checker.o
 
-<<<<<<< HEAD
-SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o
-
-SRC_MAIN =	envirement.o error_handler.o execute.o execute_cmd.o free1.o\
-			ft_free.o his.o main.o node.o printing.o utils.o utils2.o quote_handling.o
-=======
 SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o split_redir.o
 
 SRC_MAIN =	envirement.o error_handler.o execute.o execute_cmd.o free1.o\
-			ft_free.o his.o main.o node.o printing.o utils.o utils2.o
->>>>>>> ced193a4d949b05bfc8d3c9e111354fda34266de
+			ft_free.o his.o main.o node.o printing.o utils.o utils2.o quote_handling.o
 
 SRC_READLINE = ft_readline.o history.o keys_alt.o move_cursor.o selection.o 
 

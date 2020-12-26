@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/25 15:32:24 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 12:03:29 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void tilde_exp(char *exp, char **data, t_env **env_list)
                 ft_strdel(&user);
             }
             if (exp[0] == '~' && exp[1] != 47 && !ft_is_there(AGG_REDI, exp[1]) &&
-             !is_blank(exp[1]) && exp[1] != '|' && exp[1] != ';')
+             !is_blank(exp[1]) && exp[1] != '|' && exp[1] != ';' && exp[1] != '$')
             {
                 *data = ft_strdup(exp);
                 ft_strdel(&home_value);
@@ -187,7 +187,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                         append_list(token_node, env_value, EXPANSION, cor);
                     ft_strdel(&env_value);
                     ft_strdel(&data);
-                    return (ft_strlen_char(buf + i, ' '));
+                    return (ft_strlen_char_2(buf + i, ' ', '$'));
                 }
                 else
                     data[j++] = buf[i];

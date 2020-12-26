@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexerCore.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 13:15:48 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 03:20:47 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 11:56:18 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char *get_pipe_agr(char *buf, t_mystruct *v)
         }
 		if ((position = aggr_function(buf, &v->coord, &v->tokenz)) == -1)
 			return (NULL);
-		return (buf + position);
+		return (buf + position + 1);
 	}
 	return (buf);
 }
@@ -78,15 +78,15 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 		}
 		return (buf + position);
 	}
-	if (*buf && !ft_is_there(METACHARACTER, *buf)) // word
+	if (*buf && !ft_is_there(METACHARACTER, *buf) && *buf != '$') // word
 	{
-		if (is_quote(v->c = valid_string_quot(buf)) && v->c) // before quote " or ' joining
+		if (is_quote(v->c = valid_string_quot(buf))) // before quote " or ' joining
 		{
 			if (!(v->quot = quote_handling(buf, v->c, 0))) //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
 				return (NULL);
 		    buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
 		}
-		else if (buf && *(buf)) // simple command simple_word_function(char *,  t_lexer **, t_pointt *, size_t buf_len)
+		else if (buf && *(buf))
 			buf += simple_word_function(buf, &v->tokenz, &v->coord, v->size);
 	}
 	return (buf);

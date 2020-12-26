@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/26 03:17:20 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 11:49:55 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,38 +106,25 @@ int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size
     char tmp[1024];
     char *temp;
 
-    i = 0;
     temp = NULL;
-    if (buf[i] && ft_isdigit(buf[i]) && ft_is_there(AGG_REDI, buf[i + 1]) && buf[i + 1] != '\0')
+    if (*buf && ft_isdigit(*buf) && ft_is_there(AGG_REDI, *(buf + 1)) && *(buf + 1) != '\0')
     {
-        temp = get_left_fd_(buf + i);
+        temp = get_left_fd_(buf);
         append_list_redi(token_node, ft_strdup(temp), L_REDIR, coord);
-        i = i + ft_strlen(temp) - 1;
+        i = ft_strlen(temp);
         ft_strdel(&temp);
     }
-    else if (buf + i)
+    else if (*buf)
     {
         j = 0;
-        while (buf[i + j] && !ft_is_there(METACHARACTER, buf[i + j]) && !ft_is_aggr(buf[i + j]) && buf[i + j] != '|')
+        while (buf[j] && !ft_is_there(METACHARACTER, buf[j]) && !ft_is_aggr(buf[j]) && buf[j] != '|')
         {
-            if (buf[i + j] == '\\')
-            {
-                if (buf[i + j + 1] == '\\')
-                {
-                    tmp[j] = buf[i + j];
-                    j++;
-                }
-                i++;
-                continue ;
-            }
-            tmp[j] = buf[i + j];
+            tmp[j] = buf[j];
             j++;
         }
         tmp[j] = '\0';
         append_list(token_node, tmp, WORD, coord);
-        if (buf[i + j] == ';' || buf[i + j] == '<' || buf[i + j] == '>' || buf[i + j] == '|')
-            i--;
-        i = i + ft_strlen(tmp);
+        i = j;
         ft_strclr(tmp);
     }
     return (i);
