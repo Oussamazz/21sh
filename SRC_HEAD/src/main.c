@@ -310,21 +310,23 @@ t_lexer *lexer(char *buf, t_env **env_list, t_pointt *coord)
 	return (token_node);
 }
 */
+
+
+
+
+
 t_quote *quote_handling(char *s, char quote, int start)
 {
+	t_mystruct v;
 	t_quote *quot;
 	t_quote *rec_quote;
-	int i;
-	int j;
-	bool flag;
-	char *tmp;
 
-	i = 0;
-	j = 0;
-	flag = false;
-	quot = (t_quote *)ft_memalloc(sizeof(t_quote));
-	quot->string = ft_strnew(ft_strlen(s));
-	if (s[i] == '\0')
+	ft_bzero(&v, sizeof(t_mystruct));
+	if (!(quot = (t_quote *)ft_memalloc(sizeof(t_quote))))
+		return (NULL);
+	if (!(quot->string = ft_strnew(ft_strlen(s))))
+		return (NULL);
+	if (!*s)
 		return (quote_completion(&quot, quote));
 	while (s[i] != '\0')
 	{
