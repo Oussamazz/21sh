@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:48:56 by macos             #+#    #+#             */
-/*   Updated: 2020/12/17 02:08:38 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 02:57:43 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    ft_free_arr(char **arr)
     if (arr)
     {
         i = 0;
-        while (arr[i])
+        while (arr[i] != NULL)
         {
             ft_strdel(&arr[i]);
             i++;

@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/25 15:11:08 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 03:17:20 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int     quote_handling_function(t_lexer **token_node, t_quote *quot, char q, t_p
     int i;
 
     i = 0;
-    if (!quot)
+    if (!quot || !*quot->string)
         return (1);
     if (q == '\'')
         append_list(token_node, quot->string, SQUOT, coord);

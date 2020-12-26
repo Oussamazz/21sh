@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by macos             #+#    #+#             */
-/*   Updated: 2020/12/24 18:52:27 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 03:01:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ char        *get_bin_file(char **cmd,  t_env **env) //       cmd =  ls  -la     
     char *bin_file;
     char *env_path_value;
     char **dirs;
+    char tmp[MAX_INDEX];
 
     bin_file = NULL;
     env_path_value = NULL;
@@ -114,7 +115,8 @@ char        *get_bin_file(char **cmd,  t_env **env) //       cmd =  ls  -la     
         i = -1;
         while (dirs[++i] != NULL)
         {
-            if (!(bin_file = ft_strjoin(ft_strcat(dirs[i], "/"), cmd[0])))
+            ft_strcpy(tmp, dirs[i]);
+            if (!(bin_file = ft_strjoin(ft_strcat(tmp, "/"), cmd[0])))
                 return (NULL);
             if (access(bin_file, F_OK) == 0)
                 break ;

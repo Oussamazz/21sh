@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 05:53:38 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 02:46:46 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,14 @@ t_quote    *quote_completion(t_quote **data, char quote)
     new_buff = NULL;
     str = NULL;
     string = NULL;
-    if (data) // quote_completion_check(t_quote ** data)
-    {
-        tmp_string = (*data)->string;
-        if (tmp_string)
-            string = ft_strjoin(tmp_string, "\n");
-        if (tmp_string)
-            ft_strdel(&tmp_string);
-    }
-    while (string)
+    if (!data || !*data)
+        return (NULL);
+    tmp_string = (*data)->string;
+    if (tmp_string)
+        string = ft_strjoin(tmp_string, "\n");
+    if (tmp_string)
+        ft_strdel(&tmp_string);
+    while (string && data)
     {
         if (g_clt_c || g_clt_D)
             return (NULL);
@@ -96,14 +95,12 @@ t_quote    *quote_completion(t_quote **data, char quote)
         if (ft_strchr(new_buff, quote) && string)
         {
             t_quote *tmp = *data;
-            my_quot = quote_handling(string, quote, 1);
-            if (my_quot)
-            {
-                ft_memdel((void**)&tmp);
-                ft_strdel(&new_buff);
-                ft_strdel(&string);
-                return ((my_quot));
-            }
+            if (!(my_quot = quote_handling(string, quote, 1)))
+                return (NULL);
+            ft_memdel((void**)&tmp);
+            ft_strdel(&new_buff);
+            ft_strdel(&string);
+            return ((my_quot));
         }
         ft_strdel(&new_buff);
     }

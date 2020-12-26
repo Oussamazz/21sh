@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 04:36:34 by oelazzou          #+#    #+#             */
-/*   Updated: 2019/05/19 19:05:51 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 03:13:56 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,25 @@ char				**ft_strsplit(char const *s, char c)
 	char		**str;
 	int			i;
 
-	if (!s)
+	if (!s || !*s)
 		return (NULL);
 	word_countx = word_count((char *)s, c);
-	str = (char**)malloc(sizeof(char*) * word_countx + 1);
+	if (!(str = (char**)ft_memalloc(sizeof(char*) * word_countx + 1)))
+		return (NULL);
 	i = 0;
 	if (!str)
-		return (NULL);
+		return (str);
 	while (word_countx-- && *s)
 	{
 		while (*s == c && *s != '\0')
 			s++;
-		str[i] = ft_strsub((char *)s, 0, word_len((char*)s, c));
+		if (!(str[i] = ft_strsub((char *)s, 0, word_len((char*)s, c))))
+			return (str);
 		if (!str[i])
-			return (NULL);
+			return (str);
 		s = s + word_len((char *)s, c);
 		i++;
 	}
-	str[i] = 0;
+	str[i] = NULL;
 	return (str);
 }

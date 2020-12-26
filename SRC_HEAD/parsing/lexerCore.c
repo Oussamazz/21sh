@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 13:15:48 by macos             #+#    #+#             */
-/*   Updated: 2020/12/25 15:37:18 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 03:20:47 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 	}
 	if (*buf && !ft_is_there(METACHARACTER, *buf)) // word
 	{
-		if (is_quote(v->c = valid_string_quot(buf))) // before quote " or ' joining
+		if (is_quote(v->c = valid_string_quot(buf)) && v->c) // before quote " or ' joining
 		{
 			if (!(v->quot = quote_handling(buf, v->c, 0))) //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
 				return (NULL);

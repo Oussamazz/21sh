@@ -243,13 +243,6 @@ char **split_redir(char *str)
             }
             else if (ft_isascii(str[i]) && active_word) // breaker
                 break ;
-            // else // error handling!
-            // {
-            //      ft_putendl_fd("dkhlt hhhhh", 1);
-            //     ft_free_arr(agg);
-            //     err_ret("21sh: syntax error near unexpected token `> or <'\n", NULL);
-            //     return (NULL);
-            // }
             i++;
         }
     }

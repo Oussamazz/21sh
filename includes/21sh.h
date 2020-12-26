@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aait-ihi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 01:06:58 by aait-ihi         ###   ########.fr       */
+/*   Updated: 2020/12/26 03:30:11 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ typedef enum e_type
 
 typedef struct s_quote
 {
-	char *string;
-	size_t size;
+	char	*string;
+	size_t	size;
 }               t_quote;
 
 /*

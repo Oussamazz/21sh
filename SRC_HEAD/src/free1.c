@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/25 12:40:02 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 02:50:33 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void    ft_free_tokenz(t_lexer **head)
     return ;
 }
 
-void free_vars(t_mystruct *v, int *to_free,int size)
+void free_vars(t_mystruct *v, int *to_free, int size)
 {
     int i = 0;
     while(i < size)

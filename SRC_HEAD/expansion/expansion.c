@@ -23,12 +23,10 @@ int get_size_expansion(char *exp)
         return (len = 1);
     while (exp[i] != '\0')
     {
-        if ((i && exp[i] == '$') || (exp[i] == ';' && exp[i - 1] != '\\') || exp[i] == '|' || exp[i] == '/')
+        if ((i && exp[i] == '$') || (exp[i] == ';') || exp[i] == '|' || exp[i] == '/')
             break ;
-        if (is_blank(exp[i]) || ft_is_there(AGG_REDI, exp[i]) || (is_quote(exp[i]) && exp[i - 1] != '\\'))
+        if (is_blank(exp[i]) || ft_is_there(AGG_REDI, exp[i]) || (is_quote(exp[i])))
             break ;
-        if (ft_isalnum(exp[i]) || exp[i] == 47)
-            len++;
         else if (ft_isascii(exp[i]))
             len++;
         i++;
@@ -42,17 +40,18 @@ static char	*ft_strjoin_until_char(char const *s1, char const *s2, char c)
 {
 	char	*str;
 	size_t	lenstr;
+    size_t  new_strlen;
 
     lenstr = 0;
     str = NULL;
+    new_strlen = ft_strlen_char_2((char *)s2, c, '$');
 	if (s1 && s2)
 	{
-		lenstr = ft_strlen((char *)s1) + ft_strlen_char_2((char *)s2, c, '$');
-		str = ft_strnew(lenstr);
-		if (str == NULL)
-			return (NULL);
+		lenstr = ft_strlen((char *)s1) + new_strlen;
+		if (!(str = ft_strnew(lenstr)))
+            return (NULL);
 		str = ft_strcpy(str, s1);
-		str = ft_strncat(str, s2, ft_strlen_char_2((char *)s2, c, '$'));
+		str = ft_strncat(str, s2, new_strlen);
 		return (str);
 	}
 	return (NULL);
@@ -60,7 +59,7 @@ static char	*ft_strjoin_until_char(char const *s1, char const *s2, char c)
 
 int         ft_is_expansion(char *str)
 {
-    if (str && *str)
+    if (str)
     {
         if (str[0] == '$' && ft_isalnum(str[1]) && !is_quote(str[1]))
             return (1);
@@ -70,9 +69,9 @@ int         ft_is_expansion(char *str)
 
 int     ft_is_tilde(char *str)
 {
-    if (str && *str)
+    if (str)
     {
-        if (((str[0] == '~' && ft_isascii(str[1]) && !is_quote(str[1]))) ||
+        if (((str[0] == '~' && !is_quote(str[1]))) ||
          (str[0] == '~' && str[1] == 47))
             return (1);
     }
@@ -172,12 +171,11 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
     cor->no_space = 0;
     if (buf && *(buf + i))
     {
-        data_size = get_size_expansion(buf);
-        if (data_size > 0)
+        if ((data_size = get_size_expansion(buf)) > 0)
         {
             if (!(data = ft_strnew(data_size)))
                 return (0);
-            if (buf[i] == '$')
+            if (buf[i] == '$') // echo $HOME
                 buf++;
             j = 0;
             while (buf[i] && (ft_isalnum(buf[i]) || (buf[i] == '~' && i == 0)) && i < data_size)
