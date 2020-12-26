@@ -16,9 +16,9 @@ SRC_EXPANSION = expand.o expansion.o
 
 SRC_PARSING = ast.o check_grammar.o lexer.o lexerCore.o quote_completion.o split.o syntax_checker.o
 
-SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o pipes.o redirections.o
+SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o
 
-SRC_MAIN =	envirement.o error_handler.o execute.o execute_cmd.o fork.o free1.o\
+SRC_MAIN =	envirement.o error_handler.o execute.o execute_cmd.o free1.o\
 			ft_free.o his.o main.o node.o printing.o utils.o utils2.o
 
 SRC_READLINE = ft_readline.o history.o keys_alt.o move_cursor.o selection.o 
@@ -39,7 +39,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECT) $(INC)
 	@make -sC $(LIBFT_PATH)
-	@gcc $(FLAGS) -v $(OBJECT) $(INCLUDE) -L $(LIBFT_PATH) -lft -ltermcap -o $(NAME)
+	@gcc $(FLAGS) $(OBJECT) $(INCLUDE) -L $(LIBFT_PATH) -lft -ltermcap -o $(NAME)
 	@echo "\033[1m\033[35m|⩺▾ 21sh Successfully Created ☯ ⩹|\033[0m"
 
 
