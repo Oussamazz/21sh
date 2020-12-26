@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aait-ihi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 11:03:56 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 18:29:13 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 01:16:32 by aait-ihi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char    *here_doc(char *delim)
         prompt_here_doc();
         if(!(buffer = ft_readline(1)))
             return (NULL);
-        //add_to_his(buffer, &g_his, 1);
         if (ft_strequ(buffer, delim))
         {
             ft_strdel(&buffer);
