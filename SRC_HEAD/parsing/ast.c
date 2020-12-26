@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 21:51:07 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 05:12:39 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 12:11:53 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                         ret[i] = ft_strdup(token->data);
                     else
                     {
-                        if (token->next && token->next->type == token->type && token->next->data)
+                        if (token->next && token->next->type == token->type && token->next->data) // $HOME $TERM $PWD
                         {
                             ret[i] = ft_strjoin(token->data, token->next->data);
                             token = token->next;
