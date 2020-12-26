@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 13:15:48 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 11:56:18 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 14:42:05 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static char *get_tild_dolar(char *buf, t_mystruct *v)
 {
 	int position;
 
+	if (*buf == '$' && *(buf + 1) == '$')
+		return (buf);
 	if ((*buf == '$' || *buf == '~') && !(*buf == '$' && buf[1] == '/') && (*buf != buf[1]) && !is_quote(buf[1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
 	{
 		if ((position = expansion_function(buf, &v->tokenz, &v->coord, v->env_list)) > 0)
@@ -78,7 +80,7 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 		}
 		return (buf + position);
 	}
-	if (*buf && !ft_is_there(METACHARACTER, *buf) && *buf != '$') // word
+	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$') // word
 	{
 		if (is_quote(v->c = valid_string_quot(buf))) // before quote " or ' joining
 		{
@@ -92,6 +94,14 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 	return (buf);
 }
 
+static char *ignore_banks(char *str)
+{
+	if (!str)
+		return (NULL);
+	while (is_blank(*str))
+		str++;
+	return (str);
+}
 
 t_lexer *lexer(char *buf, t_env **env_list, t_pointt *coord)
 {
@@ -103,8 +113,7 @@ t_lexer *lexer(char *buf, t_env **env_list, t_pointt *coord)
 	v.size = ft_strlen(buf);
 	while (*buf)
 	{
-		while (*buf && is_blank(*buf))
-			buf++;
+		buf = ignore_banks(buf);
 		if ((*buf == ';' && buf[1] == ';') || (*buf == ';' && !v.tokenz))
 			return ((t_lexer *)err_ret("21sh: parse error near `;'\n", NULL));
         if((buf = get_splitter(buf, &v)) == NULL)
@@ -115,6 +124,7 @@ t_lexer *lexer(char *buf, t_env **env_list, t_pointt *coord)
             return(NULL);
         if((buf = get_qoute_word(buf, &v)) == NULL)
             return(NULL);
+		buf = ignore_banks(buf);
 	}
 	return (v.tokenz);
 }

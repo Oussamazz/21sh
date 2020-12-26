@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 01:33:51 by aait-ihi          #+#    #+#             */
-/*   Updated: 2020/12/26 11:16:16 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 15:17:36 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t countall_arr(char **agg, size_t delime_len) // calc all characters
     return (-1);
 }
 
-char    *redirection_varname(char ***arr, char *str, int *i)
+char *redirection_varname(char ***arr, char *str, int *i)
 {
     size_t c_len;
     char **agg;
@@ -41,7 +41,7 @@ char    *redirection_varname(char ***arr, char *str, int *i)
 
     c_len = 0;
     agg = *arr;
-    while(!is_blank(str[*i + c_len]) && str[*i + c_len] != ';' && str[*i + c_len] != '|' && str[*i + c_len] && !ft_is_there(AGG_REDI, str[*i + c_len])) // word expansions needed!!
+    while (!is_blank(str[*i + c_len]) && str[*i + c_len] != ';' && str[*i + c_len] != '|' && str[*i + c_len] && !ft_is_there(AGG_REDI, str[*i + c_len])) // word expansions needed!!
         c_len++;
     if (str[*i + c_len] == '&')
         error_message("21sh: Error[1]: control jobs not handled yet...\n", 1);
@@ -157,7 +157,7 @@ static int do_spliting(t_split_redir *v, char *str)
     if ((str[v->i] == '>' || str[v->i] == '<') && str[v->i] == str[v->i + 1]) // for  >> or << right_fd
         return (split_herdoc(v, str));
     if (str[v->i] == '&')
-        return (split_redir_fd(v, str));                               // ya ima retunr ola break ola kamal 3adi
+        return (split_redir_fd(v, str));                                // ya ima retunr ola break ola kamal 3adi
     if ((str[v->i] == '>' || str[v->i] == '<') || str[v->i + 1] == '&') // for >&? or <&?
         return (split_agg(v, str));
     if (is_quote(str[v->i]) && str[v->i - 1] != '\\')
@@ -170,8 +170,8 @@ static int do_spliting(t_split_redir *v, char *str)
     if (ft_isascii(str[v->i]) && (v->i < v->len) && !v->active_word && (!ft_is_there(AGG_REDI, str[v->i + 1]) || !str[v->i + 1]))
         return (split_varname(v, str));
     if (ft_isascii(str[v->i]) && v->active_word) // breaker
-        return(Break);
-    return(Normal);
+        return (Break);
+    return (Normal);
 }
 
 char **split_redir(char *str)
@@ -179,21 +179,21 @@ char **split_redir(char *str)
     t_split_redir v;
 
     ft_bzero(&v, sizeof(t_split_redir));
-    v.agg_len = wordinbuff_size(str) + 1;                                      // 4
+    v.agg_len = wordinbuff_size(str) + 1;                                  // 4
     if (str && (v.agg = (char **)ft_memalloc(sizeof(char *) * v.agg_len))) // word size must be calculated!! (agg_len?)
     {
         v.len = ft_strlen(str);
         v.agg_len_str = v.len;
         while (v.i < v.len && str[v.i] != '\0' && v.j < v.agg_len)
         {
-            v.status =  do_spliting(&v,str);
-            if(v.status == Returnagg)
-                return(v.agg);
-            if(v.status == ReturnNull)
-                return(NULL);
-            if(v.status == Break)
+            v.status = do_spliting(&v, str);
+            if (v.status == Returnagg)
+                return (v.agg);
+            if (v.status == ReturnNull)
+                return (NULL);
+            if (v.status == Break)
                 break;
-            if(v.status == Continue)
+            if (v.status == Continue)
                 continue;
             v.i++;
         }

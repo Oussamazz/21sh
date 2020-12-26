@@ -136,6 +136,16 @@ size_t ft_strlen_char_2(char *s, char c, char c2)
     return (len);
 }
 
+size_t ft_strlen_delim(char *s, char *delim)
+{
+    size_t len;
+
+    len = 0;
+    while (s[len] != '\0' && !ft_is_there(delim, s[len]))
+        len++;
+    return (len);
+}
+
 size_t ft_strlen_blank(char *s)
 {
     size_t len;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_completion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 18:57:25 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 02:46:46 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 15:26:16 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,12 @@ t_quote    *quote_completion(t_quote **data, char quote)
     char *string;
     char *new_buff;
     char *tmp_string;
+    int flag;
 
     new_buff = NULL;
     str = NULL;
     string = NULL;
+    flag = 0;
     if (!data || !*data)
         return (NULL);
     tmp_string = (*data)->string;
@@ -95,11 +97,15 @@ t_quote    *quote_completion(t_quote **data, char quote)
         if (ft_strchr(new_buff, quote) && string)
         {
             t_quote *tmp = *data;
+            if (*string == quote)
+                flag = 1;
             if (!(my_quot = quote_handling(string, quote, 1)))
+            {
+                ft_memdel((void**)&tmp);
+                ft_strdel(&new_buff);
+                ft_strdel(&string);
                 return (NULL);
-            ft_memdel((void**)&tmp);
-            ft_strdel(&new_buff);
-            ft_strdel(&string);
+            }
             return ((my_quot));
         }
         ft_strdel(&new_buff);

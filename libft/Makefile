@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: macos <macos@student.42.fr>                +#+  +:+       +#+         #
+#    By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/30 03:33:28 by oelazzou          #+#    #+#              #
-#    Updated: 2020/12/23 05:27:37 by macos            ###   ########.fr        #
+#    Updated: 2020/12/26 14:33:03 by oelazzou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ FILE = ft_atoi.c \
 	   ft_putstr_w2space.c \
 	   ft_putnbr_wspace.c \
 	   ft_strrchr_path.c \
+	   ft_strlen_delim.c \
 	   ft_putstr_c_str.c \
 	   is_blank.c \
 	   free_two_dim.c \

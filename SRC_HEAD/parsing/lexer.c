@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/26 11:49:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 14:22:26 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
         ft_putendl_fd("21sh: syntax error near unexpected token `newline'", 2);
         return (-1);
     }
-    buf_dup = ft_strdup(buf);
+    if (!(buf_dup = ft_strdup(buf)))
+        return (-1);
     if (!(agg = split_redir(buf_dup)))
         return (-1);
     i = i + redirerction_parse(token_node, agg, coord) - 1;

@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 12:03:29 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 14:44:45 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int get_size_expansion(char *exp)
 
     i = 0;
     len = 0;
-    if (((exp[0] == '$' && !exp[1]) || (exp[0] == '~' && (!exp[1] || exp[1] == '$'))))
+    if (((exp[0] == '$' && !exp[1]) || (exp[0] == '~' && (!exp[1] || exp[1] == '$' || exp[1] == '|' || ft_is_there(AGG_REDI, exp[1])))))
         return (len = 1);
     while (exp[i] != '\0')
     {
@@ -174,20 +174,20 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
         if ((data_size = get_size_expansion(buf)) > 0)
         {
             if (!(data = ft_strnew(data_size)))
-                return (0);
-            if (buf[i] == '$') // echo $HOME
+                return (-1);
+            if (buf[i] == '$')
                 buf++;
             j = 0;
             while (buf[i] && (ft_isalnum(buf[i]) || (buf[i] == '~' && i == 0)) && i < data_size)
             {
-                if (i == 0 && (ft_is_tilde(buf + i) || (buf[i] == '~' && buf[i - 1] != '\\')))
+                if (i == 0 && (ft_is_tilde(buf + i) || (buf[i] == '~')))
                 {
                     tilde_exp(buf + i, &env_value, env_list);
                     if (env_value)
                         append_list(token_node, env_value, EXPANSION, cor);
                     ft_strdel(&env_value);
                     ft_strdel(&data);
-                    return (ft_strlen_char_2(buf + i, ' ', '$'));
+                    return (ft_strlen_delim(buf, " $|><\n\t"));
                 }
                 else
                     data[j++] = buf[i];
