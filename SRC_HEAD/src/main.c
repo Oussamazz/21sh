@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 03:53:09 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 16:00:54 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,27 @@ static void init_coord(t_pointt *cor)
 	return;
 }
 
-int main(int ac, char **av, char **env)
+static void	flag_g(char **av, t_env **env_list, time_t *now)
 {
 	char *user;
+
+	user = NULL;
+	if (!(user = get_value_expansion("USER", env_list)))
+		error_message("21sh: Error: USER NOT FOUND.\n", 1);
+	starting_message(av, &user, now);
+	return ;
+}
+
+int main(int ac, char **av, char **env)
+{
 	time_t now;
 	t_env *env_list;
 
 	env_list = NULL;
-	stock_env(env, &env_list); // ft-getenv
+	stock_env(env, &env_list);
 	time(&now);
-	user = NULL;
 	if (ac > 1 && env_list)
-	{
-		if (!(user = get_value_expansion("USER", &env_list)))
-			error_message("21sh: Error: USER NOT FOUND\n", 1); // free
-		starting_message(av, &user, &now);
-	}
+		flag_g(av, &env_list, &now);
 	if (!(g_tty_name = ttyname(0)))
 		return (1); // free
 	source_sh(&env_list);
@@ -144,8 +149,6 @@ void print_his(t_his *g_his)
 	}
 }
 
-
-
 void source_sh(t_env **head)
 {
 	t_mystruct v;
@@ -171,148 +174,6 @@ void source_sh(t_env **head)
 			add_to_history(v.tmp = join_all_bufs(g_his));
 		if (v.status[1] > 0 && v.ast && head && v.ast->cmd)
 			v.status[0] = execute(v.ast, head);
-		free_vars(&v,(int[]){F_TMP,F_TOKENZ,F_AST,F_STR,F_G_HIS},5);
+		free_vars(&v,(int[]){F_TMP, F_TOKENZ, F_AST, F_STR, F_G_HIS}, 5);
 	}
 }
-
-
-/*
-static int func_comp1(char *buf, t_lexer **token_node, t_env **env_list, t_pointt *coord)
-{
-	int i;
-	int position;
-
-	position = 0;
-	i = 0;
-	if (buf[i] == ';')
-	{
-		if ((position = sep_function(buf + i, token_node, coord)) > 0)
-			i = i + position - 1;
-		else
-		{
-			ft_free_tokenz(token_node);
-			return (-1);
-		}
-	}
-	else if ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') && (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
-	{
-		if ((position = expansion_function(buf, token_node, coord, env_list)) > 0)
-			i = i + position - 1;
-		else
-		{
-			ft_free_tokenz(token_node);
-			return (-1);
-		}
-	}
-	return (i);
-}
-
-static int fun_comp2(char *buf, t_lexer **token_node, t_pointt *coord)
-{
-	int i;
-	int position;
-
-	position = 0;
-	i = 0;
-	if (buf[i] && ft_is_there(PIPE, buf[i])) //-> int    pipe_function (char *, t_pointt *, t_lexer **)
-	{
-		if ((position = parse_pipe(token_node, buf + i - 1, coord)))
-			i = i + position - 1;
-		else
-			return (-1);
-	}
-	else if (ft_is_there(AGG_REDI, buf[i]) && buf[i]) //-> void  aggr_functioin(char *, t_pointt *, t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
-	{
-		if (!*token_node)
-			return (print_error_sym(AGGR_SYM));
-		if ((position = aggr_function(buf, coord, token_node)) == -1)
-			return (-1);
-		else
-			i += position;
-	}
-	return (i);
-}
-
-static int fun_comp3(char *buf, t_lexer **token_node, t_pointt *coord, size_t buf_len)
-{
-	int i;
-	int position;
-	char q;
-	t_quote *quot;
-
-	i = 0;
-	position = 0;
-	if ((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)
-	{
-		position = quote_function(buf + i, token_node, coord);
-		if (position < 0)
-		{
-			if (!g_clt_c)
-				ft_putstr_c_str("21sh: unexpected EOF while looking for matching `", buf[i], "\'\n", 2);
-			return (-1);
-		}
-		i += position;
-	}
-	else if (!ft_is_there(METACHARACTER, buf[i]) && buf[i] && !is_quote(buf[i])) // word
-	{
-		if (is_quote(q = valid_string_quot(buf + i)) || buf[i] == '\\') // before quote " or ' joining
-		{
-			if (!(quot = quote_handling(buf + i, q, 0))) //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
-				return (-1);
-			i += quote_handling_function(token_node, quot, q, coord);
-		}
-		else if (buf + i && *(buf + i)) // simple command simple_word_function(char *,  t_lexer **, t_pointt *, size_t buf_len)
-			i += simple_word_function(buf + i, token_node, coord, buf_len);
-	}
-	return (i);
-}
-
-t_lexer *lexer(char *buf, t_env **env_list, t_pointt *coord)
-{
-	t_mystruct v;
-	// int i;
-	// int j;
-	// int position = 0;
-	// char q;
-	// t_lexer *token_node;
-	// t_quote *quot;
-
-	// token_node = NULL;
-	// quot = NULL;
-	// i = 0;
-	
-	ft_bzero(&v, sizeof(t_mystruct));
-	size_t buf_len = ft_strlen(buf);
-	while (buf[v.i] != '\0' && v.i < buf_len)
-	{
-		while (buf[v.i] && is_blank(buf[i]))
-			v.i++;
-		if ((buf[i] == ';' && buf[i + 1] == ';') || (buf[i] == ';' && !v.tokenz))
-			return ((t_lexer *)err_ret("21sh: parse error near `;'\n", NULL));
-		if (buf[i] == ';' || ((buf[i] == '$' || buf[i] == '~') && !(buf[i] == '$' && buf[i + 1] == '/') &&
-							  (buf[i] != buf[i + 1]) && (i == 0 || buf[i - 1] != '\\') && !is_quote(buf[i + 1])))
-		{
-			if ((position = func_comp1(buf + i, &token_node, env_list, coord)) != -1)
-				i += position;
-			else
-				return (NULL);
-		}
-		else if ((buf[i] && ft_is_there(PIPE, buf[i])) || (ft_is_there(AGG_REDI, buf[i]) && buf[i]))
-		{
-			if ((position = fun_comp2(buf + i, &token_node, coord)) != -1)
-				i += position;
-			else
-				return (NULL);
-		}
-		else if (((buf[i] == '\'' || buf[i] == '\"') || (((buf[i] == '$' && is_quote(buf[i + 1]))) && (i == 0 || buf[i - 1] != '\\') && (i == 0 || buf[i - 1] == ';'))) ||
-				 (!ft_is_there(METACHARACTER, buf[i]) && buf[i] && !is_quote(buf[i])))
-		{
-			if ((position = fun_comp3(buf + i, &token_node, coord, buf_len)) != -1)
-				i += position;
-			else
-				return (NULL);
-		}
-		i++;
-	}
-	return (token_node);
-}*/

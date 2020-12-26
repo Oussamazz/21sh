@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexerCore.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 13:15:48 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 14:42:05 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 16:05:54 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char *get_tild_dolar(char *buf, t_mystruct *v)
 
 	if (*buf == '$' && *(buf + 1) == '$')
 		return (buf);
-	if ((*buf == '$' || *buf == '~') && !(*buf == '$' && buf[1] == '/') && (*buf != buf[1]) && !is_quote(buf[1])) //-> int expansion_function(char *, t_lexer **, t_pointt *, t_env **)
+	if ((*buf == '$' || *buf == '~') && !(*buf == '$' && buf[1] == '/') && (*buf != buf[1]) && !is_quote(buf[1]))
 	{
 		if ((position = expansion_function(buf, &v->tokenz, &v->coord, v->env_list)) > 0)
 			return(buf + position);
@@ -46,12 +46,12 @@ static char *get_pipe_agr(char *buf, t_mystruct *v)
 	int position;
 
 	position = 0;
-	if (*buf && ft_is_there(PIPE, *buf)) //-> int    pipe_function (char *, t_pointt *, t_lexer **)
+	if (*buf && ft_is_there(PIPE, *buf))
 	{
         append_list_pipe(&v->tokenz, ft_strdup("|"), PIPE_SYM, &v->coord);
 		return (buf + 1);
 	}
-	else if (*buf && ft_is_there(AGG_REDI, *buf)) //-> void  aggr_functioin(char *, t_pointt *, t_lexer **, int *)            ||&& !check_quoting(&token_node, SQUOT, coord->aggr_index) && !check_quoting(&token_node, DQUOT, coord->aggr_index)
+	else if (*buf && ft_is_there(AGG_REDI, *buf))
 	{
 		if (!v->tokenz)
         {
@@ -69,9 +69,9 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 {
 	int position;
 
-	if (is_quote(*buf)) //->      int     quote_function(char *buf, t_lexer **,t_pointt *, t_env **env_list)
+	if (is_quote(*buf))
 	{
-		position = quote_function(buf, &v->tokenz, &v->coord);
+		position = quote_function(buf, &v->tokenz, &v->coord); // echo "sddf
 		if (position < 0)
 		{
 			if (!g_clt_c)
@@ -80,11 +80,11 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 		}
 		return (buf + position);
 	}
-	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$') // word
+	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$')
 	{
-		if (is_quote(v->c = valid_string_quot(buf))) // before quote " or ' joining
+		if (is_quote(v->c = valid_string_quot(buf)))
 		{
-			if (!(v->quot = quote_handling(buf, v->c, 0))) //->    int     quote_handling_function(t_lexer **, t_quote *, char quote, t_pointt *)
+			if (!(v->quot = quote_handling(buf, v->c, 0)))
 				return (NULL);
 		    buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
 		}

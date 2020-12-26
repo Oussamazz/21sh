@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 02:38:24 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 15:21:36 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 18:56:13 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ t_quote *quote_handling(char *s, char quote, int start)
 	//t_mystruct v;
 	t_quote *quot;
 	t_quote *rec_quote;
-	int i = 0;
-	int j = 0;
-	bool flag = false;
+	int i;
+	int j;
+	int flag = 0;
 	char *tmp;
 
 	tmp = NULL;
@@ -40,55 +40,50 @@ t_quote *quote_handling(char *s, char quote, int start)
 		return (NULL);
 	if (!(quot->string = ft_strnew(ft_strlen(s))))
 		return (NULL);
-	if (*s == quote)
-		return (quot = init(&quot));
-	//ft_bzero(&v,sizeof(t_mystruct));
+	quot->size = 0;
 	if (!*s)
 		return (quote_completion(&quot, quote));
+	j = 0;
+	i = 0;
 	while (*s)
 	{
-		if (s[i] != quote && start)
+		if (s[i] != quote && flag == 0)
 		{
 			quot->string[j++] = s[i];
-			flag = false;
+			flag = 0;
 		}
-		// else if (s[i] == '\\' && (i == 0 || s[i - 1] != '\\')) // quote != '\''
-		// {
-		// 	if (s[i + 1] != '\"' && s[i + 1] != '\'' && s[i + 1] != '$' && start)
-		// 		quot->string[j++] = s[i];
-		// 	flag = true;
-		// }
-		else if (is_quote(s[i]) && flag == false)
+		else if (s[i] == quote && flag == 0 && start) // "sdfdsf";
 		{
-			if (s[i + 1] == '>' || s[i + 1] == '<' || s[i + 1] == '|')
-				i = i + (ft_strchr(s + i, quote) - (s + i));
-			else if ((!is_blank(s[i + 1]) || s[i + 1] == '\n') && (!ft_is_there(METACHARACTER, s[i + 1]) || s[i + 1] == '\n'))
+			flag = 1;
+			if (s[i + 1] && (!is_blank(s[i + 1]) || s[i + 1] == '\n') &&
+			 (s[i + 1] != ';' || s[i + 1] == '\n') && s[i + 1] != '|')
 			{
-				//ft_putendl_fd(s + i, 1);
-				if (!(rec_quote = quote_handling(s + i + 1, s[i], !start)))
-					return (NULL);
+				if (is_quote(s[i + 1]))
+					start = 1;
+				else
+					start = 0;
+				if (start)
+				{
+					if (!(rec_quote = quote_handling(s + i + 1, s[i + 1], start)))
+						return (NULL);
+				}
+				else
+				{
+					if (!(rec_quote = quote_handling(s + i + 1, quote, start)))
+						return (NULL);
+				}
 				tmp = quot->string;
-				quot->string = ft_strjoin(quot->string, rec_quote->string);
+				if (rec_quote->string)
+					quot->string = ft_strjoin(quot->string, rec_quote->string);
 				i = i + rec_quote->size + 1;
 				ft_strdel(&(rec_quote->string));
 				ft_memdel((void **)&rec_quote);
 				ft_strdel(&tmp);
 				break;
 			}
-			else if (s[i] != quote || !start)
-				return (quote_completion(&quot, s[i]));
-			i++;
+			else
+				i += 1;
 			break;
-		}
-		else
-		{
-			quot->string[j++] = s[i];
-			if (s[i + 1] == '>' || s[i + 1] == '<')
-			{
-				i++;
-				break;
-			}
-			flag = false;
 		}
 		if (!s[i + 1] && start)
 			return (quote_completion(&quot, quote));

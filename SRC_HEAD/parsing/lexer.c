@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/26 14:22:26 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/26 16:13:59 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,18 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord)
 
     quot = NULL;
     i = 0;
-    if (buf[i] == '$')
-        i++;
-    if (!(quot = quote_handling(buf + i + 1, buf[i], 1)))
+    if (!(quot = quote_handling(buf + 1, buf[i], 1)))
         return (-1);
     if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && ret_last_node_type(token_node) == AGGR_SYM)
         append_list_redi(token_node, ft_strdup(quot->string), R_REDIR, coord);
     else if (buf[i] == '\'')
         append_list(token_node, quot->string, SQUOT, coord);
-    else
+    else if (buf[i] == '\"')
         append_list(token_node, quot->string, DQUOT, coord);
-    i += quot->size; // -1
+    i = quot->size;
     ft_strdel(&(quot->string));
     ft_memdel((void**)&quot);
-    return (i + 1); // qout position == size + 1
+    return (i + 1);
 }
 
 int     quote_handling_function(t_lexer **token_node, t_quote *quot, char q, t_pointt *coord)

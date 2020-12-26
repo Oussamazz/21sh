@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/12/22 01:25:42 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/26 16:13:18 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,17 @@ void    append_list_redi(t_lexer **root, char *data, t_type type, t_pointt *cor)
     t_lexer *ret;
 
     last = *root;
-
-    ret = (t_lexer*)ft_memalloc(sizeof(t_lexer));
-    if (ret == NULL)
+    if (!(ret = (t_lexer*)ft_memalloc(sizeof(t_lexer))))
         return ;
     ret->data = data;
     ret->type = type;
     ret->coor.aggr_index = cor->aggr_index;
-    cor->aggr_index = cor->aggr_index + 1;
-    cor->node_index = cor->node_index + 1;
+    cor->aggr_index += 1;
+    cor->node_index += 1;
     ret->coor.node_index = cor->node_index;
     ret->next = NULL;
     if (last == NULL)
     {
-        if (last->type == AGGR_SYM)
-            ret->coor.aggr_index = 1;
         *root = ret;
         return ;
     }
@@ -104,15 +100,13 @@ void    append_list_pipe(t_lexer **root, char *data, t_type type, t_pointt *cor)
     t_lexer *ret;
 
     last = *root;
-
-    ret = (t_lexer*)ft_memalloc(sizeof(t_lexer));
-    if (ret == NULL)
+    if (!(ret = (t_lexer*)ft_memalloc(sizeof(t_lexer))))
         return ;
     ret->data = data;
     ret->type = type;
     ret->coor.pipe_index = cor->pipe_index;
-    cor->pipe_index = cor->pipe_index + 1;
-    cor->node_index = cor->node_index + 1;
+    cor->pipe_index += 1;
+    cor->node_index += 1;
     ret->coor.node_index = cor->node_index;
     ret->next = NULL;
     if (last == NULL)
