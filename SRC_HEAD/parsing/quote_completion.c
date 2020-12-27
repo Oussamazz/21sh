@@ -75,6 +75,8 @@ t_quote    *quote_completion(t_quote **data, char quote)
     if (!data || !*data)
         return (NULL);
     tmp_string = (*data)->string;
+    // ft_putendl_fd("this is (*data)->string:", 1);
+    // ft_putendl_fd(tmp_string, 1);
     if (tmp_string)
         string = ft_strjoin(tmp_string, "\n");
     if (tmp_string)
@@ -94,18 +96,19 @@ t_quote    *quote_completion(t_quote **data, char quote)
             string = ft_strjoin(string, new_buff);
         if (tmp_string)
             ft_strdel(&tmp_string);
+        ft_putendl_fd("this is string", 1);
+        ft_putendl_fd(string,1);
         if (ft_strchr(new_buff, quote) && string)
         {
             t_quote *tmp = *data;
-            if (*string == quote)
-                flag = 1;
             if (!(my_quot = quote_handling(string, quote, 1)))
             {
-                ft_memdel((void**)&tmp);
+                // ft_memdel((void**)&tmp);
                 ft_strdel(&new_buff);
                 ft_strdel(&string);
                 return (NULL);
             }
+            my_quot->size += (*data)->size + ft_strlen(new_buff) - 1;
             return ((my_quot));
         }
         ft_strdel(&new_buff);
