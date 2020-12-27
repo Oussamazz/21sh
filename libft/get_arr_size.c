@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   get_arr_size.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 11:31:43 by oelazzou          #+#    #+#             */
 /*   Updated: 2020/11/18 11:33:42 by oelazzou            ###   ########.fr       */

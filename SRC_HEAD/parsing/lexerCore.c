@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexerCore.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/25 13:15:48 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 16:05:54 by macos            ###   ########.fr       */
+/*   Created: 2020/12/25 13:15:48 by oelazzou             #+#    #+#             */
+/*   Updated: 2020/12/27 00:48:29 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,13 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 		}
 		return (buf + position);
 	}
-	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$')
+	if ((*buf && !ft_is_there(METACHARACTER, *buf)))
 	{
 		if (is_quote(v->c = valid_string_quot(buf)))
 		{
+			ft_putendl_fd("dkhelt", 1);
+			ft_putchar_fd(v->c,1);
+			ft_putendl_fd("", 1);
 			if (!(v->quot = quote_handling(buf, v->c, 0)))
 				return (NULL);
 		    buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
@@ -94,7 +97,7 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 	return (buf);
 }
 
-static char *ignore_banks(char *str)
+static char *ignore_blanks(char *str)
 {
 	if (!str)
 		return (NULL);
@@ -113,7 +116,7 @@ t_lexer *lexer(char *buf, t_env **env_list, t_pointt *coord)
 	v.size = ft_strlen(buf);
 	while (*buf)
 	{
-		buf = ignore_banks(buf);
+		buf = ignore_blanks(buf);
 		if ((*buf == ';' && buf[1] == ';') || (*buf == ';' && !v.tokenz))
 			return ((t_lexer *)err_ret("21sh: parse error near `;'\n", NULL));
         if((buf = get_splitter(buf, &v)) == NULL)
@@ -124,7 +127,6 @@ t_lexer *lexer(char *buf, t_env **env_list, t_pointt *coord)
             return(NULL);
         if((buf = get_qoute_word(buf, &v)) == NULL)
             return(NULL);
-		buf = ignore_banks(buf);
 	}
 	return (v.tokenz);
 }

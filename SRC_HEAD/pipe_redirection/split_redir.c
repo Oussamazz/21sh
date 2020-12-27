@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 01:33:51 by aait-ihi          #+#    #+#             */
-/*   Updated: 2020/12/26 15:17:36 by oelazzou         ###   ########.fr       */
+/*   Created: 2020/12/26 01:33:51 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/27 01:48:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,8 @@ char **split_redir(char *str)
     t_split_redir v;
 
     ft_bzero(&v, sizeof(t_split_redir));
-    v.agg_len = wordinbuff_size(str) + 1;                                  // 4
-    if (str && (v.agg = (char **)ft_memalloc(sizeof(char *) * v.agg_len))) // word size must be calculated!! (agg_len?)
+    v.agg_len = wordinbuff_size(str) + 1;
+    if (str && (v.agg = (char **)ft_memalloc(sizeof(char *) * v.agg_len)))
     {
         v.len = ft_strlen(str);
         v.agg_len_str = v.len;
@@ -198,7 +198,7 @@ char **split_redir(char *str)
             v.i++;
         }
     }
-    g_agg_len += countall_arr(v.agg, v.delim_len);
     v.agg[v.j] = NULL;
+    g_agg_len += countall_arr(v.agg, v.delim_len);
     return (v.agg);
 }

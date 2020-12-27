@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/21 21:17:08 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 02:50:33 by macos            ###   ########.fr       */
+/*   Created: 2020/11/21 21:17:08 by oelazzou             #+#    #+#             */
+/*   Updated: 2020/12/27 01:18:18 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,6 @@ void    ft_free_his(t_his **g_his)
     }
 }
 
-void    free_quot(t_quote **data)
-{
-    t_quote *my_quote;
-
-    if (data && *data)
-    {
-        my_quote = *data;
-        ft_strdel(&(my_quote->string));
-        free(my_quote);
-        *data = NULL;
-    }
-}
 
 static void    free_list_redir(t_redir *redirections)
 {

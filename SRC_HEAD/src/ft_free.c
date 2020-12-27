@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/01 18:48:56 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 02:57:43 by macos            ###   ########.fr       */
+/*   Created: 2020/12/01 18:48:56 by oelazzou             #+#    #+#             */
+/*   Updated: 2020/12/27 00:56:06 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void    ft_free_arr(char **arr)
             ft_strdel(&arr[i]);
             i++;
         }
-        free(arr);
+        if (arr)
+            free(arr);
         arr = NULL;
     }
 }

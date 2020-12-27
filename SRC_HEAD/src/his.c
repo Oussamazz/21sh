@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   his.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/22 17:44:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/23 04:41:18 by macos            ###   ########.fr       */
+/*   Created: 2020/12/22 17:44:38 by oelazzou             #+#    #+#             */
+/*   Updated: 2020/12/27 01:25:56 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void    add_to_his(char *buffer, t_his **g_his, int flag)
         ret->data = ft_strjoin("\n", buffer);
     else
         ret->data = ft_strdup(buffer);
+    if (!ret->data)
+        return ;
     if (last == NULL)
     {
         *g_his = ret;

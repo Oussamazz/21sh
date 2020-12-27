@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 17:13:38 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 16:00:54 by macos            ###   ########.fr       */
+/*   Created: 2020/12/08 17:13:38 by oelazzou             #+#    #+#             */
+/*   Updated: 2020/12/27 01:26:04 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void init_coord(t_pointt *cor)
 		cor->node_index = 0;
 		cor->node_addr = 0;
 		cor->no_space = 0;
-		cor->aggr_index = 1; // redirections
-		cor->pipe_index = 1; // pipes
+		cor->aggr_index = 1;
+		cor->pipe_index = 1;
 	}
 	return;
 }

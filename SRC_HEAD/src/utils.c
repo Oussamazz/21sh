@@ -26,7 +26,7 @@ size_t wordinbuff_size(char *str)
 
     count = 0;
     i = 0;
-    while(str[i] && (str[i] == '>' || str[i] == '<' || str[i] == '&')) // | &>- | &<- | > |  >>  | < | << | 2>&1 | >& | <& 
+    while(str[i] && (str[i] == '>' || str[i] == '<' || str[i] == '&'))
     {
         count++;
         i++;
@@ -221,28 +221,12 @@ char    valid_string_quot(char *str)
     char ret;
 
     ret = 0;
-    if (!*str || !str)
+    if (!str || !*str)
         return (ret);
     if ((tmp = ft_strchr_blank((const char*)str, '\'')) != NULL)
-    {
-        if (*(tmp - 1) != '\\')
-            return (*(tmp));
-        else if (*(tmp - 1) == '\\')
-        {
-            if ((ret = valid_string_quot(str + 1)))
-                return (ret);
-        }
-    }
+        return(*tmp);
     else if ((tmp = ft_strchr_blank((const char*)str, '\"')) != NULL)
-    {
-        if (*(tmp - 1) != '\\')
-            return (*(tmp));
-        else if (*(tmp - 1) == '\\')
-        {
-            if ((ret = valid_string_quot(str + 1)))
-                return (ret);
-        }
-    }
+        return (*tmp);
     return (0);
 }
 

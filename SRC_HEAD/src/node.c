@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/12 15:37:17 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 16:13:18 by macos            ###   ########.fr       */
+/*   Created: 2020/07/12 15:37:17 by oelazzou             #+#    #+#             */
+/*   Updated: 2020/12/27 01:15:38 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ void    print_list(t_lexer *token_list)
      {
         ft_putnbr_fd(token_list->type, 1);
         ft_putchar_fd(' ', 1);
-        ft_putstr_fd(token_list->data, 1);
+        if (token_list->data)
+            ft_putstr_fd(token_list->data, 1);
         ft_putstr_fd("...........|| aggr_index = ", 1);
         ft_putnbr_fd(token_list->coor.aggr_index, 1);
         ft_putstr_fd(" || pipe_index = ", 1);

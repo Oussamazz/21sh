@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21sh.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/07 23:01:13 by macos             #+#    #+#             */
-/*   Updated: 2020/12/26 11:14:13 by oelazzou         ###   ########.fr       */
+/*   Created: 2020/11/07 23:01:13 by oelazzou             #+#    #+#             */
+/*   Updated: 2020/12/27 01:32:56 by oelazzou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ enum{
 	F_STR,
 	F_G_HIS
 };
+
 // split_redir status enum
-enum{
+typedef enum e_split{
 	Normal,
 	Continue,
 	Break,
 	ReturnNull,
 	Returnagg
-};
+}	t_split;
 
 
 size_t	g_agg_len;
@@ -357,7 +358,6 @@ void    ft_putendl_fd_error(char *s1, char *s2, char *s3, char *s4);
 */
 void    ft_free_arr(char **arr);
 void    ft_free_tokenz(t_lexer **head);
-void    free_quot(t_quote **data);
 void    ft_free_tree(t_miniast **tree);
 void    ft_free_his(t_his **g_his);
 
