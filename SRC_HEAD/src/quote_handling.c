@@ -37,17 +37,19 @@ t_quote *quote_handling(char *s, char quote, int start)
 	tmp = NULL;
 	quot = NULL;
 	rec_quote = NULL;
+	ft_putendl_fd(s, 1);
 	len = ft_strlen(s);
 	if (!(quot = (t_quote *)ft_memalloc(sizeof(t_quote))))
 		return (NULL);
 	if (!(quot->string = ft_strnew(len)))
 		return (NULL);
 	quot->size = 0;
-	if (!*s)
+	if (!*s && start)
 		return (quote_completion(&quot, quote));
 	j = 0;
 	i = 0;
 	flag = 0;
+	// echo sdfsddf"sdfdfdf"
 	while (*s && len--)
 	{
 		if (s[i] != quote && !flag)
@@ -55,10 +57,20 @@ t_quote *quote_handling(char *s, char quote, int start)
 			quot->string[j++] = s[i];
 			flag = 0;
 		}
+		else if (is_quote(s[i]) && !flag && !start)
+		{
+			if (!(rec_quote = quote_handling(s + i + 1, s[i], 1)))
+				return (NULL);
+			tmp = quot->string;
+			if (rec_quote->string)
+				quot->string = ft_strjoin(quot->string, rec_quote->string);
+			i += rec_quote->size;
+			ft_strdel(&(rec_quote->string));
+			ft_memdel((void **)&rec_quote);
+			ft_strdel(&tmp);
+		}
 		else if (s[i] == quote && flag == 0 && start)
 		{
-			flag = 1;
-			start = 0;
 			if (s[i + 1] && (!is_blank(s[i + 1]) || s[i + 1] == '\n') &&
 				(s[i + 1] != ';' || s[i + 1] == '\n') && s[i + 1] != '|' &&
 				!ft_is_there(AGG_REDI, s[i + 1]))
@@ -78,30 +90,28 @@ t_quote *quote_handling(char *s, char quote, int start)
 						return (NULL);
 				}
 				tmp = quot->string;
-
 				if (rec_quote->string)
 					quot->string = ft_strjoin(quot->string, rec_quote->string);
-				i = i + rec_quote->size + 1;
+				i += rec_quote->size;
 				ft_strdel(&(rec_quote->string));
 				ft_memdel((void **)&rec_quote);
 				ft_strdel(&tmp);
 				break;
 			}
-			i += 1;
 			break;
 		}
 		else if (is_quote(s[i]) && start == 0 && s[i] == quote)
 		{
+			start = 1;
 			if (!(rec_quote = quote_handling(s + i + 1, s[i], start)))
 				return (NULL);
 			tmp = quot->string;
 			if (rec_quote->string)
 				quot->string = ft_strjoin(quot->string, rec_quote->string);
-			i = i + rec_quote->size + 1;
+			i += rec_quote->size;
+			ft_strdel(&tmp);
 			ft_strdel(&(rec_quote->string));
 			ft_memdel((void **)&rec_quote);
-			ft_strdel(&tmp);
-			i++;
 			break;
 		}
 		if (!s[i + 1] && start)
@@ -109,5 +119,10 @@ t_quote *quote_handling(char *s, char quote, int start)
 		i++;
 	}
 	quot->size = i;
+	// ft_putstr_fd("this is the string =",1);
+	// ft_putendl_fd(quot->string,1);
+	// ft_putstr_fd("this is the len of string =",1);
+	// ft_putnbr_fd(quot->size,1);
+	// ft_putendl_fd("", 1);
 	return (quot);
 }

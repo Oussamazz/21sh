@@ -87,6 +87,7 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 			if (!(v->quot = quote_handling(buf, v->c, 0)))
 				return (NULL);
 		    buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
+			//ft_putchar_fd(*buf,1);
 		}
 		else if (buf && *(buf))
 			buf += simple_word_function(buf, &v->tokenz, &v->coord, v->size);
