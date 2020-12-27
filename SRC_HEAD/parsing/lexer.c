@@ -116,11 +116,13 @@ int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size
     else if (*buf)
     {
         j = 0;
-        while (buf[j] && !ft_is_there(METACHARACTER, buf[j]) && !ft_is_aggr(buf[j]) && buf[j] != '|')
+        while (buf[j] && !ft_is_there(METACHARACTER, buf[j]) && !ft_is_aggr(buf[j]) && buf[j] != '|' && buf[j] != '$')
         {
             tmp[j] = buf[j];
             j++;
         }
+        if (buf[j] == '$')
+            coord->no_space = 1;
         tmp[j] = '\0';
         append_list(token_node, tmp, WORD, coord);
         i = j;

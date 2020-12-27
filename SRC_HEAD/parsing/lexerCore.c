@@ -80,7 +80,7 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 		}
 		return (buf + position);
 	}
-	if ((*buf && !ft_is_there(METACHARACTER, *buf)))
+	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$')
 	{
 		if (is_quote(v->c = valid_string_quot(buf)))
 		{
