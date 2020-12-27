@@ -106,7 +106,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                         ret[i] = ft_strdup(token->data);
                     else
                     {
-                        if (token->next && token->next->data) // $HOME $TERM $PWD
+                        if (token->next && token->next->data)
                         {
                             ret[i] = ft_strjoin(token->data, token->next->data);
                             token = token->next;

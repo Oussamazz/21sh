@@ -352,7 +352,8 @@ void    print_arr(char **arr);
 
 void     print_btree(t_miniast *ast);
 void    ft_putendl_fd_error(char *s1, char *s2, char *s3, char *s4);
-
+void     prompt_completion(char quot);
+void 		ft_put_multistring2(char **strings);
 /*
 ** free functions
 */

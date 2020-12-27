@@ -12,20 +12,6 @@
 
 #include "21sh.h"
 
-static void ft_put_multistring2(char **strings)
-{
-	while (*strings)
-		ft_putstr(*strings++);
-}
-
-static void     prompt_completion(char quot)
-{
-    if (quot == '\"')
-        ft_put_multistring2((char *[]){"\033[1;31m\"", "\033[0m", "\033[1;32m>", "\033[0m", 0, 0, 0});
-    else
-        ft_put_multistring2((char *[]){"\033[1;31m\'","\033[0m", "\033[1;32m>", "\033[0m", 0, 0, 0});
-    return ;
-}
 
 static void ft_str_append(char **buf, char *append)
 {

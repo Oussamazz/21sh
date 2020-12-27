@@ -149,6 +149,40 @@ void print_his(t_his *g_his)
 	}
 }
 
+char *get_full_cmd(){
+	char *cmd;
+	char *tmp;
+	char *to_free;
+	int quote_opened = 0;
+	int i;
+	char c = 0;
+	
+	cmd = ft_strdup(""); 
+	while(cmd && (tmp = ft_readline(0)))
+	{
+		i = 0;
+		while(tmp[i])
+		{
+			if(is_quote(tmp[i]) && (c == tmp[i] || c == 0))
+			{
+				quote_opened ^= 1;
+				c = tmp[i] * quote_opened;
+			}
+			i++;
+		}
+		to_free = cmd;
+		cmd = ft_strjoin(cmd, tmp);
+		free(tmp);
+		free(to_free);
+		if(!quote_opened)
+			break;
+		// prompt_completion(c);
+		ft_putstr_fd(">", 1);
+	}
+	ft_putendl(cmd);
+	return(tmp ? cmd : NULL);
+}
+
 void source_sh(t_env **head)
 {
 	t_mystruct v;
@@ -160,7 +194,7 @@ void source_sh(t_env **head)
 	{
 		init_coord(&v.coord);
 		ft_prompte();
-		if (!(v.str = ft_readline(0)))
+		if (!(v.str = get_full_cmd()))
 			break;
 		add_to_his(v.str, &g_his, 0);
 		v.tokenz = lexer(v.str, head, &v.coord);
