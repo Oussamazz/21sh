@@ -80,13 +80,13 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 		}
 		return (buf + position);
 	}
-	if ((*buf && !ft_is_there(METACHARACTER, *buf)))
+	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$')
 	{
 		if (is_quote(v->c = valid_string_quot(buf)))
 		{
-			ft_putendl_fd("dkhelt", 1);
-			ft_putchar_fd(v->c,1);
-			ft_putendl_fd("", 1);
+			// ft_putendl_fd("dkhelt", 1);
+			// ft_putchar_fd(v->c,1);
+			// ft_putendl_fd("", 1);
 			if (!(v->quot = quote_handling(buf, v->c, 0)))
 				return (NULL);
 		    buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
