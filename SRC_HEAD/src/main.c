@@ -148,7 +148,8 @@ void print_his(t_his *g_his)
 	}
 }
 
-char *get_full_cmd(){
+char *get_full_cmd()
+{
 	char *cmd;
 	char *tmp;
 	char *to_free;
@@ -157,8 +158,6 @@ char *get_full_cmd(){
 	char c = 0;
 	
 	cmd = ft_strdup("");
-	// if (g_clt_c || g_clt_D)
-    //     return (NULL);
 	while(cmd && (tmp = ft_readline(0)))
 	{
 		i = 0;
@@ -181,15 +180,10 @@ char *get_full_cmd(){
 		if(!quote_opened)
 			break ;
 		prompt_completion(c);
-		//ft_putstr_fd(">", 1);
 		tmp = cmd;
 		cmd = ft_strjoin(cmd, "\n");
 		free(tmp);
-		// ft_putstr_fd(">", 1);
 	}
-	// ft_putendl_fd("_________", 1);
-	// ft_putstr_fd(cmd, 1);
-	// ft_putendl_fd("\n_________", 1);
 	return(tmp ? cmd : NULL);
 }
 
