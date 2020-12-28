@@ -22,9 +22,9 @@ void    add_to_his(char *buffer, t_his **g_his, int flag)
     last = *g_his;
 	if (!(ret = (t_his*)ft_memalloc(sizeof(t_his))))
         return ;
-    if (flag)
-        ret->data = ft_strjoin("\n", buffer);
-    else
+    // if (flag)
+    //     ret->data = ft_strjoin("\n", buffer);
+    // else
         ret->data = ft_strdup(buffer);
     if (!ret->data)
         return ;

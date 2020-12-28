@@ -14,7 +14,7 @@
 
 void     prompt_here_doc()
 {
-    ft_put_multistring2((char *[]){"\033[1;31m>", "\033[0m", 0, 0, 0, 0, 0});
+    ft_put_multistring2((char *[]){"\033[1;31m>>", "\033[0m", 0, 0, 0, 0, 0});
 }
 
 char    *here_doc(char *delim)
@@ -30,7 +30,11 @@ char    *here_doc(char *delim)
     while (delim)
     {
         if (g_clt_c || g_clt_D)
+        {
+            if (text)
+                ft_strdel(&text);
             return (NULL);
+        }
         prompt_here_doc();
         if(!(buffer = ft_readline(1)))
             return (NULL);

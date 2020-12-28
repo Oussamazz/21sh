@@ -12,6 +12,64 @@
 
 #include "21sh.h"
 
+//echo "sdfsf'dfds fd"adfsdf'asdfasdf
+//haha'
+
+static size_t	get_content_len(char *str, char c)
+{
+	size_t len;
+	int		flag;
+
+	len = 0;
+	flag = 0;
+	while (*str)
+	{
+		if ((is_blank(*str) && flag) || (is_quote(*str) && flag))
+			break ;
+		if (*str != c)
+			len++;
+		else
+			flag = 1;
+		str++;
+	}
+	return (len);
+}
+
+//echo "sdfsf'dfds fd"adfsdf'asdfasdf
+//haha'
+
+char		*get_content_quote(char *buffer, char c, t_pointt *coord)
+{
+	int i;
+	char *str;
+	int	flag;
+
+	str = NULL;
+	if (buffer)
+	{
+		flag = 0;
+		i = 0;
+		if (!(str = ft_strnew(get_content_len(buffer, c))))
+			return (NULL);
+		while (*buffer)
+		{
+			if (*buffer == c && !flag && is_quote(*(buffer + 1)))
+				coord->no_space = 1;
+			if ((*buffer == c && !ft_isalnum(*(buffer + 1))) ||
+				(is_blank(*buffer) && flag) ||
+				(is_quote(*buffer) && flag))
+					break ;
+			if (*buffer == c)
+				flag = 1;
+			else
+				str[i++] = *buffer;
+			buffer++;
+		}
+	}
+	return (str);
+}
+
+
 static t_quote *init(t_quote **quot)
 {
 	if (quot)
@@ -37,7 +95,7 @@ t_quote *quote_handling(char *s, char quote, int start)
 	tmp = NULL;
 	quot = NULL;
 	rec_quote = NULL;
-	ft_putendl_fd(s, 1);
+	//ft_putendl_fd(s, 1);
 	len = ft_strlen(s);
 	if (!(quot = (t_quote *)ft_memalloc(sizeof(t_quote))))
 		return (NULL);

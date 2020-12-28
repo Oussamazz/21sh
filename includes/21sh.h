@@ -58,9 +58,7 @@ typedef enum e_split{
 
 size_t	g_agg_len;
 char	*g_tty_name;
-int		prompt_flag;
 int		g_ex_flag;
-
 
 
 /*
@@ -221,7 +219,7 @@ int     	check_tokenz_grammar(t_lexer *tokenz);
 int     expansion_function(char *buf, t_lexer **tokenz, t_pointt *coord, t_env **env_list);
 int   	sep_function(char *buf, t_lexer ** , t_pointt *);
 int  	aggr_function(char *, t_pointt *, t_lexer **);
-int     quote_function(char *buf, t_lexer ** ,t_pointt *);
+int     quote_function(char *buf, t_lexer ** ,t_pointt *, char *quote);
 int     quote_handling_function(t_lexer **token_node, t_quote *quot, char quote, t_pointt *coord);
 int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size_t buf_len);
 int     meta_function(char *buf, t_lexer **token_node, t_pointt *coord);
@@ -289,6 +287,7 @@ void        type_builtin(char **cmd, t_env **env_list);
 void		add_to_his(char *buffer, t_his **g_his, int flag);
 char    	*join_all_bufs(t_his *his);
 int     	str_is_blank(char *buffer);
+char		*get_content_quote(char *buffer, char c, t_pointt *coord);
 /*
 ** btree Functions _________________________________________________________
 */

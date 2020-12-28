@@ -14,36 +14,6 @@
 
 static t_node *history_head;
 
-static t_node		*add_quote(t_lexer **token_node)
-{
-	t_node *node;
-	t_lexer *cur;
-	char	*data;
-	char	*tmp;
-
-	node = NULL;
-	if (token_node)
-	{
-		data = "";
-		cur = *token_node;
-		while (cur)
-		{
-			if (cur->type == SQUOT || cur->type == DQUOT)
-			{
-				if (cur->type == SQUOT)
-					tmp = ft_strjoin_four("\'", cur->data, "\'", "");
-				else if (cur->type == DQUOT)
-					tmp = ft_strjoin_four("\"", cur->data, "\"", "");
-			}
-			else if (cur->next && cur->next->data)
-				data = ft_strjoin_four(data, " ", cur->data, " ");
-			else
-				data = ft_strjoin_four(data, " ", cur->data, "");
-		}
-	}
-	return (node);
-}
-
 void ft_history_goto(t_node **current, t_node *new, t_line *line)
 {
 	if (new)

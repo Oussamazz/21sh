@@ -87,6 +87,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
     char **ret;
     t_redir *redir;
     size_t ret_size;
+    char *tmp;
 
     ret = NULL;
     if (token && env && redirections)
@@ -100,21 +101,32 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
             if (token->type == WORD || token->type == DQUOT ||
                  token->type == SQUOT || token->type == EXPANSION)
             {
+                if (token->coor.no_space)
+                {
+                    if (token->next && token->next->data)
+                    {
+                        tmp = token->next->data;
+                        token->next->data = ft_strjoin(token->data, token->next->data);
+                        free(tmp);
+                        token = token->next;
+                    }
+                }
                 if (token->type != DQUOT)
                 {
-                    if (!token->coor.no_space)
-                        ret[i] = ft_strdup(token->data);
-                    else
-                    {
-                        if (token->next && token->next->data)
-                        {
-                            ret[i] = ft_strjoin(token->data, token->next->data);
-                            token = token->next;
-                        }
-                    }
+                    ret[i] = ft_strdup(token->data);
+                    // if (!token->coor.no_space)
+                    // else
+                    // {
+                    //     if (token->next && token->next->data)
+                    //     {
+                    //         ret[i] = ft_strjoin(token->data, token->next->data);
+                    //         token = token->next;
+                    //     }
+                    // }
                 }
                 else
                 {
+                    //if (!token->coor.no_space)
                     ret[i] = expanded(env, token->data);
                     ft_strdel(&(token->data));
                 }

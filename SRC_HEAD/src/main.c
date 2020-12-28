@@ -137,7 +137,6 @@ void ft_ctrlc(int sig_no)
 		;
 	ft_putchar_fd('\n', 1);
 	ft_prompte();
-	prompt_flag = 1;
 }
 
 void print_his(t_his *g_his)
@@ -157,10 +156,14 @@ char *get_full_cmd(){
 	int i;
 	char c = 0;
 	
-	cmd = ft_strdup(""); 
+	cmd = ft_strdup("");
+	// if (g_clt_c || g_clt_D)
+    //     return (NULL);
 	while(cmd && (tmp = ft_readline(0)))
 	{
 		i = 0;
+		if (g_clt_c || g_clt_D)
+            return (NULL);
 		while(tmp[i])
 		{
 			if(is_quote(tmp[i]) && (c == tmp[i] || c == 0))
@@ -171,15 +174,22 @@ char *get_full_cmd(){
 			i++;
 		}
 		to_free = cmd;
-		cmd = ft_strjoin(cmd, tmp);
+		if (!(cmd = ft_strjoin(cmd, tmp)))
+			return (NULL);
 		free(tmp);
 		free(to_free);
 		if(!quote_opened)
-			break;
-		// prompt_completion(c);
+			break ;
+		//prompt_completion(c);
 		ft_putstr_fd(">", 1);
+		tmp = cmd;
+		cmd = ft_strjoin(cmd, "\n");
+		free(tmp);
+		// ft_putstr_fd(">", 1);
 	}
-	ft_putendl(cmd);
+	ft_putendl_fd("_________", 1);
+	ft_putstr_fd(cmd, 1);
+	ft_putendl_fd("\n_________", 1);
 	return(tmp ? cmd : NULL);
 }
 
@@ -195,7 +205,7 @@ void source_sh(t_env **head)
 		init_coord(&v.coord);
 		ft_prompte();
 		if (!(v.str = get_full_cmd()))
-			break;
+			continue ;
 		add_to_his(v.str, &g_his, 0);
 		v.tokenz = lexer(v.str, head, &v.coord);
 		if (v.tokenz)

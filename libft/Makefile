@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+         #
+#    By: macos <macos@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/30 03:33:28 by oelazzou          #+#    #+#              #
-#    Updated: 2020/12/26 14:33:03 by oelazzou         ###   ########.fr        #
+#    Updated: 2020/12/28 02:04:21 by macos            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ FILE = ft_atoi.c \
 	   ft_strlen_delim.c \
 	   ft_putstr_c_str.c \
 	   is_blank.c \
+	   ft_strchr_no_blanks.c \
 	   free_two_dim.c \
 	   ft_print_until.c \
 	   ft_strjoin_four.c \

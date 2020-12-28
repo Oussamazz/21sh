@@ -243,7 +243,6 @@ int keyshendle2(t_line *line, char **str,int flag)
 	{
 		if (!flag)
 		{
-			ft_free_history();
 			exit(0);
 		}
 		else
@@ -251,6 +250,18 @@ int keyshendle2(t_line *line, char **str,int flag)
 			ioctl(0, TIOCSTI, "\12");
 			g_clt_D = 1;
 		}
+		// if (!flag)
+		// {
+		// 	exit(0);
+		// 	// char tmp[2]= {-1, '\0'};
+		// 	// ft_strdel(str);
+		// 	// *str = ft_strdup(tmp);
+		// }
+		// else
+		// {
+		// 	ioctl(0, TIOCSTI, "\12");
+		// 	g_clt_D = 1;
+		// }
 	}
 	return (r);
 }

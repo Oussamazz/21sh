@@ -68,28 +68,27 @@ static char *get_pipe_agr(char *buf, t_mystruct *v)
 static char *get_qoute_word(char *buf, t_mystruct *v)
 {
 	int position;
+	char *quote;
 
-	if (is_quote(*buf))
+	quote = NULL;
+	if (is_quote(*buf) || (quote = ft_strchr_no_blanks(buf, '\'', '\"')))
 	{
-		position = quote_function(buf, &v->tokenz, &v->coord); // echo "sddf
+		position = quote_function(buf, &v->tokenz, &v->coord, quote); // echo "sddf
 		if (position < 0)
-		{
-			if (!g_clt_c)
-				ft_putstr_c_str("21sh: unexpected EOF while looking for matching `", *buf, "\'\n", 2);
 			return (NULL);
-		}
 		return (buf + position);
 	}
 	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$')
 	{
-		if (is_quote(v->c = valid_string_quot(buf)))
-		{
-			if (!(v->quot = quote_handling(buf, v->c, 0)))
-				return (NULL);
-		    buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
-			//ft_putchar_fd(*buf,1);
-		}
-		else if (buf && *(buf))
+		// if (is_quote(v->c = valid_string_quot(buf)))
+		// {
+		// 	if (!(v->quot = quote_handling(buf, v->c, 0)))
+		// 		return (NULL);
+		//     buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
+		// 	//ft_putchar_fd(*buf,1);
+		// }
+		// else 
+		if (buf && *(buf))
 			buf += simple_word_function(buf, &v->tokenz, &v->coord, v->size);
 	}
 	return (buf);
