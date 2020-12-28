@@ -85,5 +85,7 @@ char *ft_end(t_node **current, t_line *line)
 	ft_strdel(&(*current)->tmp);
 	free_history_node(history_head);
 	ft_memdel((void**)&(line->tabl));
+	if (line->sltstr && *line->sltstr)
+		free(line->sltstr);
 	return (return_line);
 }

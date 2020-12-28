@@ -56,11 +56,10 @@ int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
         return (-1);
     if (!(agg = split_redir(buf_dup)))
         return (-1);
-    print_arr(agg);
     i = i + redirerction_parse(token_node, agg, coord) - 1;
     g_agg_len = 0;
     ft_strdel(&buf_dup);
-    return (i);
+    return (i); // > test
 }
 
 int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *quote)
@@ -70,41 +69,32 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *q
     char *quote_cnt;
     char c;
     quot = NULL;
-    i = 0;
-    int flag = 0;
+    int flag;
 
+    i = 0;
+    flag = 0;
     if (quote)
+    {
         c = *quote;
+        flag = 1;
+    }
     else
     {
-        flag = 1;
         c = *buf;
         buf++;
-    }// ehco "dsfdfdfs"haha
-    ft_putendl_fd("this is the quote:", 1);
-    ft_putchar_fd(c, 1);
-    ft_putendl_fd("", 1);
-    if (!(quote_cnt = get_content_quote(buf, c, coord)))
+        i++;
+        flag = 0;
+    }
+    if (!(quote_cnt = get_content_quote(buf, c, coord, flag)))
         return (-1);
     if (c == '\'')
         append_list(token_node, quote_cnt, SQUOT, coord);
     else if (c == '\"')
         append_list(token_node, quote_cnt, DQUOT, coord);
-    i = (int)ft_strlen(quote_cnt);
+    i += (int)ft_strlen(quote_cnt);
     ft_strdel(&quote_cnt);
     coord->no_space = 0;
-    return (i + 2);
-    // if (!(quot = quote_handling(buf + 1, buf[i], 1)))
-    //     return (-1);
-    // if (quot->string && (buf[i] == '\'' || buf[i] == '\"') && ret_last_node_type(token_node) == AGGR_SYM)
-    //     append_list_redi(token_node, ft_strdup(quot->string), R_REDIR, coord);
-    // else if (buf[i] == '\'')
-    //     append_list(token_node, quot->string, SQUOT, coord);
-    // else if (buf[i] == '\"')
-    //     append_list(token_node, quot->string, DQUOT, coord);
-    // i = quot->size;
-    // ft_strdel(&(quot->string));
-    // ft_memdel((void**)&quot);
+    return (i + 1);
 }
 
 // int     quote_handling_function(t_lexer **token_node, t_quote *quot, char q, t_pointt *coord)

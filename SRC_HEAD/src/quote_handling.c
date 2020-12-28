@@ -24,7 +24,7 @@ static size_t	get_content_len(char *str, char c)
 	flag = 0;
 	while (*str)
 	{
-		if (flag && *str == ';' || *str== '|')
+		if (flag && (*str == ';' || *str== '|'))
 			break ;
 		if ((is_blank(*str) && flag) || (is_quote(*str) && flag))
 			break ;
@@ -40,7 +40,7 @@ static size_t	get_content_len(char *str, char c)
 //echo "sdfsf'dfds fd"adfsdf'asdfasdf
 //haha'
 
-char		*get_content_quote(char *buffer, char c, t_pointt *coord)
+char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag_c)
 {
 	int i;
 	char *str;
@@ -50,7 +50,7 @@ char		*get_content_quote(char *buffer, char c, t_pointt *coord)
 	str = NULL;
 	if (buffer)
 	{
-		flag = 0;
+		flag = flag_c; // 
 		i = 0;
 		len = get_content_len(buffer, c);
 		if (!(str = ft_strnew(len)))
@@ -58,10 +58,10 @@ char		*get_content_quote(char *buffer, char c, t_pointt *coord)
 		len++;
 		while (*buffer && len--)
 		{
-			if (*buffer == c && !flag && is_quote(*(buffer + 1))
-				|| (!flag && is_quote(*buffer)))
+			if ((*buffer == c && !flag && is_quote(*(buffer + 1)))
+				|| (*buffer == c && ft_isalnum(*(buffer + 1))))
 				coord->no_space = 1;
-			if ((*buffer == c && !ft_isalnum(*(buffer + 1))) ||
+			if ((*buffer == c && flag) ||
 				(is_blank(*buffer) && flag) ||
 				(is_quote(*buffer) && flag))
 					break ;

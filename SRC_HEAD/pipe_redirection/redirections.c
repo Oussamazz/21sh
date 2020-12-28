@@ -47,8 +47,6 @@ static int  calc_symbol(char *str)
 size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor) // ls >a>b>c
 {
     int j;
-    size_t biglen;
-    char *delim;
 
     j = 0;
     while (agg[j] != NULL && agg[j][0] != '\0')

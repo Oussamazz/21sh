@@ -287,7 +287,7 @@ void        type_builtin(char **cmd, t_env **env_list);
 void		add_to_his(char *buffer, t_his **g_his, int flag);
 char    	*join_all_bufs(t_his *his);
 int     	str_is_blank(char *buffer);
-char		*get_content_quote(char *buffer, char c, t_pointt *coord);
+char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag_c);
 /*
 ** btree Functions _________________________________________________________
 */

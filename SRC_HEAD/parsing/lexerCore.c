@@ -25,15 +25,43 @@ static char *get_splitter(char *buf, t_mystruct *v)
     return buf;
 }
 
+static char	*get_dollars(char *buf)
+{
+	char *ret;
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (*buf == '$')
+	{
+		if (count == 2)
+			break ;
+		buf++;
+		count++;
+	}
+	return (ft_itoa((int)getppid()));
+}
+
 static char *get_tild_dolar(char *buf, t_mystruct *v)
 {
 	int position;
+	char *dollars;
 
 	if (*buf == '$' && *(buf + 1) == '$')
-		return (buf);
+	{
+		append_list(&v->tokenz, (dollars = get_dollars(buf)), WORD, &v->coord);
+		ft_strdel(&dollars);
+		return (buf + 2);
+	}
 	if ((*buf == '$' || *buf == '~') && !(*buf == '$' && buf[1] == '/') && (*buf != buf[1]) && !is_quote(buf[1]))
 	{
-		if ((position = expansion_function(buf, &v->tokenz, &v->coord, v->env_list)) > 0)
+		if (*buf == '$' && (!*(buf + 1) || is_blank(*(buf + 1))))
+		{
+			append_list(&v->tokenz, "$", WORD, &v->coord);
+			return (buf + 1);
+		}
+		else if ((position = expansion_function(buf, &v->tokenz, &v->coord, v->env_list)) > 0)
 			return(buf + position);
 		ft_free_tokenz(&v->tokenz);
 		return (NULL);
@@ -71,23 +99,15 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 	char *quote;
 
 	quote = NULL;
-	if (is_quote(*buf) || (quote = ft_strchr_no_blanks(buf, '\'', '\"')))
+	if (is_quote(*buf) || (quote = ft_strchr_no_blanks(buf + 1, '\'', '\"')))
 	{
-		position = quote_function(buf, &v->tokenz, &v->coord, quote); // echo "sddf
+		position = quote_function(buf, &v->tokenz, &v->coord, quote);
 		if (position < 0)
 			return (NULL);
 		return (buf + position);
 	}
-	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$')
+	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$' && !ft_is_there(AGG_REDI, *buf))
 	{
-		// if (is_quote(v->c = valid_string_quot(buf)))
-		// {
-		// 	if (!(v->quot = quote_handling(buf, v->c, 0)))
-		// 		return (NULL);
-		//     buf += quote_handling_function(&v->tokenz, v->quot, v->c, &v->coord);
-		// 	//ft_putchar_fd(*buf,1);
-		// }
-		// else 
 		if (buf && *(buf))
 			buf += simple_word_function(buf, &v->tokenz, &v->coord, v->size);
 	}

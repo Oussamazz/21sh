@@ -26,10 +26,7 @@ void    blt_echo(char **cmd)
     }
     while (cmd[++i] != NULL)
     {
-        if (!ft_strcmp(cmd[i], "$$"))
-            ft_putnbr_fd((int)getppid(), 1);
-        else
-            ft_putstr_fd(cmd[i], 1);
+        ft_putstr_fd(cmd[i], 1);
         if (cmd[i + 1])
             ft_putchar_fd(' ', 1);
     }
