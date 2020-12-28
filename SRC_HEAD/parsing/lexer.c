@@ -36,6 +36,8 @@ int   sep_function(char *buf, t_lexer **token_node, t_pointt *coord)
     return (1);
 }
 
+//  $> cat <<EOF > rf 
+
 int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
 {
     char **agg;
@@ -54,6 +56,7 @@ int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
         return (-1);
     if (!(agg = split_redir(buf_dup)))
         return (-1);
+    print_arr(agg);
     i = i + redirerction_parse(token_node, agg, coord) - 1;
     g_agg_len = 0;
     ft_strdel(&buf_dup);
@@ -68,11 +71,13 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *q
     char c;
     quot = NULL;
     i = 0;
+    int flag = 0;
 
     if (quote)
         c = *quote;
     else
     {
+        flag = 1;
         c = *buf;
         buf++;
     }// ehco "dsfdfdfs"haha
@@ -88,7 +93,6 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *q
     i = (int)ft_strlen(quote_cnt);
     ft_strdel(&quote_cnt);
     coord->no_space = 0;
-
     return (i + 2);
     // if (!(quot = quote_handling(buf + 1, buf[i], 1)))
     //     return (-1);

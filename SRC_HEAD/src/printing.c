@@ -48,9 +48,11 @@ void    print_arr(char **arr)
         i = 0;
         while (arr[i])
         {
-            ft_putendl_fd(arr[i], 1);
+            ft_putstr_fd(arr[i], 1);
+            ft_putchar_fd('%', 1);
             i++;
         }
+        ft_putchar_fd('\n', 1);
     }
 }
 

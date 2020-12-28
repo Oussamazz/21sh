@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 01:33:51 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/27 14:43:26 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/28 05:07:33 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ static int do_spliting(t_split_redir *v, char *str)
         g_agg_len++;
     if (str[v->i] == ';')
         return (Returnagg);
-    if (!(v->agg[v->j] = ft_strnew(v->agg_len_str)) || v->i >= v->len)
+    if (!(v->agg[v->j] = ft_strnew(v->len)) || v->i >= v->len)
         return (ReturnNull);
     if ((str[v->i] == '>' || str[v->i] == '<') && str[v->i] == str[v->i + 1]) // for  >> or << right_fd
         return (split_herdoc(v, str));
@@ -160,7 +160,7 @@ static int do_spliting(t_split_redir *v, char *str)
         return (split_redir_fd(v, str));                                // ya ima retunr ola break ola kamal 3adi
     if ((str[v->i] == '>' || str[v->i] == '<') || str[v->i + 1] == '&') // for >&? or <&?
         return (split_agg(v, str));
-    if (is_quote(str[v->i]) && str[v->i - 1] != '\\')
+    if (is_quote(str[v->i]))
     {
         ft_strdel(&v->agg[v->j]);
         return (Returnagg);
@@ -179,13 +179,13 @@ char **split_redir(char *str)
     t_split_redir v;
 
     ft_bzero(&v, sizeof(t_split_redir));
-    v.agg_len = wordinbuff_size(str) + 1;
+    v.agg_len = 3; // word_count
     if (str && (v.agg = (char **)ft_memalloc(sizeof(char *) * v.agg_len)))
     {
         v.len = ft_strlen(str);
-        v.agg_len_str = v.len;
         while (v.i < v.len && str[v.i] != '\0' && v.j < v.agg_len)
         {
+            ft_putchar_fd(str[v.i], 1);
             v.status = do_spliting(&v, str);
             if (v.status == Returnagg)
                 return (v.agg);

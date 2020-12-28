@@ -35,8 +35,8 @@ size_t wordinbuff_size(char *str)
         i++;
     while (str[i] && !is_blank(str[i]))
     {
-        i++;
         count++;
+        i++;
     }
     return (count);
 }

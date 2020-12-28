@@ -180,16 +180,16 @@ char *get_full_cmd(){
 		free(to_free);
 		if(!quote_opened)
 			break ;
-		//prompt_completion(c);
-		ft_putstr_fd(">", 1);
+		prompt_completion(c);
+		//ft_putstr_fd(">", 1);
 		tmp = cmd;
 		cmd = ft_strjoin(cmd, "\n");
 		free(tmp);
 		// ft_putstr_fd(">", 1);
 	}
-	ft_putendl_fd("_________", 1);
-	ft_putstr_fd(cmd, 1);
-	ft_putendl_fd("\n_________", 1);
+	// ft_putendl_fd("_________", 1);
+	// ft_putstr_fd(cmd, 1);
+	// ft_putendl_fd("\n_________", 1);
 	return(tmp ? cmd : NULL);
 }
 

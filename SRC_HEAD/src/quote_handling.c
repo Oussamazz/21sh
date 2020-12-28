@@ -24,6 +24,8 @@ static size_t	get_content_len(char *str, char c)
 	flag = 0;
 	while (*str)
 	{
+		if (flag && *str == ';' || *str== '|')
+			break ;
 		if ((is_blank(*str) && flag) || (is_quote(*str) && flag))
 			break ;
 		if (*str != c)
@@ -43,17 +45,21 @@ char		*get_content_quote(char *buffer, char c, t_pointt *coord)
 	int i;
 	char *str;
 	int	flag;
+	int len;
 
 	str = NULL;
 	if (buffer)
 	{
 		flag = 0;
 		i = 0;
-		if (!(str = ft_strnew(get_content_len(buffer, c))))
+		len = get_content_len(buffer, c);
+		if (!(str = ft_strnew(len)))
 			return (NULL);
-		while (*buffer)
+		len++;
+		while (*buffer && len--)
 		{
-			if (*buffer == c && !flag && is_quote(*(buffer + 1)))
+			if (*buffer == c && !flag && is_quote(*(buffer + 1))
+				|| (!flag && is_quote(*buffer)))
 				coord->no_space = 1;
 			if ((*buffer == c && !ft_isalnum(*(buffer + 1))) ||
 				(is_blank(*buffer) && flag) ||
