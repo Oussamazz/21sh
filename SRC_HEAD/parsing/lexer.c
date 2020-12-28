@@ -52,13 +52,14 @@ int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
         ft_putendl_fd("21sh: syntax error near unexpected token `newline'", 2);
         return (-1);
     }
-    if (!(buf_dup = ft_strdup(buf)))
+    // if (!(buf_dup = ft_strdup(buf)))
+    //     return (-1);
+    if (!(agg = split_redir(buf)))
         return (-1);
-    if (!(agg = split_redir(buf_dup)))
-        return (-1);
+    //print_arr(agg);
     i = i + redirerction_parse(token_node, agg, coord) - 1;
     g_agg_len = 0;
-    ft_strdel(&buf_dup);
+    //ft_strdel(&buf_dup);
     return (i); // > test
 }
 

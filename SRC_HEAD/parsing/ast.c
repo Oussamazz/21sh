@@ -81,7 +81,7 @@ size_t  get_arr_size_tokenz(t_lexer *token)
 }
 
 
-char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size)
+char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size) // norme
 {
     int i;
     char **ret;

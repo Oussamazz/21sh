@@ -24,7 +24,7 @@ static size_t	get_content_len(char *str, char c)
 	flag = 0;
 	while (*str)
 	{
-		if (flag && (*str == ';' || *str== '|'))
+		if (flag && (*str == ';' || *str== '|' || ft_is_there(AGG_REDI, *str)))
 			break ;
 		if ((is_blank(*str) && flag) || (is_quote(*str) && flag))
 			break ;

@@ -13,7 +13,7 @@
 
 #include "21sh.h"
 
-char        *expanded(t_env **head, char *str)
+char        *expanded(t_env **head, char *str) // norme!
 {
     char **arr;
     char **value;

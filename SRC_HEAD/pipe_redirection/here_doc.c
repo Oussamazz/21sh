@@ -17,7 +17,7 @@ void     prompt_here_doc()
     ft_put_multistring2((char *[]){"\033[1;31m>>", "\033[0m", 0, 0, 0, 0, 0});
 }
 
-char    *here_doc(char *delim)
+char    *here_doc(char *delim) // norme!
 {
     int flag;
     char *text;

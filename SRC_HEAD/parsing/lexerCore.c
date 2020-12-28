@@ -116,8 +116,6 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 
 static char *ignore_blanks(char *str)
 {
-	if (!str)
-		return (NULL);
 	while (is_blank(*str))
 		str++;
 	return (str);

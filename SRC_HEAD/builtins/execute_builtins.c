@@ -88,7 +88,7 @@ static void cd_back(t_env **env_list)
     ft_strdel(&back_path);
 }
 
-void    blt_cd(char **cmd, t_env **env_list)
+void    blt_cd(char **cmd, t_env **env_list) // norme!
 {
     char    *new_path;
     char    *cwd;
