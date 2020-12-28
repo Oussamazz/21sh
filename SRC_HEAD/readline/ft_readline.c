@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readline.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yabakhar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 00:09:39 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/22 19:58:25 by oelazzou            ###   ########.fr       */
+/*   Updated: 2020/12/28 10:14:52 by yabakhar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/21sh.h"
 
@@ -117,43 +118,43 @@ void get_cursor_position(t_line *line)
 
 void ft_set_terminal(void)
 {
-    struct termios config;
-	
+	struct termios config;
+
 	char buf[1024];
-    if (tcgetattr(0, &config) < 0)
-        ft_putendl_fd("error",2);
-    config.c_lflag &= ~(ECHO | ICANON);
-    if (tcsetattr(0, 0, &config) < 0)
-        ft_putendl_fd("error",2);
+	if (tcgetattr(0, &config) < 0)
+		ft_putendl_fd("error", 2);
+	config.c_lflag &= ~(ECHO | ICANON);
+	if (tcsetattr(0, 0, &config) < 0)
+		ft_putendl_fd("error", 2);
 	tgetent(buf, getenv("TERM"));
 }
 
 void ft_unset_terminal(void)
 {
-    struct termios config;
+	struct termios config;
 
-    if (tcgetattr(0, &config) < 0)
-        ft_putendl_fd("error",2);
-    config.c_lflag |= (ECHO | ICANON);
-    if (tcsetattr(0, 0, &config) < 0)
-        ft_putendl_fd("error",2);
+	if (tcgetattr(0, &config) < 0)
+		ft_putendl_fd("error", 2);
+	config.c_lflag |= (ECHO | ICANON);
+	if (tcsetattr(0, 0, &config) < 0)
+		ft_putendl_fd("error", 2);
 }
 
 void ft_init(t_line *line, t_node **current)
 {
-    struct winsize w;
+	struct winsize w;
 
-    ft_set_terminal();
-    ioctl(0, TIOCGWINSZ, &w);
-    ft_bzero(line, sizeof(t_line));
-    line->col = w.ws_col;
-    line->row = w.ws_row;
+	ft_set_terminal();
+	ioctl(0, TIOCGWINSZ, &w);
+	ft_bzero(line, sizeof(t_line));
+	line->col = w.ws_col;
+	line->row = w.ws_row;
 	g_clt_c = 0;
 	g_clt_D = 0;
-    get_cursor_position(line);
-    tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
-    *current = add_to_history("");
-    ft_history_goto(current, *current, line);
+	get_cursor_position(line);
+	tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
+	*current = add_to_history("");
+	ft_history_goto(current, *current, line);
 }
 
 void print_line(char *str)
@@ -188,9 +189,11 @@ void ft_print_print(char **str, t_line *line, char *buff)
 	ft_clear(line, *str);
 }
 
-int  keyshendle(t_line *line, char **str)
+int keyshendle(t_line *line, char **str)
 {
-	int r = 0;
+	int r;
+
+	r = 0;
 	if (line->r == LEFT && (r = 1))
 		move_left(line, *str);
 	else if (line->r == RIGHT && (r = 1))
@@ -216,7 +219,7 @@ int  keyshendle(t_line *line, char **str)
 void ft_free_history(void)
 {
 	t_node *new;
-	
+
 	new = add_to_history(NULL);
 	while (new)
 	{
@@ -226,9 +229,25 @@ void ft_free_history(void)
 	}
 }
 
-int keyshendle2(t_line *line, char **str,int flag)
+void ft_ctl_D(int flag)
 {
-	int r = 0;
+	if (!flag)
+	{
+		ft_free_history();
+		exit(0);
+	}
+	else
+	{
+		ioctl(0, TIOCSTI, "\12");
+		g_clt_D = 1;
+	}
+}
+
+int keyshendle2(t_line *line, char **str, int flag)
+{
+	int r;
+
+	r = 0;
 	if (line->r == ALT_RTH && line->slct == 0 && (r = 1))
 		ft_alt_rth(*str, line);
 	else if (line->r == ALT_LFT && line->slct == 0 && (r = 1))
@@ -240,29 +259,7 @@ int keyshendle2(t_line *line, char **str,int flag)
 	else if (line->r == CTRL_L && line->slct == 0 && (r = 1))
 		ft_ctl_l(line, *str);
 	else if (line->r == ALT_D && (!line->b_line) && line->slct == 0)
-	{
-		if (!flag)
-		{
-			exit(0);
-		}
-		else
-		{
-			ioctl(0, TIOCSTI, "\12");
-			g_clt_D = 1;
-		}
-		// if (!flag)
-		// {
-		// 	exit(0);
-		// 	// char tmp[2]= {-1, '\0'};
-		// 	// ft_strdel(str);
-		// 	// *str = ft_strdup(tmp);
-		// }
-		// else
-		// {
-		// 	ioctl(0, TIOCSTI, "\12");
-		// 	g_clt_D = 1;
-		// }
-	}
+		ft_ctl_D(flag);
 	return (r);
 }
 
@@ -275,16 +272,35 @@ int keyshendle1(t_line *line, char **str, t_node **current)
 		home_deep(line, *str);
 	else if (line->r == UP && line->slct == 0 && (r = 1))
 		ft_history_goto(current, (*current)->next, line);
-	else if (line->r == DOWN  && line->slct == 0 && (r = 1))
+	else if (line->r == DOWN && line->slct == 0 && (r = 1))
 		ft_history_goto(current, (*current)->prev, line);
 	return (r);
 }
 
-char *ft_readline(int flag)
+int ft_readline_builtines(int flag, char *buff, t_line *line, t_node **current)
 {
-	t_node *current;
-	char buff[MAX_INDEX];
-	t_line  line;
+	if (keyshendle(line, &(*current)->tmp))
+		return (1);
+	else if (keyshendle1(line, &(*current)->tmp, current))
+		return (1);
+	else if (keyshendle2(line, &(*current)->tmp, flag))
+		return (1);
+	else if ((line->r == END && line->slct == 0) || g_clt_c == 1)
+		return (0);
+	else if (line->slct == 0)
+	{
+		ft_print_print(&(*current)->tmp, line, buff);
+		return (1);
+	}
+	return (0);
+}
+
+char		*ft_readline(int flag)
+{
+	char	buff[MAX_INDEX];
+	t_node	*current;
+	t_line	line;
+
 	ft_init(&(line), &current);
 	while (TRUE)
 	{
@@ -296,16 +312,8 @@ char *ft_readline(int flag)
 		if (read(0, buff, 1023) > 0)
 		{
 			line.r = (*(int *)buff);
-			if (keyshendle(&(line),&current->tmp))
-				continue ;
-			else if (keyshendle1(&line, &current->tmp, &current))
-				continue ;
-			else if (keyshendle2(&(line), &current->tmp, flag))
-				continue ;
-			else if ((line.r == END && line.slct == 0 ) || g_clt_c == 1)
-				break ;
-			else if (line.slct == 0)
-				ft_print_print(&current->tmp, &(line), buff);
+			if (!ft_readline_builtines(flag, buff, &line, &current))
+				break;
 		}
 	}
 	return (ft_end(&current, &line));
