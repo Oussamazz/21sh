@@ -29,7 +29,7 @@ char    *here_doc(char *delim) // norme!
     flag = 0;
     while (delim)
     {
-        if (g_clt_c || g_clt_D)
+        if (g_clt_c || g_clt_d)
         {
             if (text)
                 ft_strdel(&text);

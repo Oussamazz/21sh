@@ -161,7 +161,7 @@ char *get_full_cmd()
 	while(cmd && (tmp = ft_readline(0)))
 	{
 		i = 0;
-		if (g_clt_c || g_clt_D)
+		if (g_clt_c || g_clt_d)
             return (NULL);
 		while(tmp[i])
 		{

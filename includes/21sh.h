@@ -14,7 +14,7 @@
 #define SH_H
 
 # include "libft.h"
-# include "21sh_r.h"
+# include "readline.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <stdbool.h>

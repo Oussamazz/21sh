@@ -22,7 +22,7 @@ void	ft_ctl_d(int flag)
 	else
 	{
 		ioctl(0, TIOCSTI, "\12");
-		g_clt_D = 1;
+		g_clt_d = 1;
 	}
 }
 

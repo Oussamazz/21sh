@@ -79,7 +79,7 @@ void	ft_init(t_line *line, t_node **current)
 	line->col = w.ws_col;
 	line->row = w.ws_row;
 	g_clt_c = 0;
-	g_clt_D = 0;
+	g_clt_d = 0;
 	get_cursor_position(line);
 	tputs(tgoto(tgetstr("cm", 0), line->c_o.x, line->c_o.y), 0, ft_output);
 	*current = add_to_history("");
