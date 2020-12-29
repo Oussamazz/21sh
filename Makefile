@@ -20,7 +20,7 @@ SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o spl
 SRC_MAIN =	envirement.o error_handler.o execute.o execute_cmd.o free1.o\
 			ft_free.o his.o main.o node.o printing.o utils.o utils2.o quote_handling.o
 
-SRC_READLINE = ft_readline.o history.o keys_alt.o move_cursor.o selection.o 
+SRC_READLINE = ft_readline.o history.o keys_alt.o move_cursor.o selection.o tools_readline.o builtins_readline.o prepare_readline.o signal_readline.o helper_readline.o
 
 OBJ_BUILTINS = $(addprefix objs/builtins/, $(SRC_BUILTINS))
 OBJ_EXPANSION = $(addprefix objs/expansion/, $(SRC_EXPANSION))

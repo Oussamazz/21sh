@@ -3,18 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 23:59:46 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/25 12:28:41 by oelazzou            ###   ########.fr       */
+/*   Updated: 2020/12/28 10:30:20 by yabakhar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-static t_node *history_head;
+static t_node *g_history_head;
 
-void ft_history_goto(t_node **current, t_node *new, t_line *line)
+void	ft_free_history(void)
+{
+	t_node *new;
+
+	new = add_to_history(NULL);
+	while (new)
+	{
+		ft_strdel(&(new->content));
+		ft_strdel(&(new->tmp));
+		new = new->next;
+	}
+}
+
+void	ft_history_goto(t_node **current, t_node *new, t_line *line)
 {
 	if (new)
 	{
@@ -35,31 +48,31 @@ void ft_history_goto(t_node **current, t_node *new, t_line *line)
 		ft_putstr(tgetstr("bl", NULL));
 }
 
-t_node *add_to_history(const char *str)
+t_node	*add_to_history(const char *str)
 {
 	t_node *new;
 
 	if (!str)
-        return(history_head);
+		return (g_history_head);
 	if ((new = (t_node *)ft_memalloc(sizeof(t_node))))
 	{
 		new->content_len = ft_strlen(str);
 		new->content = ft_strdup(str);
-		new->next = history_head;
-		if (history_head)
-			history_head->prev = new;
-		history_head = new;
+		new->next = g_history_head;
+		if (g_history_head)
+			g_history_head->prev = new;
+		g_history_head = new;
 		return (new);
 	}
-	return (history_head);
+	return (g_history_head);
 }
 
-void free_history_node(t_node *head)
+void	free_history_node(t_node *head)
 {
 	if (head)
 	{
 		if (head->prev == NULL)
-			history_head = head->next;
+			g_history_head = head->next;
 		else
 			head->prev->next = head->next;
 		if (head->next)
@@ -70,10 +83,10 @@ void free_history_node(t_node *head)
 	}
 }
 
-char *ft_end(t_node **current, t_line *line)
+char	*ft_end(t_node **current, t_line *line)
 {
-	char *return_line;
-	struct termios config;
+	struct termios	config;
+	char			*return_line;
 
 	line->r = HOME;
 	home_deep(line, (*current)->tmp);
@@ -83,8 +96,8 @@ char *ft_end(t_node **current, t_line *line)
 	tcsetattr(0, 0, &config);
 	return_line = (g_clt_c) ? ft_strdup("") : ft_strdup((*current)->tmp);
 	ft_strdel(&(*current)->tmp);
-	free_history_node(history_head);
-	ft_memdel((void**)&(line->tabl));
+	free_history_node(g_history_head);
+	ft_memdel((void **)&(line->tabl));
 	if (line->sltstr && *line->sltstr)
 		free(line->sltstr);
 	return (return_line);

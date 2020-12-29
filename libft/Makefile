@@ -88,7 +88,8 @@ FILE = ft_atoi.c \
 	   free_two_dim.c \
 	   ft_print_until.c \
 	   ft_strjoin_four.c \
-	   get_next_line.c
+	   get_next_line.c \
+	   ft_freejoin.c 
 FLAGS = -g -Wall -Wextra -Werror
 OBJ = $(FILE:.c=.o)
 

@@ -3,57 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   move_cursor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:19:30 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/11/21 19:43:44 by oelazzou            ###   ########.fr       */
+/*   Updated: 2020/12/28 10:30:34 by yabakhar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-void move_cursor_v(t_line *line)
-{
-	t_point point;
-	int i;
-	point = line->c_o;
-	i = line->i;
-	while (i > 0)
-	{
-		i--;
-		if (i == 0)
-		{
-			point.y += ((line->tabl[i] + line->c_o.x) / line->col);
-			if (((line->tabl[i] + line->c_o.x) % line->col) > 0)
-				point.y += 1;
-		}
-		else
-		{
-			point.y += ((line->tabl[i]) / line->col);
-			if (((line->tabl[i]) % line->col) > 0)
-				point.y += 1;
-		}
-		point.x = 0;
-	}
-	line->c_v = point;
-}
-
-int count_len(t_line *line)
-{
-	int i;
-	int k;
-
-	k = 0;
-	i = line->i;
-	while (i > 0)
-	{
-		i--;
-		k += line->tabl[i];
-	}
-	return (k);
-}
-
-void move_right(t_line *line, char *str)
+void	move_right(t_line *line, char *str)
 {
 	if (line->slct)
 	{
@@ -68,7 +27,8 @@ void move_right(t_line *line, char *str)
 		cur_goto(line, line->cursor);
 		line->c_len++;
 	}
-	else if (line->cursor == line->len - 1 && line->index > 0 && line->index > line->i)
+	else if (line->cursor == line->len - 1 &&
+		line->index > 0 && line->index > line->i)
 	{
 		line->i++;
 		line->len = line->tabl[line->i];
@@ -79,7 +39,7 @@ void move_right(t_line *line, char *str)
 	}
 }
 
-void move_left(t_line *line, char *str)
+void	move_left(t_line *line, char *str)
 {
 	if (line->slct && line->cursor > 0)
 	{
@@ -105,7 +65,7 @@ void move_left(t_line *line, char *str)
 	}
 }
 
-void move_up(t_line *line)
+void	move_up(t_line *line)
 {
 	if (line->i > 0)
 	{
@@ -115,14 +75,16 @@ void move_up(t_line *line)
 		if (line->cursor > line->len - 1)
 			line->cursor = line->len - 1;
 		if (line->i == 0)
-			tputs(tgoto(tgetstr("cm", 0), line->c_o.x + line->cursor, line->c_v.y), 0, ft_output);
+			tputs(tgoto(tgetstr("cm", 0), line->c_o.x + line->cursor,
+				line->c_v.y), 0, ft_output);
 		else
-			tputs(tgoto(tgetstr("cm", 0), line->cursor, line->c_v.y), 0, ft_output);
+			tputs(tgoto(tgetstr("cm", 0),
+				line->cursor, line->c_v.y), 0, ft_output);
 		line->c_len = (count_len(line) + line->cursor);
 	}
 }
 
-void move_down(t_line *line)
+void	move_down(t_line *line)
 {
 	if (line->i < line->index)
 	{
@@ -131,12 +93,13 @@ void move_down(t_line *line)
 		move_cursor_v(line);
 		if (line->cursor > line->len - 1)
 			line->cursor = line->len - 1;
-		tputs(tgoto(tgetstr("cm", 0), line->cursor, line->c_v.y), 0, ft_output);
+		tputs(tgoto(tgetstr("cm", 0), line->cursor,
+			line->c_v.y), 0, ft_output);
 		line->c_len = (count_len(line) + line->cursor);
 	}
 }
 
-void home_deep(t_line *line, char *str)
+void	home_deep(t_line *line, char *str)
 {
 	if (str && line->r == HOME)
 	{
@@ -156,46 +119,7 @@ void home_deep(t_line *line, char *str)
 		line->cursor = line->len;
 		move_cursor_v(line);
 		tputs(tgoto(tgetstr("cm", 0), (line->c_v.x + line->cursor) % line->col,
-			(line->c_v.y + (line->c_v.x + line->cursor) / line->col)), 0, ft_output);
+					(line->c_v.y + (line->c_v.x + line->cursor) / line->col)),
+					0, ft_output);
 	}
-}
-
-void ft_stock_totable(t_line *line, char *str)
-{
-	int k = 0;
-	int i = 0;
-
-	while (str && str[i])
-	{
-		line->tabl[k]++;
-		if (str[i] == '\n')
-			k++;
-		i++;
-	}
-}
-
-void ft_allocate_table(t_line *line, char *str)
-{
-	int i = 0;
-	if (str)
-	{
-		while (str[i])
-		{
-			if (str[i] == '\n')
-				line->index++;
-			i++;
-		}
-	}
-	if (line->tabl)
-		ft_memdel((void **)&line->tabl);
-	line->tabl = ft_memalloc(sizeof(int) * (line->index + 1));
-	ft_stock_totable(line, str);
-}
-
-void ft_multilne(char *str, t_line *line)
-{
-	line->len = 0;
-	line->index = 0;
-	ft_allocate_table(line, str);
-	line->len = line->tabl[line->i];
 }

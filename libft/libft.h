@@ -110,4 +110,5 @@ size_t 				get_arr_size(char **arr);
 char				*ft_print_until(const char *s, int c);
 void    			ft_putstr_c_str(char *str, char c, char *str2, int fd);
 char				*ft_strchr_no_blanks(char *s, int c, int c2);
+char				*ft_freejoin(char *s1, char *s2, int num);
 #endif
