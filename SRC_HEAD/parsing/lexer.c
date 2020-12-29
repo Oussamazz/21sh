@@ -73,18 +73,12 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *q
     int flag;
 
     i = 0;
-    flag = 0;
-    if (quote)
+    flag = quote != NULL;
+    c = quote ?  *quote : *buf;
+    if(!quote)
     {
-        c = *quote;
-        flag = 1;
-    }
-    else
-    {
-        c = *buf;
         buf++;
-        i++;
-        flag = 0;
+        i += 2;
     }
     if (!(quote_cnt = get_content_quote(buf, c, coord, flag)))
         return (-1);
@@ -95,7 +89,7 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *q
     i += (int)ft_strlen(quote_cnt);
     ft_strdel(&quote_cnt);
     coord->no_space = 0;
-    return (i + 1);
+    return (i);
 }
 
 // int     quote_handling_function(t_lexer **token_node, t_quote *quot, char q, t_pointt *coord)

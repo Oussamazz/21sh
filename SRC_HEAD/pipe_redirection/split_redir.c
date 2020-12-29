@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 01:33:51 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/29 00:50:40 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/29 14:36:29 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int     len_of_redir(char *str)
                 str++;
             }
 	    }
-	    if (!*str || ft_is_there(AGG_REDI, *str) && *str && active_word)
+	    if (!*str || (ft_is_there(AGG_REDI, *str) && active_word))
 		    break ;
         str++;
     }

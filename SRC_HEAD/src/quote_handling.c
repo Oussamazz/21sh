@@ -40,37 +40,20 @@ static size_t	get_content_len(char *str, char c)
 //echo "sdfsf'dfds fd"adfsdf'asdfasdf
 //haha'
 
-char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag_c)
+char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag)
 {
-	int i;
+	const char *tmp = buffer;
 	char *str;
-	int	flag;
-	int len;
 
-	str = NULL;
 	if (buffer)
 	{
-		flag = flag_c; // 
-		i = 0;
-		len = get_content_len(buffer, c);
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		len++;
-		while (*buffer && len--)
-		{
-			if ((*buffer == c && !flag && is_quote(*(buffer + 1)))
-				|| (*buffer == c && ft_isalnum(*(buffer + 1))))
-				coord->no_space = 1;
-			if ((*buffer == c && flag) ||
-				(is_blank(*buffer) && flag) ||
-				(is_quote(*buffer) && flag))
-					break ;
-			if (*buffer == c)
-				flag = 1;
-			else
-				str[i++] = *buffer;
+		while (*buffer != c)
 			buffer++;
-		}
+		str = ft_strsub(tmp,0,buffer - tmp);
+		if(!flag)
+			flag = !is_blank(buffer[1]);
+		coord->no_space = flag;
+		return(str);
 	}
-	return (str);
+	return (NULL);
 }
