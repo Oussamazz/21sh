@@ -148,6 +148,13 @@ void print_his(t_his *g_his)
 	}
 }
 
+char *handel_signal(void)
+{
+	if (g_clt_d)
+		ft_putendl_fd("unexpected EOF while looking for matching", 2);
+	return (NULL);
+}
+
 char *get_full_cmd()
 {
 	char *cmd;
@@ -156,29 +163,30 @@ char *get_full_cmd()
 	int quote_opened = 0;
 	int i;
 	char c = 0;
-	
+	int flag = 0;
 	cmd = ft_strdup("");
-	while(cmd && (tmp = ft_readline(0)))
+	// ft_freejoin();
+	while(cmd && (tmp = ft_readline(flag)))
 	{
 		i = 0;
-		if (g_clt_c || g_clt_d)
-            return (NULL);
 		while(tmp[i])
 		{
 			if(is_quote(tmp[i]) && (c == tmp[i] || c == 0))
 			{
+				flag = 1;
 				quote_opened ^= 1;
 				c = tmp[i] * quote_opened;
 			}
 			i++;
 		}
 		to_free = cmd;
-		if (!(cmd = ft_strjoin(cmd, tmp)))
-			return (NULL);
+		cmd = ft_strjoin(cmd, tmp);
 		free(tmp);
 		free(to_free);
-		if(!quote_opened)
+		if (!quote_opened)
 			break ;
+		if (g_clt_d || g_clt_c)
+			return(handel_signal());
 		prompt_completion(c);
 		tmp = cmd;
 		cmd = ft_strjoin(cmd, "\n");
@@ -202,9 +210,9 @@ void source_sh(t_env **head)
 			continue ;
 		add_to_his(v.str, &g_his, 0);
 		v.tokenz = lexer(v.str, head, &v.coord);
-		if (v.tokenz)
-			print_list(v.tokenz);
-		ft_putendl_fd("_____________", 1);
+		// if (v.tokenz)
+		// 	print_list(v.tokenz);
+		// ft_putendl_fd("_____________", 1);
 		v.status[1] = check_grammar_tokenz(v.tokenz);
 		if (v.tokenz && head && v.status[1] > 0)
 			v.status[1] = parse_commands(&v.ast, v.tokenz, head);

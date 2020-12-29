@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_readline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabakhar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 17:01:53 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/28 17:01:54 by yabakhar         ###   ########.fr       */
+/*   Updated: 2020/12/29 18:03:39 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	get_cursor_position(t_line *line)
 	buff = (char[20]){0};
 	while (1)
 	{
-		ft_putstr_fd("\e[6n", 2);
-		i = read(2, buff, 20);
+		ft_putstr_fd("\e[6n", 1);
+		i = read(1, buff, 20);
 		buff[i] = 0;
 		if (ft_strchr(buff, '['))
 			break ;
@@ -66,7 +66,8 @@ void	ft_set_terminal(void)
 	config.c_lflag &= ~(ECHO | ICANON);
 	if (tcsetattr(0, 0, &config) < 0)
 		ft_putendl_fd("error", 2);
-	tgetent(buf, getenv("TERM"));
+	if (!tgetent(buf, getenv("TERM")))
+		exit(1);
 }
 
 void	ft_init(t_line *line, t_node **current)
