@@ -5,17 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/19 19:11:38 by oelazzou             #+#    #+#             */
-/*   Updated: 2020/12/19 01:20:59 by oelazzou         ###   ########.fr       */
+/*   Created: 2020/11/19 19:11:38 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/30 19:25:31 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int			word_count(char *s) //    echo  " dd $PWD $HOME$TERM dsfdsf "
+static int		word_count(char *s)
 {
-	int				i;
-	int				res;
+	int			i;
+	int			res;
 
 	i = 0;
 	res = 0;
@@ -25,20 +25,20 @@ static int			word_count(char *s) //    echo  " dd $PWD $HOME$TERM dsfdsf "
 			res++;
 		if (i && s[i] == '$')
 			res++;
-        else if (is_blank(s[i]))
-        {
-            while (is_blank(s[i]))
-                i++;
-            continue ;
-        }
+		else if (is_blank(s[i]))
+		{
+			while (is_blank(s[i]))
+				i++;
+			continue ;
+		}
 		i++;
 	}
-    if ((!s[i] && ft_isascii(s[i - 1])) || (!s[i + 1] && ft_isascii(s[i])))
-        res++;
+	if ((!s[i] && ft_isascii(s[i - 1])) || (!s[i + 1] && ft_isascii(s[i])))
+		res++;
 	return (res);
 }
 
-static int	get_type(char c)
+static int		get_type(char c)
 {
 	if (is_blank(c))
 		return (1);
@@ -47,10 +47,10 @@ static int	get_type(char c)
 	return (2);
 }
 
-static int			word_len(char *s)
+static int		word_len(char *s)
 {
-	int	len;
-	int	type;
+	int			len;
+	int			type;
 
 	len = 0;
 	type = get_type(*s);
@@ -63,13 +63,13 @@ static int			word_len(char *s)
 		else if (len && (!ft_isalnum(*s)))
 			break ;
 		else
-			break;
+			break ;
 		s++;
 	}
 	return (len);
 }
 
-char				**strsplit(char const *s)
+char			**strsplit(char const *s)
 {
 	int			word_countx;
 	char		**str;
@@ -77,14 +77,14 @@ char				**strsplit(char const *s)
 
 	if (!s)
 		return (NULL);
-	word_countx = (word_count((char*)s) * 2);
-	str = (char**)ft_memalloc(sizeof(char*) * (word_countx + 1));
+	word_countx = (word_count((char *)s) * 2);
+	str = (char **)ft_memalloc(sizeof(char *) * (word_countx + 1));
 	i = 0;
 	if (!str)
 		return (NULL);
 	while (word_countx-- && *s)
 	{
-		if (!(str[i] = ft_strsub(s, 0, word_len((char*)s))))
+		if (!(str[i] = ft_strsub(s, 0, word_len((char *)s))))
 			return (NULL);
 		s = s + word_len((char *)s);
 		i++;

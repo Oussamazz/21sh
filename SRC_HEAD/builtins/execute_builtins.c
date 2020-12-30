@@ -6,15 +6,15 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:32:52 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 18:09:49 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/30 18:53:33 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int check_varname(char *cmd)
+static int		check_varname(char *cmd)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	if (!cmd || !ft_isalpha(*cmd))
@@ -28,9 +28,9 @@ static int check_varname(char *cmd)
 	return (1);
 }
 
-int check_args_no(char **cmd)
+int				check_args_no(char **cmd)
 {
-	int i;
+	int			i;
 
 	i = 0;
 	while (cmd[i++] != NULL)
@@ -38,10 +38,9 @@ int check_args_no(char **cmd)
 	return (i - 1);
 }
 
-
-void blt_unsetenv(char **cmd, t_env **env_list)
+void			blt_unsetenv(char **cmd, t_env **env_list)
 {
-	int i;
+	int			i;
 
 	if (check_args_no(cmd) < 2)
 		return (ft_putendl_fd("21sh: Error: [unsetenv [var_name] ...].", 2));
@@ -51,10 +50,10 @@ void blt_unsetenv(char **cmd, t_env **env_list)
 		deleteNode(env_list, cmd[i]);
 		i++;
 	}
-	return;
+	return ;
 }
 
-void blt_setenv(char **cmd, t_env **env_list)
+void			blt_setenv(char **cmd, t_env **env_list)
 {
 	if ((check_args_no(cmd)) == 1)
 		return (print_env_list(env_list));
@@ -66,10 +65,10 @@ void blt_setenv(char **cmd, t_env **env_list)
 		addtolist(env_list, ft_strdup(cmd[1]), ft_strdup(cmd[2]));
 	else
 		modify_env(env_list, cmd[1], cmd[2]);
-	return;
+	return ;
 }
 
-void execute_blt_with_fork(char **cmd, char **tabs, t_env **env_list)
+void			execute_blt_with_fork(char **cmd, char **tabs, t_env **env_list)
 {
 	if (cmd && tabs && *env_list)
 	{

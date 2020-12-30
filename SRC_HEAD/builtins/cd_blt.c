@@ -6,17 +6,17 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:59:22 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 18:10:17 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/30 18:47:59 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static void cd_simple(char *path, t_env **env_list)
+static void		cd_simple(char *path, t_env **env_list)
 {
-	struct stat st;
-	char *tmp;
-	char *tmp2;
+	struct stat	st;
+	char		*tmp;
+	char		*tmp2;
 
 	if (path && access(path, F_OK) == 0)
 	{
@@ -32,35 +32,37 @@ static void cd_simple(char *path, t_env **env_list)
 			ft_strdel(&tmp2);
 		}
 		else
-			ft_putendl_fd_error("21sh: cd: permission denied: ", ft_strrchr(path, '/') + 1, "\n", NULL);
+			ft_putendl_fd_error("21sh: cd: permission denied: ",
+				ft_strrchr(path, '/') + 1, "\n", NULL);
 	}
 	else
-		ft_putendl_fd_error("21sh: cd: no such file or directory: ", ft_strrchr(path, '/') + 1, "\n", NULL);
+		ft_putendl_fd_error("21sh: cd: no such file or directory: ",
+			ft_strrchr(path, '/') + 1, "\n", NULL);
 }
 
-static void cd_home(t_env **env_list)
+static void		cd_home(t_env **env_list)
 {
-	char *home;
+	char		*home;
 
 	home = NULL;
 	if (!(home = get_value_expansion("HOME", env_list)))
-		return;
+		return ;
 	cd_simple(home, env_list);
 	ft_strdel(&home);
 }
 
-static void cd_back(t_env **env_list)
+static void		cd_back(t_env **env_list)
 {
-	char *back_path;
+	char		*back_path;
 
 	back_path = NULL;
 	if (!(back_path = get_value_expansion("OLDPWD", env_list)))
-		return;
+		return ;
 	cd_simple(back_path, env_list);
 	ft_strdel(&back_path);
 }
 
-int		check_args(char **cmd, t_env **env_list)
+int				check_args(char **cmd, t_env **env_list)
 {
 	if (check_args_no(cmd) > 2)
 		ft_putendl_fd_int("21sh: cd: Too many arguments.", 2, 1);
@@ -72,11 +74,11 @@ int		check_args(char **cmd, t_env **env_list)
 	return (0);
 }
 
-void blt_cd(char **cmd, t_env **env_list)
+void			blt_cd(char **cmd, t_env **env_list)
 {
-	char *new_path;
-	char *cwd;
-	char buff[MAX_INDEX];
+	char		*new_path;
+	char		*cwd;
+	char		buff[MAX_INDEX];
 
 	cwd = NULL;
 	if (check_args(cmd, env_list) == 1)

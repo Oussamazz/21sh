@@ -11,9 +11,9 @@ FLAGS= -Wall -Wextra -Werror
 
 SRC_BUILTINS = blt_echo.o execute_builtins.o exit_blt.o type_blt.o cd_blt.o
 
-SRC_EXPANSION = expand.o expansion.o tild_expansion.o
+SRC_EXPANSION = expand.o expansion.o tild_expansion.o get_value_exp.o
 
-SRC_PARSING = ast.o check_grammar.o lexer.o lexerCore.o split.o
+SRC_PARSING = ast.o check_grammar.o lexer.o lexercore.o split.o
 
 SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o split_redir.o
 

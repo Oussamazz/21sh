@@ -269,7 +269,6 @@ int  	aggr_function(char *, t_pointt *, t_lexer **);
 int     quote_function(char *buf, t_lexer ** ,t_pointt *, char *quote);
 int     quote_handling_function(t_lexer **token_node, t_quote *quot, char quote, t_pointt *coord);
 int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord);
-int     meta_function(char *buf, t_lexer **token_node, t_pointt *coord);
 /*
 ** Execution functions
 */
