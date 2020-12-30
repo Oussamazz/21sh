@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   agg_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/16 13:53:48 by oelazzou             #+#    #+#             */
-/*   Updated: 2020/12/27 01:46:50 by oelazzou            ###   ########.fr       */
+/*   Created: 2020/12/16 13:53:48 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/27 01:46:50 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int ft_agg_digit(t_redir *redirection, int fd, int lfd)
+static int	ft_agg_digit(t_redir *redirection, int fd, int lfd)
 {
 	if (redirection->rfd)
 		fd = ft_atoi(redirection->rfd);
@@ -29,14 +29,15 @@ static int ft_agg_digit(t_redir *redirection, int fd, int lfd)
 	return (fd);
 }
 
-static int ft_agg_close(t_redir *redirection, int fd, int lfd)
+static int	ft_agg_close(t_redir *redirection, int fd, int lfd)
 {
-	char *file_d;
+	char	*file_d;
 
 	file_d = NULL;
 	if (!redirection->rfd)
 		return (-1);
-	if (!(file_d = ft_strsub(redirection->rfd, 0, ft_strlen(redirection->rfd) - 1)))
+	if (!(file_d = ft_strsub(redirection->rfd, 0,
+		ft_strlen(redirection->rfd) - 1)))
 		return (-1);
 	fd = ft_atoi(file_d);
 	ft_strdel(&file_d);
@@ -54,7 +55,7 @@ static int ft_agg_close(t_redir *redirection, int fd, int lfd)
 	return (fd);
 }
 
-static int ft_agg_word(t_redir *redirection, t_redir *prev, int fd, int lfd)
+static int	ft_agg_word(t_redir *redirection, t_redir *prev, int fd, int lfd)
 {
 	if (!redirection->rfd)
 		return (-1);
@@ -70,10 +71,10 @@ static int ft_agg_word(t_redir *redirection, t_redir *prev, int fd, int lfd)
 	return (fd);
 }
 
-int ft_agg_out(t_redir *redir, t_redir *prev, int fd)
+int			ft_agg_out(t_redir *redir, t_redir *prev, int fd)
 {
-	int left;
-	t_redir *redir_n;
+	int		left;
+	t_redir	*redir_n;
 
 	redir_n = redir->next;
 	if (prev && prev->lfd && ft_str_is_digit(prev->lfd))
@@ -89,16 +90,17 @@ int ft_agg_out(t_redir *redir, t_redir *prev, int fd)
 		close(left);
 		return (255);
 	}
-	else if (redir_n && redir_n->rfd && ft_strlen(redir_n->rfd) > 2 && redir_n->rfd[ft_strlen(redir_n->rfd) - 1] == '-')
+	else if (redir_n && redir_n->rfd && ft_strlen(redir_n->rfd) > 2 &&
+		redir_n->rfd[ft_strlen(redir_n->rfd) - 1] == '-')
 		fd = ft_agg_close(redir_n, fd, left);
 	else if (redir_n)
 		fd = ft_agg_word(redir_n, prev, fd, left);
 	return (fd);
 }
 
-int ft_agg_in(t_redir *redir, t_redir *prev, int fd)
+int			ft_agg_in(t_redir *redir, t_redir *prev, int fd)
 {
-	int left;
+	int		left;
 	t_redir *redir_n;
 
 	redir_n = redir->next;
@@ -115,14 +117,15 @@ int ft_agg_in(t_redir *redir, t_redir *prev, int fd)
 		close(left);
 		return (255);
 	}
-	else if (redir_n && ft_strlen(redir_n->rfd) > 1 && redir_n->rfd[ft_strlen(redir_n->rfd) - 1] == '-')
+	else if (redir_n && ft_strlen(redir_n->rfd) > 1 &&
+		redir_n->rfd[ft_strlen(redir_n->rfd) - 1] == '-')
 		fd = ft_agg_close(redir_n, fd, left);
 	else if (redir_n)
 		fd = ft_agg_word(redir_n, prev, fd, left);
 	return (fd);
 }
 
-int agg_redirection(t_redir *redirections, t_redir *prev, int fd)
+int			agg_redirection(t_redir *redirections, t_redir *prev, int fd)
 {
 	if (redirections->sym && redirections->sym[0] == '>')
 		fd = ft_agg_out(redirections, prev, fd);
