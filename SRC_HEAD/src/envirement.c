@@ -41,15 +41,14 @@ char	**list_to_tabs(t_env **env_list)
 	t_env	*current;
 	int		i;
 
-	current = *env_list;
+	if (!(current = *env_list))
+        return (NULL);
 	tabs = NULL;
 	i = -1;
-	if (!current)
-		return (NULL);
 	while (++i >= 0 && current != NULL)
 		current = current->next;
 	if (!(tabs = (char **)ft_memalloc(sizeof(char*) * (i + 1))))
-		return (tabs);
+		return (NULL);
 	current = *env_list;
 	i = 0;
 	while (current != NULL)

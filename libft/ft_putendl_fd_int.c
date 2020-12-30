@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handler.c                                    :+:      :+:    :+:   */
+/*   ft_putendl_fd_int.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/24 17:51:48 by oelazzou             #+#    #+#             */
-/*   Updated: 2020/12/23 22:30:13 by oelazzou            ###   ########.fr       */
+/*   Created: 2020/12/30 17:20:05 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/30 17:22:46 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "libft.h"
 
-
-char  *err_ret(char *s, char *addrr)
+int     ft_putendl_fd_int(const char *str, int fd, int ret)
 {
-  ft_putstr_fd(s, 2);
-  return (addrr);
-}
-
-void  error_message(char *err_message, int flag)
-{
-   ft_putstr_fd(err_message, 2);
-   if (flag)
-      exit(EXIT_FAILURE);
+    ft_putendl_fd(str, fd);
+    return (ret);
 }

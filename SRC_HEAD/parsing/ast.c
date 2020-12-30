@@ -80,6 +80,43 @@ size_t  get_arr_size_tokenz(t_lexer *token)
     return (size);
 }
 
+static void fill_cmd(char **ret, t_lexer *token, int *i, t_env **env)
+{
+    char *tmp;
+
+    if (token->type != DQUOT)
+        ret[*i] = ft_strdup(token->data);
+    else
+    {
+        ret[*i] = expanded(env, token->data);
+        ft_strdel(&(token->data));
+    }
+    if (token->coor.no_space)
+    {
+        if (token->next && token->next->data &&
+            (token->next->type == DQUOT || token->next->type == SQUOT || token->type == EXPANSION))
+        {
+            tmp = token->next->data;
+            token->next->data = ft_strjoin(ret[*i], tmp);
+            free(ret[*i]);
+            *i -= 1;
+            free(tmp);
+        }
+    }
+}
+
+int fill_cmd_redir(char **ret, t_lexer *token, int *i, t_redir **redirections)
+{
+    if (token->type == AGGR_SYM ||
+        token->type == L_REDIR || token->type == R_REDIR)
+    {
+        fill_redirections(redirections, token);
+        *i -= 1;
+    }
+    else if (token->type == SEP || token->type == PIPE_SYM)
+        return (1);
+    return(0);
+}
 
 char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size) // norme
 {
@@ -87,9 +124,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
     char **ret;
     t_redir *redir;
     size_t ret_size;
-    char *tmp;
 
-    ret = NULL;
     if (token && env && redirections)
     {
         ret_size = get_arr_size_tokenz(token);
@@ -100,35 +135,8 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
         {
             if (token->type == WORD || token->type == DQUOT ||
                  token->type == SQUOT || token->type == EXPANSION)
-            {
-                if (token->type != DQUOT)
-                    ret[i] = ft_strdup(token->data);
-                else
-                {
-                    //if (!token->coor.no_space)
-                    ret[i] = expanded(env, token->data);
-                    ft_strdel(&(token->data));
-                }
-                if (token->coor.no_space)
-                {
-                    if (token->next && token->next->data &&
-                     (token->next->type == DQUOT || token->next->type == SQUOT || token->type == EXPANSION))
-                    {
-                        tmp = token->next->data;
-                        token->next->data = ft_strjoin(ret[i], tmp);
-                        free(ret[i]);
-                        i--;
-                        free(tmp);
-                    }
-                }
-            }
-            else if (token->type == AGGR_SYM || 
-                token->type == L_REDIR || token->type == R_REDIR)
-            {
-                fill_redirections(redirections, token);
-                i--;
-            }
-            else if (token->type == SEP || token->type == PIPE_SYM)
+                    fill_cmd(ret, token, &i, env);
+            else if (fill_cmd_redir(ret, token, &i, redirections) == 1)
                 break ;
             token = token->next;
             i++;
@@ -138,41 +146,39 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
     return (ret);
 }
 
+static void parse_commands_sep_pipe(t_miniast **head, t_lexer *tokenz, t_env **env)
+{
+    if (tokenz->type == PIPE_SYM && tokenz->next)
+        parse_commands(&(*head)->pipe, tokenz->next, env);
+    else if (tokenz->type == SEP && tokenz->next)
+        parse_commands(&(*head)->sep, tokenz->next, env);
+}
+
 int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 {
-    static size_t AlltokenzSize = 0;
-    size_t tokenz_size;
-    char **cmd;
-    t_miniast *data;
-    t_redir *redirections;
+    size_t      tokenz_size;
+    char        **cmd;
+    t_miniast   *data;
+    t_redir     *redirections;
 
     cmd = NULL;
-    if (!AlltokenzSize)
-        AlltokenzSize = get_list_size(tokenz);
-    while (tokenz && tokenz->coor.node_index <= AlltokenzSize)
+    if (!g_alltokenzSize)
+        g_alltokenzSize = get_list_size(tokenz);
+    while (tokenz && tokenz->coor.node_index <= g_alltokenzSize)
     {
         redirections = NULL;
         if ((*head) == NULL && env && tokenz && tokenz->data)
         {
             if (!(data = (t_miniast*)ft_memalloc(sizeof(t_miniast))))
                 return (-1);
-            data->pipe = NULL;
-            data->sep = NULL;
-            data->cmd = NULL;
-            data->redirection = NULL;    
-            if (!(data->cmd = fill_node(tokenz, &(data->redirection), env, AlltokenzSize)))
+            if (!(data->cmd = fill_node(tokenz, &(data->redirection), env, g_alltokenzSize)))
                 return (-2);
             *head = data;
         }
         else
-        {
-            if (tokenz->type == PIPE_SYM && tokenz->next)
-                parse_commands(&(*head)->pipe, tokenz->next, env);
-            else if (tokenz->type == SEP && tokenz->next)
-                parse_commands(&(*head)->sep, tokenz->next, env);
-        }
-        tokenz = move_list(tokenz, AlltokenzSize);
+            parse_commands_sep_pipe(head, tokenz, env);
+        tokenz = move_list(tokenz, g_alltokenzSize);
     }
-    AlltokenzSize = 0;
+    g_alltokenzSize = 0;
     return (1);
 }

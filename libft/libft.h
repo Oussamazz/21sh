@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 14:38:46 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/28 02:38:41 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/30 17:21:50 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putnbr_wspace(int nb);
 size_t				ft_strlen_delim(char *s, char *delim);
+int					ft_putendl_fd_int(const char *str, int fd, int ret);
 typedef struct		s_list
 {
 	void			*content;

@@ -12,9 +12,6 @@
 
 #include "21sh.h"
 
-//echo "sdfsf'dfds fd"adfsdf'asdfasdf
-//haha'
-
 static size_t	get_content_len(char *str, char c)
 {
 	size_t len;
@@ -36,9 +33,6 @@ static size_t	get_content_len(char *str, char c)
 	}
 	return (len);
 }
-
-//echo "sdfsf'dfds fd"adfsdf'asdfasdf
-//haha'
 
 char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag)
 {

@@ -30,13 +30,35 @@ int	ft_str_is_digit(char *lfd)
 	return (0);
 }
 
+int  ft_redirect_in_out_2(int fd, char *left_fd, t_redir *redirections)
+{
+	int left;
+
+	left = 0;
+	if (left_fd)
+	{
+		if (ft_str_is_digit(left_fd))
+			left = ft_atoi(left_fd);
+		else
+			return (ft_putendl_fd_int("21sh: Error: Left redirection must only contains digits characters.", 2, -1));
+		dup2(fd, left);
+	}
+	else
+	{
+		if (!ft_strcmp(redirections->sym, ">"))
+			dup2(fd, STDOUT_FILENO);
+		else if (!ft_strcmp(redirections->sym, "<"))
+			dup2(fd, STDIN_FILENO);
+	}
+	close(fd);
+	return (0);
+}
+
 int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 {
-	int		left;
 	char 	*right_fd;
 	char 	*left_fd;
 
-	left = 0;
 	left_fd = NULL;
 	if (redirections->next)
 		right_fd = redirections->next->rfd;
@@ -54,25 +76,7 @@ int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 			return (fd);
 		}
 	}
-	if (left_fd)
-	{
-		if (ft_str_is_digit(left_fd))
-			left = ft_atoi(left_fd);
-		else
-		{
-			ft_putendl_fd("21sh: Error: Left redirection must only contains digits characters.", 2);
-			return (-1);
-		}
-		dup2(fd, left);
-	}
-	else
-	{
-		if (!ft_strcmp(redirections->sym, ">"))
-			dup2(fd, STDOUT_FILENO);
-		else if (!ft_strcmp(redirections->sym, "<"))
-			dup2(fd, STDIN_FILENO);
-	}
-	close(fd);
+	ft_redirect_in_out_2(fd, left_fd, redirections);
 	return (255);
 }
 
@@ -96,10 +100,7 @@ int		append_redir(t_redir *redirection, t_redir *prev)
 		if (ft_str_is_digit(left_fd))
 			left = ft_atoi(left_fd);
 		else
-		{
-			ft_putendl_fd("21sh: Error: Left redirection.", 2);
-			return (-1);
-		}
+			return (ft_putendl_fd_int("21sh: Error: Left redirection.", 2, -1));
 		dup2(fd, left);
 	}
 	else
@@ -126,23 +127,13 @@ int	here_document(t_redir *redirection, char *tty_name)
 	if (redirection->next && redirection->next->rfd)
 		ft_putstr_fd(redirection->next->rfd, pip[1]);
 	else if (redirection->next == NULL)
-	{
-		ft_putendl_fd("21sh: parse error near `\\n'", 2); // free!!!
-		return (-3);
-	}
+		return (ft_putendl_fd_int("21sh: parse error near `\\n'", 2, -3));
 	close(pip[1]);
 	dup2(pip[0], STDIN_FILENO);
 	close(pip[0]);
 	dup2(tmp, STDOUT_FILENO);
 	close(tmp);
 	return (255);
-}
-
-static int check_if(t_redir *redirections)
-{
-	if (ft_is_there(redirections->sym, '&'))
-		return (1);
-	return (0);
 }
 
 int		execute_redirection(t_redir *redirections, char *tty_name)

@@ -36,7 +36,6 @@ int   sep_function(char *buf, t_lexer **token_node, t_pointt *coord)
     return (1);
 }
 
-//  $> cat <<EOF > rf 
 
 int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
 {

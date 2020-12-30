@@ -141,6 +141,7 @@ typedef struct s_his
 	struct s_his *next;
 }				t_his;
 t_his *g_his;
+size_t g_alltokenzSize;
 /*
 ** redirections struct
 */

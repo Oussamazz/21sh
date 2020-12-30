@@ -41,7 +41,6 @@ int     check_grammar_tokenz(t_lexer *tokenz)
 {
     char *data;
 
-    data = NULL;
     if (tokenz)
     {
         size_t tokenz_size = get_list_size(tokenz);

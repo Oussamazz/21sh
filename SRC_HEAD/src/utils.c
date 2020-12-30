@@ -68,31 +68,6 @@ bool    is_quote(int c)
     return (false);
 }
 
-// size_t last_node_check(t_lexer **tokenz, t_type type, int node_index)
-// {
-//     t_lexer *head;
-
-//     if (tokenz && node_index)
-//     {
-//         if (!*tokenz)
-//             return (0);
-//         head = *tokenz;
-//         while (head->next != NULL)
-//         {
-//             if (head->aggr_index)
-//             {
-//                 head->aggr_index = node_index;
-//                 break ;
-//             }
-//             head = head->next;
-//         }
-//         if (head->type == type)
-//             return (1);
-//         return (0);
-//     }
-//     return (0);
-// }
-
 int check_quoting(t_lexer** head, t_type type, int cur_node_index)
 {
     int i;
@@ -303,50 +278,6 @@ char    *get_left_fd_(char *buf)
         len--;
     }
     return (ret);
-}
-
-int check_command_redir(t_lexer **head, char *buf, t_pointt *cor)
-{
-    int j;
-    char tmp[MAX_INDEX];
-    char mybuff[MAX_INDEX];
-    char *ttmp;
-    char *str_str;
-    char *sym;
-
-    if (!buf || !*buf)
-        return (-1);
-    str_str = ft_strdup(buf);   
-    ttmp = str_str;
-    size_t substr_size =  ft_strchr_size(ttmp, ' ');
-    char *my_string = ft_strsub(buf, 0, substr_size);
-    if (ft_is_there(buf, '>') || ft_is_there(buf, '<'))
-    {
-        j = 0;
-        while (*(buf + j) && ft_isalnum(*(buf + j)) && buf[j] != '>' && buf[j] != '<')
-        {
-            tmp[j] = buf[j];
-            j++;
-        }
-        tmp[j] = '\0';
-        if (j)
-            append_list_redi(head, ft_strdup(tmp), L_REDIR, cor);
-        if ((buf[j] == '>' || buf[j] == '<' || buf[j] == '-') && (sym = sub_aggr_sym(buf + j)))
-        {
-            append_list_redi(head, ft_strdup(sym), AGGR_SYM, cor);
-            int sym_len = (int)ft_strlen(sym);
-            ft_strdel(&sym);
-            ft_strdel(&my_string);
-            ft_strdel(&str_str);
-            return (j + sym_len + 1);
-        }
-        else if (ft_is_there(";", buf[j]))
-            return (1);
-        ft_strdel(&my_string);
-        ft_strdel(&str_str);
-        return (j);
-    }
-    return (1);
 }
 
 static size_t calc_size(char * str)
