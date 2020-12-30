@@ -187,7 +187,7 @@ int     expansion_parse(t_lexer **token_node, char *buf, t_env **env_list, t_poi
                         append_list(token_node, env_value, EXPANSION, cor);
                     ft_strdel(&env_value);
                     ft_strdel(&data);
-                    return (ft_strlen_delim(buf, " $|><\n\t"));
+                    return (ft_strlen_delim(buf, " ;$|><\n\t"));
                 }
                 else
                     data[j++] = buf[i];

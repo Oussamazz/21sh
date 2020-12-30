@@ -22,12 +22,8 @@ void    add_to_his(char *buffer, t_his **g_his, int flag)
     last = *g_his;
 	if (!(ret = (t_his*)ft_memalloc(sizeof(t_his))))
         return ;
-    // if (flag)
-    //     ret->data = ft_strjoin("\n", buffer);
-    // else
-        ret->data = ft_strdup(buffer);
-    if (!ret->data)
-        return ;
+    if (!(ret->data = ft_strdup(buffer)))
+        return;
     if (last == NULL)
     {
         *g_his = ret;
@@ -58,33 +54,3 @@ char    *join_all_bufs(t_his *his)
     }
     return (ret);
 }
-
-/*
-
-    t_lexer *last;
-    t_lexer *ret;
-
-    last = *root;
-    ret = (t_lexer*)ft_memalloc(sizeof(t_lexer));
-    if (ret == NULL)
-        return ;
-    ret->data = ft_strdup(data);
-    ret->type = type;
-    if (type != METACHAR)
-    {
-        cor->node_index += 1;
-        ret->coor.node_index = cor->node_index;
-        ret->coor.no_space = cor->no_space;
-    }
-    ret->next = NULL;
-    if (last == NULL)
-    {
-        *root = ret;
-        return ;
-    }
-    while (last->next != NULL)
-        last = last->next;
-    last->next = ret;
-    return ;
-
-*/

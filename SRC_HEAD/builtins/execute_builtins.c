@@ -28,7 +28,6 @@ static int  check_varname(char *cmd)
     return (1);
 }
 
-
 int check_args_no(char **cmd)
 {
     int i;
@@ -38,7 +37,6 @@ int check_args_no(char **cmd)
         ;
     return (i - 1);
 }
-
 
 static void cd_simple(char *path, t_env **env_list)
 {
@@ -152,22 +150,6 @@ void    blt_setenv(char **cmd, t_env **env_list)
         modify_env(env_list, cmd[1], cmd[2]);
     return ;
 }
-
-// void    execute_blt_without_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list)
-// {
-//     if (cmd && tabs && *env_list)
-//     {
-//         if (ft_strequ(cmd[0] , "cd")) // no fork
-//             blt_cd(cmd, env_list);
-//         else if (ft_strequ(cmd[0] , "setenv")) // no fork
-//             blt_setenv(cmd, env_list);
-//         else if (ft_strequ(cmd[0] , "unsetenv")) // no fork
-//             blt_unsetenv(cmd, env_list);
-//         else if (ft_strequ(cmd[0] , "exit")) // no fork
-//             exit(0); 
-//     }
-//     return ;
-// }
 
 void    execute_blt_with_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list)
 {
