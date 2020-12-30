@@ -206,7 +206,7 @@ void source_sh(t_env **head)
 		ft_prompte();
 		if (!(v.str = get_full_cmd()))
 			continue ;
-		add_to_his(v.str, &g_his, 0);
+		add_to_his(v.str, &g_his);
 		v.tokenz = lexer(v.str, head, &v.coord);
 		if (v.tokenz)
 			print_list(v.tokenz);

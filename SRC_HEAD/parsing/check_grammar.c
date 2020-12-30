@@ -24,7 +24,7 @@ int print_error_sym(t_type type)
     return (-1);
 }
 
-static int     check_token_type(t_type type, t_lexer *tokenz, t_lexer *next, size_t tokenz_size)
+static int     check_token_type(t_type type, t_lexer *tokenz, t_lexer *next, int tokenz_size)
 {
     if ((tokenz->type == type && next->coor.node_index <= tokenz_size
             && (next->type == type)) ||
@@ -44,7 +44,7 @@ int     check_grammar_tokenz(t_lexer *tokenz)
     if (tokenz)
     {
         size_t tokenz_size = get_list_size(tokenz);
-        while (tokenz && tokenz->coor.node_index <= tokenz_size)
+        while (tokenz && tokenz->coor.node_index <= (int)tokenz_size)
         {
             data = tokenz->data;
             if (tokenz->type == AGGR_SYM && tokenz->coor.node_index == 1)

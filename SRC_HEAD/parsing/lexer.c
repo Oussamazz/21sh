@@ -25,7 +25,7 @@ int     expansion_function(char *buf, t_lexer **token_node, t_pointt *coord, t_e
     return (expansion_parse(token_node, buf + i, env_list, coord));
 }
 
-int   sep_function(char *buf, t_lexer **token_node, t_pointt *coord)
+int   sep_function(t_lexer **token_node, t_pointt *coord)
 {
     int i;
 
@@ -104,7 +104,7 @@ int     get_the_word(char *buf, t_lexer **token_node, t_pointt *coord)
     return (j);
 }
 
-int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size_t buf_len)
+int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord)
 {
     int i;
     char *temp;

@@ -6,7 +6,7 @@
 #    By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/30 03:33:28 by oelazzou          #+#    #+#              #
-#    Updated: 2020/12/30 17:22:09 by oelazzou         ###   ########.fr        #
+#    Updated: 2020/12/30 18:25:36 by oelazzou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,9 +89,10 @@ FILE = ft_atoi.c \
 	   ft_print_until.c \
 	   ft_strjoin_four.c \
 	   get_next_line.c \
+	   ft_strdel_2.c \
 	   ft_putendl_fd_int.c \
 	   ft_freejoin.c 
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 OBJ = $(FILE:.c=.o)
 
 $(NAME): 

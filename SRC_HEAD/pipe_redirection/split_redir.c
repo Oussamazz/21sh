@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 01:33:51 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 01:09:33 by macos            ###   ########.fr       */
+/*   Updated: 2020/12/30 18:23:36 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t countall_arr(char **agg, size_t delime_len) // calc all characters
     return (-1);
 }
 
-char *redirection_varname(char ***arr, char *str, int *i)
+char *redirection_varname(char ***arr, char *str, size_t *i)
 {
     size_t c_len;
     char **agg;

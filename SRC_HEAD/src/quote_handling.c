@@ -12,28 +12,6 @@
 
 #include "21sh.h"
 
-static size_t	get_content_len(char *str, char c)
-{
-	size_t len;
-	int		flag;
-
-	len = 0;
-	flag = 0;
-	while (*str)
-	{
-		if (flag && (*str == ';' || *str== '|' || ft_is_there(AGG_REDI, *str)))
-			break ;
-		if ((is_blank(*str) && flag) || (is_quote(*str) && flag))
-			break ;
-		if (*str != c)
-			len++;
-		else
-			flag = 1;
-		str++;
-	}
-	return (len);
-}
-
 char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag)
 {
 	const char *tmp = buffer;

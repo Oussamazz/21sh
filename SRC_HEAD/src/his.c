@@ -12,7 +12,7 @@
 
 #include "21sh.h"
 
-void    add_to_his(char *buffer, t_his **g_his, int flag)
+void    add_to_his(char *buffer, t_his **g_his)
 {
     t_his *last;
     t_his *ret;

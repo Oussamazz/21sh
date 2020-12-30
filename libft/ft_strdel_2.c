@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_echo.c                                         :+:      :+:    :+:   */
+/*   ft_strdel_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/30 17:32:14 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 17:32:36 by oelazzou         ###   ########.fr       */
+/*   Created: 2020/12/30 17:51:35 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/30 17:53:36 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "libft.h"
 
-void	blt_echo(char **cmd)
+void    ft_strdel_2(char **s1, char **s2)
 {
-	int i;
-	int flag;
-
-	i = 0;
-	flag = 0;
-	if (cmd[1] && ft_strequ(cmd[1], "-n"))
-	{
-		i++;
-		flag = 1;
-	}
-	while (cmd[++i] != NULL)
-	{
-		ft_putstr_fd(cmd[i], 1);
-		if (cmd[i + 1])
-			ft_putchar_fd(' ', 1);
-	}
-	if (!flag)
-		ft_putchar_fd('\n', 1);
+	if (s1)
+		ft_strdel(s1);
+	if (s2)
+		ft_strdel(s2);
 }

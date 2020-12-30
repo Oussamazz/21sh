@@ -12,7 +12,7 @@
 
 #include "21sh.h"
 
-static t_lexer      *move_list(t_lexer *tokenz, size_t alltokenzsize) //  ls -la dirlist eror | cat -e | wc -l |
+static t_lexer      *move_list(t_lexer *tokenz, int alltokenzsize) //  ls -la dirlist eror | cat -e | wc -l |
 {
     t_lexer *cur;
 
@@ -105,7 +105,7 @@ static void fill_cmd(char **ret, t_lexer *token, int *i, t_env **env)
     }
 }
 
-int fill_cmd_redir(char **ret, t_lexer *token, int *i, t_redir **redirections)
+int fill_cmd_redir(t_lexer *token, int *i, t_redir **redirections)
 {
     if (token->type == AGGR_SYM ||
         token->type == L_REDIR || token->type == R_REDIR)
@@ -118,13 +118,13 @@ int fill_cmd_redir(char **ret, t_lexer *token, int *i, t_redir **redirections)
     return(0);
 }
 
-char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size) // norme
+char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, int alltoken_size)
 {
     int i;
     char **ret;
-    t_redir *redir;
     size_t ret_size;
 
+    ret = NULL;
     if (token && env && redirections)
     {
         ret_size = get_arr_size_tokenz(token);
@@ -136,7 +136,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
             if (token->type == WORD || token->type == DQUOT ||
                  token->type == SQUOT || token->type == EXPANSION)
                     fill_cmd(ret, token, &i, env);
-            else if (fill_cmd_redir(ret, token, &i, redirections) == 1)
+            else if (fill_cmd_redir(token, &i, redirections) == 1)
                 break ;
             token = token->next;
             i++;
@@ -156,7 +156,6 @@ static void parse_commands_sep_pipe(t_miniast **head, t_lexer *tokenz, t_env **e
 
 int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 {
-    size_t      tokenz_size;
     char        **cmd;
     t_miniast   *data;
     t_redir     *redirections;

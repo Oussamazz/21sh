@@ -7,13 +7,13 @@ SRC_DIR_PARSE:= ./SRC_HEAD/
 OBJ_DIR_HEAD:= ./objs/
 
 FLAGS= -Wall -Wextra -Werror
-FLAGS= -g 
+# FLAGS= -g 
 
-SRC_BUILTINS = blt_echo.o execute_builtins.o exit_blt.o type_blt.o
+SRC_BUILTINS = blt_echo.o execute_builtins.o exit_blt.o type_blt.o cd_blt.o
 
 SRC_EXPANSION = expand.o expansion.o tild_expansion.o
 
-SRC_PARSING = ast.o check_grammar.o lexer.o lexerCore.o quote_completion.o split.o
+SRC_PARSING = ast.o check_grammar.o lexer.o lexerCore.o split.o
 
 SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o split_redir.o
 

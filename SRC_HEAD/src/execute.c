@@ -180,7 +180,6 @@ void ft_reset_fd(char *tty_name, int file_d)
 
 int				execute(t_miniast *tree, t_env **env_list)
 {
-	t_miniast *sepa;
 	char	**tabs;
 	int		fd;
 

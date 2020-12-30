@@ -141,7 +141,7 @@ typedef struct s_his
 	struct s_his *next;
 }				t_his;
 t_his *g_his;
-size_t g_alltokenzSize;
+int	g_alltokenzSize;
 /*
 ** redirections struct
 */
@@ -187,8 +187,8 @@ typedef struct s_mystruct
 
 typedef struct	s_split_redir
 {
-    int i;
-    int j;
+    size_t i;
+    size_t j;
     char **agg;
     char *tmp;
     int active_word;
@@ -226,7 +226,7 @@ typedef struct s_expand
     char *tmp;
     int i;
     int j;
-    size_t val_size;
+    int	val_size;
 }				t_expand;
 
 typedef struct s_expansion
@@ -264,11 +264,11 @@ int     	check_tokenz_grammar(t_lexer *tokenz);
 
 // norme
 int     expansion_function(char *buf, t_lexer **tokenz, t_pointt *coord, t_env **env_list);
-int   	sep_function(char *buf, t_lexer ** , t_pointt *);
+int   	sep_function(t_lexer ** , t_pointt *);
 int  	aggr_function(char *, t_pointt *, t_lexer **);
 int     quote_function(char *buf, t_lexer ** ,t_pointt *, char *quote);
 int     quote_handling_function(t_lexer **token_node, t_quote *quot, char quote, t_pointt *coord);
-int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size_t buf_len);
+int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord);
 int     meta_function(char *buf, t_lexer **token_node, t_pointt *coord);
 /*
 ** Execution functions
@@ -278,7 +278,7 @@ int				execute_pipes(t_miniast *tree, char **tabs, t_env **env_list); // PIPES
 void			execute_direct(char **cmd, char **tabs);
 void			execute_undirect(char **cmd, char **tabs, t_env **env);
 void   			execute_blt_without_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list);
-void    		execute_blt_with_fork(t_miniast *tree, char **cmd, char **tabs, t_env **env_list);
+void    		execute_blt_with_fork(char **cmd, char **tabs, t_env **env_list);
 /*
 ** Redirection fucntions:
 */
@@ -331,7 +331,7 @@ t_type 		ret_last_node_type(t_lexer **head);
 int			check_builtins(char *cmd_name);
 int 		check_args_no(char **cmd);
 void        type_builtin(char **cmd, t_env **env_list);
-void		add_to_his(char *buffer, t_his **g_his, int flag);
+void		add_to_his(char *buffer, t_his **g_his);
 char    	*join_all_bufs(t_his *his);
 int     	str_is_blank(char *buffer);
 char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag_c);
@@ -342,7 +342,7 @@ int 		check_builtins_nfrk(char *cmd_name);
 
 
 int    		parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
-char    	**fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t alltoken_size);
+char    	**fill_node(t_lexer *token, t_redir **redirections, t_env **env, int alltoken_size);
 int     	check_grammar_tokenz(t_lexer *tokenz);
 
 

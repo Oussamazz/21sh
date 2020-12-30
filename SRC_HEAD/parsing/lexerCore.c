@@ -17,7 +17,7 @@ static char *get_splitter(char *buf, t_mystruct *v)
     int position;
     if (*buf == ';')
 	{
-		if ((position = sep_function(buf, &v->tokenz, &v->coord)) > 0)
+		if ((position = sep_function(&v->tokenz, &v->coord)) > 0)
 			return(buf + position);
 		ft_free_tokenz(&v->tokenz);
         return(NULL);
@@ -27,7 +27,6 @@ static char *get_splitter(char *buf, t_mystruct *v)
 
 static char	*get_dollars(char *buf)
 {
-	char *ret;
 	int i;
 	int count;
 
@@ -110,7 +109,7 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 	 !ft_is_there(AGG_REDI, *buf) && *buf != '|')
 	{
 		if (buf && *(buf))
-			buf += simple_word_function(buf, &v->tokenz, &v->coord, v->size);
+			buf += simple_word_function(buf, &v->tokenz, &v->coord);
 	}
 	return (buf);
 }

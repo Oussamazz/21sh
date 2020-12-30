@@ -12,38 +12,6 @@
 
 #include "21sh.h"
 
-static char *get_left_fd(char *str, int pos)
-{
-    int i;
-    int j;
-    char *tmp;
-
-    tmp = ft_strnew(ft_strlen(str));
-    if (!tmp)
-    {
-        i = pos;
-        j = 0;
-        while (i >= 0 && str[i] && !is_blank(str[i]))
-        {
-            tmp[j] = str[i];
-            i--;
-            j++;
-        }
-        return (tmp);
-    }
-    return (NULL);
-}
-
-static int  calc_symbol(char *str)
-{
-    int count;
-
-    count = 0;
-    while (str[count] && ft_is_there(AGG_REDI, str[count]))
-        count++;
-    return (count);
-}
-
 size_t     redirerction_parse(t_lexer **token_node, char **agg, t_pointt *cor) // ls >a>b>c
 {
     int j;
