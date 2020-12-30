@@ -148,10 +148,14 @@ void print_his(t_his *g_his)
 	}
 }
 
-char *handel_signal(void)
+char *handel_signal(char c)
 {
 	if (g_clt_d)
-		ft_putendl_fd("unexpected EOF while looking for matching", 2);
+	{
+		ft_putstr_fd("unexpected EOF while looking for matching `", 2);
+		ft_putchar_fd(c, 2);
+		ft_putendl_fd("\"", 2);
+	}
 	return (NULL);
 }
 
@@ -186,7 +190,7 @@ char *get_full_cmd()
 		if (!quote_opened)
 			break ;
 		if (g_clt_d || g_clt_c)
-			return(handel_signal());
+			return(handel_signal(c));
 		prompt_completion(c);
 		tmp = cmd;
 		cmd = ft_strjoin(cmd, "\n");
