@@ -112,7 +112,7 @@ char    **fill_node(t_lexer *token, t_redir **redirections, t_env **env, size_t 
                 if (token->coor.no_space)
                 {
                     if (token->next && token->next->data &&
-                     (token->next->type == DQUOT || token->next->type == SQUOT))
+                     (token->next->type == DQUOT || token->next->type == SQUOT || token->type == EXPANSION))
                     {
                         tmp = token->next->data;
                         token->next->data = ft_strjoin(ret[i], tmp);
@@ -152,7 +152,7 @@ int    parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
     while (tokenz && tokenz->coor.node_index <= AlltokenzSize)
     {
         redirections = NULL;
-        if ((*head) == NULL && env && tokenz && tokenz->data) // ls -la;
+        if ((*head) == NULL && env && tokenz && tokenz->data)
         {
             if (!(data = (t_miniast*)ft_memalloc(sizeof(t_miniast))))
                 return (-1);

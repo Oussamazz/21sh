@@ -47,10 +47,8 @@ static void execute_pip_child(t_miniast *tree, t_mypipe *pipes, char **tabs, t_e
 
 static void execute_pipes1(t_miniast *tree, t_mypipe *pipes, char **tabs, t_env **env_list)
 {
-    if (tree->cmd && tree->cmd[0] && !ft_strcmp(tree->cmd[0], "exit"))
-        exit(0);
-    // if (tree->cmd && check_builtins_nfrk(tree->cmd[0]))
-    //     return execute_blt_without_fork(tree, tree->cmd, tabs, env_list);
+    if (tree->cmd && tree->cmd[0] && check_builtins_nfrk(tree->cmd[0]))
+        return (execute_blt_with_fork(tree, tree->cmd, tabs, env_list));
     if (pipe(pipes->pipe) == -1) // err
         return;
     if ((pipes->pid = fork()) == -1)

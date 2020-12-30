@@ -159,44 +159,41 @@ char *handel_signal(char c)
 	return (NULL);
 }
 
+static void	assign_v(t_getfullcmd *v)
+{
+	v->flag = 1;
+	v->quote_opened ^= 1;
+	v->c = v.tmp[v->i] * v->quote_opened;
+}
+
 char *get_full_cmd()
 {
-	char *cmd;
-	char *tmp;
-	char *to_free;
-	int quote_opened = 0;
-	int i;
-	char c = 0;
-	int flag = 0;
-	cmd = ft_strdup("");
-	// ft_freejoin();
-	while(cmd && (tmp = ft_readline(flag)))
+	t_getfullcmd v;
+
+	ft_bzero(&v, sizeof(t_getfullcmd));
+	v.cmd = ft_strdup("");
+	while(v.cmd && (v.tmp = ft_readline(v.flag)))
 	{
-		i = 0;
-		while(tmp[i])
+		v.i = 0;
+		while(v.tmp[v.i])
 		{
-			if(is_quote(tmp[i]) && (c == tmp[i] || c == 0))
+			if(is_quote(v.tmp[v.i]) && (v.c == v.tmp[v.i] || v.c == 0))
 			{
-				flag = 1;
-				quote_opened ^= 1;
-				c = tmp[i] * quote_opened;
+				v.flag = 1;
+				v.quote_opened ^= 1;
+				v.c = v.tmp[v.i] * v.quote_opened;
 			}
-			i++;
+			v.i++;
 		}
-		to_free = cmd;
-		cmd = ft_strjoin(cmd, tmp);
-		free(tmp);
-		free(to_free);
-		if (!quote_opened)
+		v.cmd = ft_freejoin(v.cmd, v.tmp, 2);
+		if (!v.quote_opened)
 			break ;
 		if (g_clt_d || g_clt_c)
-			return(handel_signal(c));
-		prompt_completion(c);
-		tmp = cmd;
-		cmd = ft_strjoin(cmd, "\n");
-		free(tmp);
+			return(handel_signal(v.c));
+		prompt_completion(v.c);
+		v.cmd = ft_freejoin(v.cmd, "\n", 0);
 	}
-	return(tmp ? cmd : NULL);
+	return(v.tmp ? v.cmd : NULL);
 }
 
 void source_sh(t_env **head)

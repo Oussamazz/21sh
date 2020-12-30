@@ -120,7 +120,6 @@ void    blt_cd(char **cmd, t_env **env_list) // norme!
     }                                 
 }
 
-
 void blt_unsetenv(char **cmd, t_env **env_list)
 {
     int i;
@@ -166,7 +165,9 @@ void    execute_blt_with_fork(t_miniast *tree, char **cmd, char **tabs, t_env **
         else if (ft_strequ(cmd[0] , "setenv")) // no fork
             blt_setenv(cmd, env_list);
         else if (ft_strequ(cmd[0] , "unsetenv")) // no fork
-            blt_unsetenv(cmd, env_list); 
+            blt_unsetenv(cmd, env_list);
+        else if (ft_strequ(cmd[0] , "exit"))
+            exit(0);
     }
     return ;
 }

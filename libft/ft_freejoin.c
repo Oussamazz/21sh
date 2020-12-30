@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_freejoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yabakhar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:25:54 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/28 18:30:51 by yabakhar         ###   ########.fr       */
+/*   Updated: 2020/12/30 10:38:38 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ char		*ft_freejoin(char *s1, char *s2, int num)
 {
 	char	*str;
 
-	str = ft_strjoin(s1, s2);
+	if (!(str = ft_strjoin(s1, s2)))
+		return (NULL);
 	if (num == 0)
 		free(s1);
 	else if (num == 1)

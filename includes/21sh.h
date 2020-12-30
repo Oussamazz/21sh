@@ -200,6 +200,16 @@ typedef struct	s_split_redir
 	int status;
 }				t_split_redir;
 
+typedef	struct s_getfullcmd
+{
+	char *cmd;
+	char *tmp;
+	char *to_free;
+	int quote_opened;
+	int i;
+	char c;
+	int flag;
+}				t_getfullcmd;
 
 /*
 ** principale functions
@@ -289,6 +299,7 @@ void		add_to_his(char *buffer, t_his **g_his, int flag);
 char    	*join_all_bufs(t_his *his);
 int     	str_is_blank(char *buffer);
 char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag_c);
+int 		check_builtins_nfrk(char *cmd_name);
 /*
 ** btree Functions _________________________________________________________
 */

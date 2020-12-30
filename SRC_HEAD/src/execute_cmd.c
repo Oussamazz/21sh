@@ -16,7 +16,17 @@ int check_builtins(char *cmd_name)
 {
     if (ft_strequ(cmd_name, "echo") || ft_strequ(cmd_name, "setenv") ||
      ft_strequ(cmd_name, "unsetenv") || ft_strequ(cmd_name, "env") ||
-     ft_strequ(cmd_name, "cd") || ft_strequ(cmd_name, "type"))
+     ft_strequ(cmd_name, "cd") || ft_strequ(cmd_name, "type")
+      || ft_strequ(cmd_name, "exit"))
+         return (1);
+    return (0);
+}
+
+int check_builtins_nfrk(char *cmd_name)
+{
+    if (ft_strequ(cmd_name, "setenv") ||
+     ft_strequ(cmd_name, "unsetenv") ||
+     ft_strequ(cmd_name, "cd") || ft_strequ(cmd_name, "exit"))
          return (1);
     return (0);
 }
