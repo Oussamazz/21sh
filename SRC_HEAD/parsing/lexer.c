@@ -52,25 +52,19 @@ int  	aggr_function(char *buf, t_pointt *coord, t_lexer **token_node)
         ft_putendl_fd("21sh: syntax error near unexpected token `newline'", 2);
         return (-1);
     }
-    // if (!(buf_dup = ft_strdup(buf)))
-    //     return (-1);
     if (!(agg = split_redir(buf)))
         return (-1);
-    //print_arr(agg);
     i = i + redirerction_parse(token_node, agg, coord) - 1;
     g_agg_len = 0;
-    //ft_strdel(&buf_dup);
-    return (i); // > test
+    return (i);
 }
 
 int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *quote)
 {
     int i;
-    t_quote *quot;
+    int flag;
     char *quote_cnt;
     char c;
-    quot = NULL;
-    int flag;
 
     i = 0;
     flag = quote != NULL;
@@ -92,31 +86,32 @@ int     quote_function(char *buf, t_lexer **token_node, t_pointt *coord, char *q
     return (i);
 }
 
-// int     quote_handling_function(t_lexer **token_node, t_quote *quot, char q, t_pointt *coord)
-// {
-//     int i;
+int     get_the_word(char *buf, t_lexer **token_node, t_pointt *coord)
+{
+    char tmp[MIN_INDEX];
+    int j;
 
-//     i = 0;
-//     if (!quot || !*quot->string)
-//         return (1);
-//     if (q == '\'')
-//         append_list(token_node, quot->string, SQUOT, coord);
-//     else
-//         append_list(token_node, quot->string, DQUOT, coord);
-//     i += quot->size;
-//     ft_strdel(&quot->string);
-//     ft_memdel((void**)&quot);
-//     return (i);
-// }
+    j = 0;
+    while (buf[j] && !ft_is_there(METACHARACTER, buf[j]) && !ft_is_aggr(buf[j]) && buf[j] != '|' && buf[j] != '$')
+    {
+        tmp[j] = buf[j];
+        j++;
+    }
+    if (buf[j] == '$')
+        coord->no_space = 1;
+    tmp[j] = '\0';
+    append_list(token_node, tmp, WORD, coord);
+    ft_strclr(tmp);
+    return (j);
+}
 
 int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size_t buf_len)
 {
     int i;
-    int j;
-    char tmp[1024];
     char *temp;
 
     temp = NULL;
+    i = 0;
     if (*buf && ft_isdigit(*buf) && ft_is_there(AGG_REDI, *(buf + 1)) && *(buf + 1) != '\0')
     {
         temp = get_left_fd_(buf);
@@ -125,20 +120,7 @@ int		simple_word_function(char *buf, t_lexer **token_node, t_pointt *coord, size
         ft_strdel(&temp);
     }
     else if (*buf)
-    {
-        j = 0;
-        while (buf[j] && !ft_is_there(METACHARACTER, buf[j]) && !ft_is_aggr(buf[j]) && buf[j] != '|' && buf[j] != '$')
-        {
-            tmp[j] = buf[j];
-            j++;
-        }
-        if (buf[j] == '$')
-            coord->no_space = 1;
-        tmp[j] = '\0';
-        append_list(token_node, tmp, WORD, coord);
-        i = j;
-        ft_strclr(tmp);
-    }
+        i = get_the_word(buf, token_node, coord);
     return (i);
 }
 

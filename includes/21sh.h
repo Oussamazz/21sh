@@ -35,6 +35,7 @@
 # define DEFAULT_FD_IN "0"
 # define ERR_BAD_FD "21sh: bad file descriptor.\n"
 # define MAX_INDEX 4096
+# define MIN_INDEX 1024 
 # define WELCOME_MSG "\t\033[1;32m⬇⬇  w3lc0m3 70 7h3_qu173r & ph30n1x 5h3ll ⚙️  ⬇⬇\033[0m\t\t"
 
 // free variables enum

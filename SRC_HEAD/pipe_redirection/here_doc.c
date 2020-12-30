@@ -31,7 +31,9 @@ char    *here_doc(char *delim) // norme!
     {
         if (g_clt_c || g_clt_d)
         {
-            if (text)
+            if (g_clt_d)
+                return (text);
+            else if (text)
                 ft_strdel(&text);
             return (NULL);
         }

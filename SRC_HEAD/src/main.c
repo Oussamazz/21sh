@@ -210,9 +210,9 @@ void source_sh(t_env **head)
 			continue ;
 		add_to_his(v.str, &g_his, 0);
 		v.tokenz = lexer(v.str, head, &v.coord);
-		// if (v.tokenz)
-		// 	print_list(v.tokenz);
-		// ft_putendl_fd("_____________", 1);
+		if (v.tokenz)
+			print_list(v.tokenz);
+		ft_putendl_fd("_____________", 1);
 		v.status[1] = check_grammar_tokenz(v.tokenz);
 		if (v.tokenz && head && v.status[1] > 0)
 			v.status[1] = parse_commands(&v.ast, v.tokenz, head);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 01:33:51 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/29 14:36:29 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/30 01:09:33 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ char **split_redir(char *str)
     v.agg_len = 3; // word_count
     if (str && (v.agg = (char **)ft_memalloc(sizeof(char *) * v.agg_len)))
     {
-        v.len = len_of_redir(str) + 1;
+        v.len = ft_strlen(str);
         while (v.i < v.len  && str[v.i] != '\0' && v.j < v.agg_len)
         {
             v.status = do_spliting(&v, str);

@@ -49,7 +49,7 @@ char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag)
 	{
 		while (*buffer != c)
 			buffer++;
-		str = ft_strsub(tmp,0,buffer - tmp);
+		str = ft_strsub(tmp, 0, buffer - tmp);
 		if(!flag)
 			flag = !is_blank(buffer[1]);
 		coord->no_space = flag;
