@@ -180,8 +180,6 @@ typedef struct s_mystruct
 	int status[2];
 	t_miniast *ast;
 	t_lexer *tokenz;
-    t_quote *quot;
-    t_quote *rec_quot;
 	t_env 	**env_list;
 	t_pointt coord;
 }				t_mystruct;
@@ -210,6 +208,43 @@ typedef	struct s_getfullcmd
 	char c;
 	int flag;
 }				t_getfullcmd;
+
+typedef struct s_here_doc
+{
+	int flag;
+    char *text;
+    char *tmp;
+    char *buffer;
+}				t_here_doc;
+
+typedef struct s_expand
+{
+	char **arr;
+    char **value;
+    char *string;
+    char *tmp;
+    int i;
+    int j;
+    size_t val_size;
+}				t_expand;
+
+typedef struct s_expansion
+{
+	int     i;
+    int     j;
+    int     data_size;
+    char    *data;
+    char    *env_value;
+	char	*buf;
+}				t_expansion;
+
+typedef struct s_tilde_exp
+{
+	int i;
+    char *home_value;
+    char *user;
+    char *user_name;
+}				t_tilde_exp;
 
 /*
 ** principale functions
@@ -353,6 +388,7 @@ char        *get_value_expansion(char *env_name, t_env **head);
 int         ft_is_expansion(char *str);
 int         ft_is_tilde(char *str);
 char        *expanded(t_env **head, char *str);
+void		tilde_exp(char *exp, char **data, t_env **env_list);
 /*
 **  printing
 */

@@ -106,7 +106,8 @@ static char *get_qoute_word(char *buf, t_mystruct *v)
 			return (NULL);
 		return (buf + position);
 	}
-	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$' && !ft_is_there(AGG_REDI, *buf))
+	if ((*buf && !ft_is_there(METACHARACTER, *buf)) && *buf != '$' &&
+	 !ft_is_there(AGG_REDI, *buf) && *buf != '|')
 	{
 		if (buf && *(buf))
 			buf += simple_word_function(buf, &v->tokenz, &v->coord, v->size);

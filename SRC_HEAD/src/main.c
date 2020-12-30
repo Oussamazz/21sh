@@ -163,7 +163,7 @@ static void	assign_v(t_getfullcmd *v)
 {
 	v->flag = 1;
 	v->quote_opened ^= 1;
-	v->c = v.tmp[v->i] * v->quote_opened;
+	v->c = v->tmp[v->i] * v->quote_opened;
 }
 
 char *get_full_cmd()
@@ -178,11 +178,7 @@ char *get_full_cmd()
 		while(v.tmp[v.i])
 		{
 			if(is_quote(v.tmp[v.i]) && (v.c == v.tmp[v.i] || v.c == 0))
-			{
-				v.flag = 1;
-				v.quote_opened ^= 1;
-				v.c = v.tmp[v.i] * v.quote_opened;
-			}
+				assign_v(&v);
 			v.i++;
 		}
 		v.cmd = ft_freejoin(v.cmd, v.tmp, 2);

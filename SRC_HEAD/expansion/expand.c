@@ -13,72 +13,54 @@
 
 #include "21sh.h"
 
+static void expansion_func(t_expand *v, t_env **head)
+{
+    if (v->tmp > v->arr[v->i] && *(v->tmp - 1) == '\\')
+        v->i++;
+    else if (!(v->value[v->j] = get_value_expansion(ft_strchr(v->arr[v->i], '$') + 1, head)))
+        v->i++;
+    else if (v->string)
+    {
+        v->string = ft_freejoin(v->string, v->value[v->j], 0);
+        ft_strdel(&v->value[v->j]);
+    }
+    else
+        v->string = v->value[v->j];
+    v->j++;
+}
+
+static void not_is_expansion(t_expand *v)
+{
+    if (v->string && !ft_is_expansion(v->arr[v->i]))
+        v->string = ft_freejoin(v->string, v->arr[v->i], 0);
+    if (!v->i && !v->j && !ft_is_expansion(v->arr[v->i]))
+        v->string = ft_strdup(v->arr[v->i]);
+}
+
 char        *expanded(t_env **head, char *str) // norme!
 {
-    char **arr;
-    char **value;
-    char *string;
-    char *tmp;
-    int i;
-    int j;
-    size_t val_size;
+    t_expand v;
 
-    arr = NULL;
-    value = NULL;
-    if(!(arr = strsplit(str)))
+    ft_bzero(&v, sizeof(t_expand));
+    if(!(v.arr = strsplit(str)))
         return (NULL);
-    if (arr)
+    v.val_size = get_arr_size(v.arr) + 1;
+    v.string = NULL;
+    v.tmp = NULL;
+    if (!(v.value = (char**)ft_memalloc(sizeof(char *) * v.val_size)))
+        return (NULL);
+    v.j = 0;
+    v.i = 0;
+    while (v.arr[v.i] != NULL && v.j < v.val_size && v.i < v.val_size)
     {
-        val_size = get_arr_size(arr) + 1;
-        string = NULL;
-        tmp = NULL;
-        if (!(value = (char**)ft_memalloc(sizeof(char *) * val_size)))
-            return (NULL);
-        j = 0;
-        i = 0;
-        while (arr[i] != NULL && j < val_size && i < val_size)
-        {
-            if (ft_is_expansion((tmp = ft_strchr(arr[i], '$'))))
-            {
-                if (tmp > arr[i] && *(tmp - 1) == '\\')
-                {
-                    i++;
-                    continue ;
-                }
-                if (!(value[j] = get_value_expansion(ft_strchr(arr[i], '$') + 1, head)))
-                {
-                    i++;
-                    continue ;
-                }
-                if (string)
-                {
-                    tmp = string;
-                    string = ft_strjoin(string, value[j]);
-                    ft_strdel(&value[j]);
-                    ft_strdel(&tmp);
-                }
-                else
-                    string = value[j];
-                j++;
-            }
-            else
-            {
-                if (string && !ft_is_expansion(arr[i]))
-                {
-                    tmp = string;
-                    string = ft_strjoin(string, arr[i]);
-                    ft_strdel(&tmp);
-                }
-                if (!i && !j && !ft_is_expansion(arr[i]))
-                    string = ft_strdup(arr[i]);
-            } 
-            i++;
-        }
-        ft_free_arr(arr);
-        free(value);
-        value = NULL;
-        //ft_free_arr(value);
-        return (string);
+        if (ft_is_expansion((v.tmp = ft_strchr(v.arr[v.i], '$'))))
+            expansion_func(&v, head);
+        else
+            not_is_expansion(&v);
+        v.i++;
     }
-    return (NULL);
+    ft_free_arr(v.arr);
+    free(v.value);
+    v.value = NULL;
+    return (v.string);
 }

@@ -11,7 +11,7 @@ FLAGS= -g
 
 SRC_BUILTINS = blt_echo.o execute_builtins.o exit_blt.o type_blt.o
 
-SRC_EXPANSION = expand.o expansion.o 
+SRC_EXPANSION = expand.o expansion.o tild_expansion.o
 
 SRC_PARSING = ast.o check_grammar.o lexer.o lexerCore.o quote_completion.o split.o syntax_checker.o
 

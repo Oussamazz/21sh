@@ -17,49 +17,53 @@ void     prompt_here_doc()
     ft_put_multistring2((char *[]){"\033[1;31m>>", "\033[0m", 0, 0, 0, 0, 0});
 }
 
+static char *sig_handler(t_here_doc *v)
+{
+    if (g_clt_d)
+        return (v->text);
+    else if (v->text)
+        ft_strdel(&v->text);
+    return (NULL);
+}
+
+static char *ft_strdel_ret(t_here_doc *v)
+{
+    ft_strdel(&v->buffer);
+    return (v->text);
+}
+
+static void  dup_del(t_here_doc *v)
+{
+    v->text = ft_strdup(v->buffer);
+    v->flag = 1;
+    ft_strdel(&v->buffer);
+}
+
 char    *here_doc(char *delim) // norme!
 {
-    int flag;
-    char *text;
-    char *tmp;
-    char *buffer;
+    t_here_doc v;
 
-    text = NULL;
-    buffer = NULL;
-    flag = 0;
+    ft_bzero(&v, sizeof(t_here_doc));
     while (delim)
     {
         if (g_clt_c || g_clt_d)
-        {
-            if (g_clt_d)
-                return (text);
-            else if (text)
-                ft_strdel(&text);
-            return (NULL);
-        }
+            return (sig_handler(&v));
         prompt_here_doc();
-        if(!(buffer = ft_readline(1)))
+        if(!(v.buffer = ft_readline(1)))
             return (NULL);
-        if (ft_strequ(buffer, delim))
+        if (ft_strequ(v.buffer, delim))
+            return (ft_strdel_ret(&v));
+        v.buffer = ft_freejoin(v.buffer, "\n", 0);
+        v.tmp = v.text;
+        if (!v.flag && v.buffer)
         {
-            ft_strdel(&buffer);
-            return (text);
-        }
-        buffer = ft_strcat(buffer, "\n");
-        tmp = text;
-        if (!flag && buffer)
-        {
-            if(!(text = ft_strdup(buffer)))
-                return (NULL);
-            flag = 1;
-            ft_strdel(&buffer);
+            dup_del(&v);
             continue ;
         }
-        if (!(text = ft_strjoin(text, buffer)))
-            return (NULL);
-        if (flag && tmp)
-            ft_strdel(&tmp);
-        ft_strdel(&buffer);
+        v.text = ft_strjoin(v.text, v.buffer);
+        if (v.flag && v.tmp)
+            ft_strdel(&v.tmp);
+        ft_strdel(&v.buffer);
     }
-    return (text);
+    return (v.text);
 }
