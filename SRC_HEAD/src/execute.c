@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 03:16:16 by oelazzou             #+#    #+#             */
-/*   Updated: 2020/12/22 19:46:18 by oelazzou            ###   ########.fr       */
+/*   Created: 2020/12/04 03:16:16 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/22 19:46:18 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-int	ft_str_is_digit(char *lfd)
+int			ft_str_is_digit(char *lfd)
 {
-	int i;
+	int		i;
 
 	if (lfd)
 	{
@@ -30,9 +30,9 @@ int	ft_str_is_digit(char *lfd)
 	return (0);
 }
 
-int  ft_redirect_in_out_2(int fd, char *left_fd, t_redir *redirections)
+int			ft_redirect_in_out_2(int fd, char *left_fd, t_redir *redirections)
 {
-	int left;
+	int		left;
 
 	left = 0;
 	if (left_fd)
@@ -54,10 +54,10 @@ int  ft_redirect_in_out_2(int fd, char *left_fd, t_redir *redirections)
 	return (0);
 }
 
-int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
+int				ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 {
-	char 	*right_fd;
-	char 	*left_fd;
+	char		*right_fd;
+	char		*left_fd;
 
 	left_fd = NULL;
 	if (redirections->next)
@@ -80,12 +80,12 @@ int		ft_redirect_in_out(t_redir *redirections, t_redir *prev, int fd)
 	return (255);
 }
 
-int		append_redir(t_redir *redirection, t_redir *prev)
+int			append_redir(t_redir *redirection, t_redir *prev)
 {
-	int fd;
-	int left;
-	char *left_fd;
-	char *right_fd;
+	int		fd;
+	int		left;
+	char	*left_fd;
+	char	*right_fd;
 	
 	left_fd = NULL;
 	right_fd = NULL;
@@ -109,11 +109,11 @@ int		append_redir(t_redir *redirection, t_redir *prev)
 	return (fd);
 }
 
-int	here_document(t_redir *redirection, char *tty_name)
+int			here_document(t_redir *redirection, char *tty_name)
 {
-	int pip[2];
-	int fd;
-	int tmp;
+	int		pip[2];
+	int		fd;
+	int		tmp;
 
 	tmp = 255;
 	if((fd = open(tty_name, O_RDWR)) == -1)
@@ -136,24 +136,24 @@ int	here_document(t_redir *redirection, char *tty_name)
 	return (255);
 }
 
-int		execute_redirection(t_redir *redirections, char *tty_name)
+int			execute_redirection(t_redir *redirections, char *tty_name)
 {
 	t_redir *prev;
-	int fd;
+	int		fd;
 
 	fd = 0;
 	prev = NULL;
 	if (!tty_name)
-		exit (1); // tty_name not found {errors must be handled};
+		exit (1);
 	while (redirections != NULL)
 	{
 		if (redirections->sym && ft_is_there(redirections->sym, '&'))
 			fd = agg_redirection(redirections, prev, fd);
-		else if (redirections->sym && (ft_strequ(redirections->sym , ">") || ft_strequ(redirections->sym , "<"))) // REDIR_IN REDIR_OUT
+		else if (redirections->sym && (ft_strequ(redirections->sym , ">") || ft_strequ(redirections->sym , "<")))
 			fd = ft_redirect_in_out(redirections, prev, fd);
-		else if (redirections->sym && (ft_strequ(redirections->sym , ">>"))) // APPEND_OUT
+		else if (redirections->sym && (ft_strequ(redirections->sym , ">>")))
 			fd = append_redir(redirections, prev);
-		else if (redirections->sym && (ft_strequ(redirections->sym , "<<"))) // HERE_DOC
+		else if (redirections->sym && (ft_strequ(redirections->sym , "<<")))
 			fd = here_document(redirections, g_tty_name);
 		if (fd < 0)
 			break ;
@@ -163,7 +163,7 @@ int		execute_redirection(t_redir *redirections, char *tty_name)
 	return (fd);
 }
 
-void ft_reset_fd(char *tty_name, int file_d)
+void		ft_reset_fd(char *tty_name, int file_d)
 {
 	int		fd;
 
@@ -178,7 +178,7 @@ void ft_reset_fd(char *tty_name, int file_d)
 		close(fd);
 }
 
-int				execute(t_miniast *tree, t_env **env_list)
+int			execute(t_miniast *tree, t_env **env_list)
 {
 	char	**tabs;
 	int		fd;
