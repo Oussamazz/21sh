@@ -6,11 +6,11 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 15:30:12 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 16:08:07 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "sh.h"
 
 int			addtolist(t_env **head, char *var_name, char *var_value)
 {
@@ -72,7 +72,7 @@ void		stock_env(char **env, t_env **head)
 
 	if (!env || !*env)
 	{
-		ft_putendl_fd_error(ERROR3, "\n", "\033[0m");
+		ft_putendl_fd_error("\033[1;33m", ERROR3, "\n", "\033[0m");
 		exit(1);
 	}
 	i = 0;

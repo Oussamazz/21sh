@@ -6,11 +6,11 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 17:01:53 by yabakhar          #+#    #+#             */
-/*   Updated: 2020/12/29 18:03:39 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/21sh.h"
+#include "../includes/sh.h"
 
 void	ft_prompte(void)
 {

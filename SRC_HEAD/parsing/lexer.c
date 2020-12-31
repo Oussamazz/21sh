@@ -6,11 +6,11 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 15:22:32 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "sh.h"
 
 int			expansion_function(char *buf, t_lexer **token_node,
 	t_pointt *coord, t_env **env_list)

@@ -6,11 +6,11 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 19:09:07 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 15:19:11 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "sh.h"
 
 static t_lexer	*move_list(t_lexer *tokenz, int alltokenzsize)
 {
@@ -76,9 +76,9 @@ int				parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 	t_redir		*redirections;
 
 	cmd = NULL;
-	if (!g_alltokenzSize)
-		g_alltokenzSize = get_list_size(tokenz);
-	while (tokenz && tokenz->coor.node_index <= g_alltokenzSize)
+	if (!g_alltokenzsize)
+		g_alltokenzsize = get_list_size(tokenz);
+	while (tokenz && tokenz->coor.node_index <= g_alltokenzsize)
 	{
 		redirections = NULL;
 		if ((*head) == NULL && env && tokenz && tokenz->data)
@@ -86,14 +86,14 @@ int				parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 			if (!(data = (t_miniast*)ft_memalloc(sizeof(t_miniast))))
 				return (-1);
 			if (!(data->cmd = fill_node(tokenz, &(data->redirection),
-				env, g_alltokenzSize)))
+				env, g_alltokenzsize)))
 				return (-2);
 			*head = data;
 		}
 		else
 			parse_commands_sep_pipe(head, tokenz, env);
-		tokenz = move_list(tokenz, g_alltokenzSize);
+		tokenz = move_list(tokenz, g_alltokenzsize);
 	}
-	g_alltokenzSize = 0;
+	g_alltokenzsize = 0;
 	return (1);
 }

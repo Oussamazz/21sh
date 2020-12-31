@@ -1,7 +1,7 @@
 NAME= 21sh
 LIBFT_PATH= ./libft/
 INCLUDE= -I ./includes/  -I $(LIBFT_PATH)
-INC = ./includes/21sh.h ./includes/readline.h
+INC = ./includes/sh.h ./includes/readline.h
 
 SRC_DIR_PARSE:= ./SRC_HEAD/
 OBJ_DIR_HEAD:= ./objs/

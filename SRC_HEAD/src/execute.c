@@ -6,11 +6,11 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 16:20:17 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 19:09:46 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "sh.h"
 
 int				ft_redirect_in_out_2(int fd, char *left_fd,
 	t_redir *redirections)
@@ -23,7 +23,11 @@ int				ft_redirect_in_out_2(int fd, char *left_fd,
 		if (ft_str_is_digit(left_fd))
 			left = ft_atoi(left_fd);
 		else
-			return (ft_putendl_fd_int(ERROR4, 2, -1));
+		{
+			ft_putendl_fd(ERROR4, 2);
+			ft_putendl_fd(ERROR44, 2);
+			return (-1);
+		}
 		dup2(fd, left);
 	}
 	else
