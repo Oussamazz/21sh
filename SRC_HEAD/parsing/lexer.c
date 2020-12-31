@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 01:50:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 19:19:49 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 15:22:32 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,26 +84,6 @@ int			quote_function(char *buf, t_lexer **token_node,
 	ft_strdel(&quote_cnt);
 	coord->no_space = 0;
 	return (i);
-}
-
-int			get_the_word(char *buf, t_lexer **token_node, t_pointt *coord)
-{
-	char	tmp[MIN_INDEX];
-	int		j;
-
-	j = 0;
-	while (buf[j] && !ft_is_there(METACHARACTER, buf[j]) &&
-		!ft_is_aggr(buf[j]) && buf[j] != '|' && buf[j] != '$')
-	{
-		tmp[j] = buf[j];
-		j++;
-	}
-	if (buf[j] == '$')
-		coord->no_space = 1;
-	tmp[j] = '\0';
-	append_list(token_node, tmp, WORD, coord);
-	ft_strclr(tmp);
-	return (j);
 }
 
 int			simple_word_function(char *buf,

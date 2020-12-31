@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_handling.c                                   :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 02:38:24 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 16:34:03 by oelazzou         ###   ########.fr       */
+/*   Created: 2020/12/31 15:53:13 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/31 15:59:52 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-char			*get_content_quote(char *buffer, char c,
-	t_pointt *coord, int flag)
+void	ft_ctrlc(int sig_no)
 {
-	const char	*tmp;
-	char		*str;
+	sig_no = 0;
+	while (wait(NULL) > 0)
+		;
+	ft_putchar_fd('\n', 1);
+	ft_prompte();
+}
 
-	tmp = buffer;
-	if (buffer)
+char	*handel_signal(t_getfullcmd *v)
+{
+	if (g_clt_d)
 	{
-		while (*buffer != c)
-			buffer++;
-		str = ft_strsub(tmp, 0, buffer - tmp);
-		if (!flag)
-			flag = !is_blank(buffer[1]);
-		coord->no_space = flag;
-		return (str);
+		ft_putstr_fd("unexpected EOF while looking for matching `", 2);
+		ft_putchar_fd(v->c, 2);
+		ft_putendl_fd("\"", 2);
+		ft_strdel(&v->cmd);
 	}
 	return (NULL);
 }

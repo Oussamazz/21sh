@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:32:52 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 18:53:33 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 16:30:15 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			blt_unsetenv(char **cmd, t_env **env_list)
 	i = 1;
 	while (cmd[i])
 	{
-		deleteNode(env_list, cmd[i]);
+		deletenode(env_list, cmd[i]);
 		i++;
 	}
 	return ;
@@ -58,9 +58,9 @@ void			blt_setenv(char **cmd, t_env **env_list)
 	if ((check_args_no(cmd)) == 1)
 		return (print_env_list(env_list));
 	if ((check_args_no(cmd)) != 3)
-		return (ft_putendl_fd("21sh: Error: [setenv [var_name] [var_value]].", 2));
+		return (ft_putendl_fd(ERROR1, 2));
 	else if (!check_varname(cmd[1]))
-		return (ft_putendl_fd("21sh: setenv: Variable name must begin with a letter and contains only alpha-numeric characters.", 2));
+		return (ft_putendl_fd(ERROR2, 2));
 	if (env_exist(env_list, cmd[1]) == 0)
 		addtolist(env_list, ft_strdup(cmd[1]), ft_strdup(cmd[2]));
 	else

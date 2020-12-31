@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:59:22 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 18:47:59 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 17:52:39 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@ static void		cd_simple(char *path, t_env **env_list)
 	{
 		stat(path, &st);
 		if (!S_ISDIR(st.st_mode))
-			return (ft_putendl_fd_error("21sh: cd: not a directory: ", ft_strrchr(path, '/') + 1, "\n", NULL));
+		{
+			return (ft_putendl_fd_error("21sh: cd: not a directory: ",
+				ft_strrchr(path, '/') + 1, "\n", NULL));
+		}
 		if (access(path, X_OK) == 0)
 		{
 			gen_oldpwd((tmp = get_cwd()), env_list);
 			chdir(path);
 			gen_pwd((tmp2 = get_cwd()), env_list);
-			ft_strdel(&tmp);
-			ft_strdel(&tmp2);
+			ft_strdel_2(&tmp, &tmp2);
 		}
 		else
-			ft_putendl_fd_error("21sh: cd: permission denied: ",
-				ft_strrchr(path, '/') + 1, "\n", NULL);
+			ft_putendl_fd_error(ERROR5, ft_strrchr(path, '/') + 1, "\n", NULL);
 	}
 	else
-		ft_putendl_fd_error("21sh: cd: no such file or directory: ",
-			ft_strrchr(path, '/') + 1, "\n", NULL);
+		ft_putendl_fd_error(ERROR6, ft_strrchr(path, '/') + 1, "\n", NULL);
 }
 
 static void		cd_home(t_env **env_list)

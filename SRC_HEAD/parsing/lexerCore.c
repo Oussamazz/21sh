@@ -1,48 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexerCore.c                                        :+:      :+:    :+:   */
+/*   lexercore.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 13:15:48 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 19:24:12 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 15:26:04 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-static char		*get_splitter(char *buf, t_mystruct *v)
-{
-	int			position;
-
-	position = 0;
-	if (*buf == ';')
-	{
-		if ((position = sep_function(&v->tokenz, &v->coord)) > 0)
-			return (buf + position);
-		ft_free_tokenz(&v->tokenz);
-		return (NULL);
-	}
-	return (buf);
-}
-
-static char		*get_dollars(char *buf)
-{
-	int			i;
-	int			count;
-
-	i = 0;
-	count = 0;
-	while (*buf == '$')
-	{
-		if (count == 2)
-			break ;
-		buf++;
-		count++;
-	}
-	return (ft_itoa((int)getppid()));
-}
 
 static char		*get_tild_dolar(char *buf, t_mystruct *v)
 {

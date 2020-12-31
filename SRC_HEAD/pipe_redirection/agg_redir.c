@@ -6,13 +6,13 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:53:48 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/27 01:46:50 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 15:44:13 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static int	ft_agg_digit(t_redir *redirection, int fd, int lfd)
+int			ft_agg_digit(t_redir *redirection, int fd, int lfd)
 {
 	if (redirection->rfd)
 		fd = ft_atoi(redirection->rfd);
@@ -29,7 +29,7 @@ static int	ft_agg_digit(t_redir *redirection, int fd, int lfd)
 	return (fd);
 }
 
-static int	ft_agg_close(t_redir *redirection, int fd, int lfd)
+int			ft_agg_close(t_redir *redirection, int fd, int lfd)
 {
 	char	*file_d;
 
@@ -55,7 +55,7 @@ static int	ft_agg_close(t_redir *redirection, int fd, int lfd)
 	return (fd);
 }
 
-static int	ft_agg_word(t_redir *redirection, t_redir *prev, int fd, int lfd)
+int			ft_agg_word(t_redir *redirection, t_redir *prev, int fd, int lfd)
 {
 	if (!redirection->rfd)
 		return (-1);
@@ -68,60 +68,6 @@ static int	ft_agg_word(t_redir *redirection, t_redir *prev, int fd, int lfd)
 			dup2(fd, 2);
 	}
 	close(fd);
-	return (fd);
-}
-
-int			ft_agg_out(t_redir *redir, t_redir *prev, int fd)
-{
-	int		left;
-	t_redir	*redir_n;
-
-	redir_n = redir->next;
-	if (prev && prev->lfd && ft_str_is_digit(prev->lfd))
-		left = ft_atoi(prev->lfd);
-	else
-		left = 1;
-	if (redir_n && redir_n->rfd &&
-		ft_strcmp(redir->sym, ">&-") != 0 &&
-		ft_str_is_digit(redir_n->rfd))
-		fd = ft_agg_digit(redir_n, fd, left);
-	else if (ft_strcmp(redir->sym, ">&-") == 0)
-	{
-		close(left);
-		return (255);
-	}
-	else if (redir_n && redir_n->rfd && ft_strlen(redir_n->rfd) > 2 &&
-		redir_n->rfd[ft_strlen(redir_n->rfd) - 1] == '-')
-		fd = ft_agg_close(redir_n, fd, left);
-	else if (redir_n)
-		fd = ft_agg_word(redir_n, prev, fd, left);
-	return (fd);
-}
-
-int			ft_agg_in(t_redir *redir, t_redir *prev, int fd)
-{
-	int		left;
-	t_redir *redir_n;
-
-	redir_n = redir->next;
-	if (prev && prev->lfd != NULL && ft_str_is_digit(prev->lfd))
-		left = ft_atoi(prev->lfd);
-	else
-		left = 0;
-	if ((redir_n && redir_n->rfd) &&
-		ft_strcmp(redir->sym, "<&-") != 0 &&
-		ft_str_is_digit(redir_n->rfd))
-		fd = ft_agg_digit(redir_n, fd, left);
-	else if (ft_strcmp(redir->sym, "<&-") == 0)
-	{
-		close(left);
-		return (255);
-	}
-	else if (redir_n && ft_strlen(redir_n->rfd) > 1 &&
-		redir_n->rfd[ft_strlen(redir_n->rfd) - 1] == '-')
-		fd = ft_agg_close(redir_n, fd, left);
-	else if (redir_n)
-		fd = ft_agg_word(redir_n, prev, fd, left);
 	return (fd);
 }
 

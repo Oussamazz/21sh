@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 19:15:08 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 19:17:18 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 15:14:42 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,20 @@ static int		check_token_type(t_type type, t_lexer *tokenz,
 	return (1);
 }
 
+static int		check_grammar_tokenz_2(t_lexer *tokenz, int tokenz_size)
+{
+	if (tokenz->type == PIPE_SYM && tokenz->next)
+		if (!(check_token_type(PIPE_SYM, tokenz,
+			tokenz->next, tokenz_size)))
+			return (0);
+	if (tokenz->type == SEP && tokenz->next)
+		if (!(check_token_type(SEP, tokenz, tokenz->next, tokenz_size)))
+			return (0);
+	return (1);
+}
+
 int				check_grammar_tokenz(t_lexer *tokenz)
 {
-	char		*data;
 	size_t		tokenz_size;
 
 	if (tokenz)
@@ -48,7 +59,6 @@ int				check_grammar_tokenz(t_lexer *tokenz)
 		tokenz_size = get_list_size(tokenz);
 		while (tokenz && tokenz->coor.node_index <= (int)tokenz_size)
 		{
-			data = tokenz->data;
 			if (tokenz->type == AGGR_SYM && tokenz->coor.node_index == 1)
 				return (print_error_sym(AGGR_SYM));
 			if (tokenz->type == AGGR_SYM && !tokenz->next &&
@@ -57,13 +67,8 @@ int				check_grammar_tokenz(t_lexer *tokenz)
 			else if (tokenz->type == PIPE_SYM && (!tokenz->next ||
 				tokenz->coor.node_index == 1))
 				return (print_error_sym(PIPE_SYM));
-			else if (tokenz->type == PIPE_SYM && tokenz->next)
-				if (!(check_token_type(PIPE_SYM, tokenz,
-					tokenz->next, tokenz_size)))
-					return (0);
-			if (tokenz->type == SEP && tokenz->next)
-				if (!(check_token_type(SEP, tokenz, tokenz->next, tokenz_size)))
-					return (0);
+			if (!(check_grammar_tokenz_2(tokenz, (int)tokenz_size)))
+				return (0);
 			tokenz = tokenz->next;
 		}
 		return (1);

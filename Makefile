@@ -7,18 +7,18 @@ SRC_DIR_PARSE:= ./SRC_HEAD/
 OBJ_DIR_HEAD:= ./objs/
 
 FLAGS= -Wall -Wextra -Werror
-# FLAGS= -g 
 
 SRC_BUILTINS = blt_echo.o execute_builtins.o exit_blt.o type_blt.o cd_blt.o
 
 SRC_EXPANSION = expand.o expansion.o tild_expansion.o get_value_exp.o
 
-SRC_PARSING = ast.o check_grammar.o lexer.o lexercore.o split.o
+SRC_PARSING = ast.o check_grammar.o lexer.o lexercore.o split.o fill.o tools.o
 
-SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o split_redir.o
+SRC_PIPE_REDIRECTION = agg_redir.o execute_pipes.o here_doc.o redirections.o split_redir.o agg_in_out.o split_tools.o
 
 SRC_MAIN =	envirement.o error_handler.o execute.o execute_cmd.o free1.o\
-			ft_free.o his.o main.o node.o printing.o utils.o utils2.o quote_handling.o
+			ft_free.o his.o main.o node.o printing.o utils.o utils2.o quote_handling.o signals.o here_doc_fd.o\
+			utils3.o utils4.o utils5.o
 
 SRC_READLINE = ft_readline.o history.o keys_alt.o move_cursor.o selection.o tools_readline.o builtins_readline.o prepare_readline.o signal_readline.o helper_readline.o
 

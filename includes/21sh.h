@@ -26,8 +26,6 @@
 # include <limits.h>
 # include <string.h>
 # include <signal.h>
-// #include <readline/readline.h>
-// #include <readline/history.h>
 # define METACHARACTER " \n\t;"
 # define PIPE "|"
 # define AGG_REDI "<>&"
@@ -37,8 +35,13 @@
 # define MAX_INDEX 4096
 # define MIN_INDEX 1024 
 # define WELCOME_MSG "\t\033[1;32m⬇⬇  w3lc0m3 70 7h3_qu173r & ph30n1x 5h3ll ⚙️  ⬇⬇\033[0m\t\t"
+# define ERROR1 "21sh: Error: [setenv [var_name] [var_value]]."
+# define ERROR2 "21sh: setenv: Variable name must begin with a letter and contains only alpha-numeric characters."
+# define ERROR3 "\033[1;33m", "Envirenment variables not set."
+# define ERROR4 "21sh: Error: Left redirection must only contains digits characters."
+# define ERROR5 "21sh: cd: permission denied: "
+# define ERROR6 "21sh: cd: no such file or directory: "
 
-// free variables enum
 enum{
 	F_TOKENZ,
 	F_TMP,
@@ -47,7 +50,6 @@ enum{
 	F_G_HIS
 };
 
-// split_redir status enum
 typedef enum e_split{
 	Normal,
 	Continue,
@@ -56,11 +58,9 @@ typedef enum e_split{
 	Returnagg
 }	t_split;
 
-
 size_t	g_agg_len;
 char	*g_tty_name;
 int		g_ex_flag;
-
 
 /*
 ** nodes index
@@ -73,8 +73,6 @@ typedef struct	s_mypipe
 	int temp;
 	int cmd_no;
 }				t_mypipe;
-
-
 
 typedef struct s_pointt
 {
@@ -99,16 +97,16 @@ typedef struct s_env
 
 typedef enum e_type
 {
-	WORD=1,    // 1 - 1
-	METACHAR,  // 0
-	L_REDIR,   // 1 - 0
-	AGGR_SYM, // >  // 1 - 0
-	R_REDIR,   // 1 - 0
-	PIPE_SYM,  // 0
-	DQUOT,     // 1 - 1
-	SQUOT,     // 1 - 1
-	EXPANSION, // 1 - 1
-	SEP        // 0
+	WORD=1,
+	METACHAR,
+	L_REDIR,
+	AGGR_SYM,
+	R_REDIR,
+	PIPE_SYM,
+	DQUOT,
+	SQUOT,
+	EXPANSION,
+	SEP
 }           t_type;
 
 /*
@@ -125,10 +123,10 @@ typedef struct s_quote
 ** lexer and parser
 */
 
-typedef struct s_lexer // tokenz
+typedef struct s_lexer
 {
 	t_pointt coor;
-	char *data;         //ls -la | sksks | echo ; sososkos
+	char *data;
 	t_type type;
 
 	struct s_lexer *next;
@@ -142,6 +140,7 @@ typedef struct s_his
 }				t_his;
 t_his *g_his;
 int	g_alltokenzSize;
+
 /*
 ** redirections struct
 */
@@ -155,7 +154,7 @@ typedef struct s_redir
 }               t_redir;
 
 /*
-** Abstract syntax tree (execution)
+** binarytree (execution)
 */
 
 typedef struct s_miniast 
@@ -247,6 +246,16 @@ typedef struct s_tilde_exp
     char *user_name;
 }				t_tilde_exp;
 
+typedef struct s_get_bin
+{
+	int			i;
+	char		*bin_file;
+	char		*env_path_value;
+	char		**dirs;
+	char		*tmp;
+	char		*tmp2;
+}				t_get_bin;
+
 /*
 ** principale functions
 */
@@ -294,29 +303,14 @@ bool		is_quote(int c);
 size_t		ft_strlen_char(char *s, char c);
 size_t      ft_strlen_char2(char *s, char c, char c2);
 size_t      ft_strlen_char_2(char *s, char c, char c2);
-size_t 		ft_strlen_blank(char *s);
 char		*ft_strchr_blank(const char *str, int c);
-size_t 		ft_strlen_exp(char *s);
-char    	valid_string_quot(char *str);
 //size_t last_node_check(t_lexer **tokenz, t_type type, int node_index);
-size_t 		ft_strchr_size(char *s, int c);
-int 		check_quoting(t_lexer** head, t_type type, int cur_node_index);
-size_t 		check_command_redir_size(char *buf);
 int			check_command_redir(t_lexer **head, char *buf, t_pointt *cor);
-char 		*sub_aggr_sym(char *str);
-size_t 		wordinbuff_size(char *str);
-size_t 		wordinstr_size(char *str, size_t count);
 t_type 		last_node_type(t_lexer *tokenz);
-t_lexer		*get_last_node(t_lexer **head);
-char    	*get_right_redir(char *str);
-size_t 		calc_size_right_redir(char * str);
 char		**strsplit(char const *s);
 int 		ft_is_aggr(char c);
-int			valide_quote_check(char *str);
 t_quote		*quote_completion(t_quote **data, char quote);
-int 		is_there_in_env(char *str, t_env **env_list);
 size_t 		get_list_size(t_lexer *tokenz);
-int			check_if_is_aggr(t_lexer **root);
 char    	*get_left_fd_(char *buf);
 char		**list_to_tabs(t_env **env_list);
 char        *get_bin_file(char **cmd,  t_env **env);
@@ -326,7 +320,6 @@ char		*get_cwd(void);
 void		gen_oldpwd(char *cwd, t_env **env_list);
 void		gen_pwd(char *new_path, t_env **env_list);
 int			ft_str_is_digit(char *lfd);
-t_type 		ret_last_node_type(t_lexer **head);
 int			check_builtins(char *cmd_name);
 int 		check_args_no(char **cmd);
 void        type_builtin(char **cmd, t_env **env_list);
@@ -335,26 +328,44 @@ char    	*join_all_bufs(t_his *his);
 int     	str_is_blank(char *buffer);
 char		*get_content_quote(char *buffer, char c, t_pointt *coord, int flag_c);
 int 		check_builtins_nfrk(char *cmd_name);
+int			get_the_word(char *buf, t_lexer **token_node, t_pointt *coord);
+size_t		get_arr_size_tokenz(t_lexer *token);
+int			ft_agg_digit(t_redir *redirection, int fd, int lfd);
+int			ft_agg_close(t_redir *redirection, int fd, int lfd);
+int			ft_agg_word(t_redir *redirection, t_redir *prev, int fd, int lfd);
+char		*get_dollars(char *buf);
+char		*get_splitter(char *buf, t_mystruct *v);
+int			ft_agg_out(t_redir *redir, t_redir *prev, int fd);
+int			ft_agg_in(t_redir *redir, t_redir *prev, int fd);
+size_t		countall_arr(char **agg, size_t delime_len);
+char		*redirection_varname(char ***arr, char *str, size_t *i);
+int			split_varname(t_split_redir *v, char *str);
+int			split_herdoc(t_split_redir *v, char *str);
+void		ft_ctrlc(int sig_no);
+char		*handel_signal(t_getfullcmd *v);
+void		flag_g(char **av, t_env **env_list, time_t *now);
+int			ft_str_is_digit(char *lfd);
+void		ft_reset_fd(char *tty_name, int file_d);
+
 /*
 ** btree Functions _________________________________________________________
 */
 
-
 int    		parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env);
 char    	**fill_node(t_lexer *token, t_redir **redirections, t_env **env, int alltoken_size);
 int     	check_grammar_tokenz(t_lexer *tokenz);
-
-
-
-//t_miniast   *fill_miniast(t_lexer **head, t_miniast *pipe, t_type type);
+int			fill_cmd_redir(t_lexer *token, int *i, t_redir **redirections);
+void		fill_cmd(char **ret, t_lexer *token, int *i, t_env **env);
+void		fill_redirections(t_redir **node, t_lexer *token);
 size_t calc_arr_size(t_lexer *token, int *next_type);
 
 /*
 ** envirement
 */
+
 void    stock_env(char **env, t_env **head);
 int		addtolist(t_env **head, char *var_name, char *var_value);
-void    deleteNode(t_env **head_ref, char *env_name);
+void    deletenode(t_env **head_ref, char *env_name);
 
 /*
 ** Redirections
@@ -367,7 +378,6 @@ void		ft_reset_fd(char *tty_name, int file_d);
 /*
 ** built-ins
 */
-
 
 void    blt_echo(char **cmd);
 void    blt_setenv(char **cmd, t_env **env_list);
@@ -412,8 +422,8 @@ void    ft_free_his(t_his **g_his);
 /*
 ** error handling
 */
-char  *err_ret(char *s, char *addrr);
-void  error_message(char *err_message, int flag);
+char 	*err_ret(char *s, char *addrr);
+void 	error_message(char *err_message, int flag);
 int		print_error_sym(t_type type);
 
 /*
@@ -421,6 +431,6 @@ int		print_error_sym(t_type type);
 */
 void    exit_blt(t_miniast **root, t_lexer **lex, t_env **env_list ,char **buff);
 void    free_env_list(t_env **head);
-void free_vars(t_mystruct *v, int *to_free,int size);
+void	free_vars(t_mystruct *v, int *to_free,int size);
 
 #endif

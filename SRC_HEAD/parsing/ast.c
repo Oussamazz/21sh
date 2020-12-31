@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 19:09:07 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 19:13:09 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 15:19:11 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,95 +29,6 @@ static t_lexer	*move_list(t_lexer *tokenz, int alltokenzsize)
 	if (cur && (cur->type == SEP || cur->type == PIPE_SYM))
 		return (cur);
 	return (NULL);
-}
-
-static void		fill_redirections(t_redir **node, t_lexer *token)
-{
-	t_redir *cur;
-	t_redir *new;
-
-	if (node)
-	{
-		if (!(new = (t_redir*)ft_memalloc(sizeof(t_redir))))
-			return ;
-		if (token->type == L_REDIR)
-			new->lfd = ft_strdup(token->data);
-		else if (token->type == R_REDIR)
-			new->rfd = ft_strdup(token->data);
-		else
-			new->sym = ft_strdup(token->data);
-		new->next = NULL;
-		if (*node == NULL)
-		{
-			*node = new;
-			return ;
-		}
-		cur = *node;
-		while (cur->next != NULL)
-			cur = cur->next;
-		cur->next = new;
-		return ;
-	}
-}
-
-size_t			get_arr_size_tokenz(t_lexer *token)
-{
-	size_t size;
-
-	size = -1;
-	if (token)
-	{
-		size++;
-		while (token != NULL)
-		{
-			if (token->type != PIPE_SYM &&
-				token->type != METACHAR && token->type != SEP)
-				size++;
-			else
-				break ;
-			token = token->next;
-		}
-	}
-	return (size);
-}
-
-static void		fill_cmd(char **ret, t_lexer *token, int *i, t_env **env)
-{
-	char		*tmp;
-
-	if (token->type != DQUOT)
-		ret[*i] = ft_strdup(token->data);
-	else
-	{
-		ret[*i] = expanded(env, token->data);
-		ft_strdel(&(token->data));
-	}
-	if (token->coor.no_space)
-	{
-		if (token->next && token->next->data &&
-			(token->next->type == DQUOT || token->next->type == SQUOT ||
-				token->type == EXPANSION))
-		{
-			tmp = token->next->data;
-			token->next->data = ft_strjoin(ret[*i], tmp);
-			free(ret[*i]);
-			*i -= 1;
-			free(tmp);
-		}
-	}
-}
-
-int				fill_cmd_redir(t_lexer *token, int *i, t_redir **redirections)
-{
-	if (token->type == AGGR_SYM ||
-		token->type == L_REDIR || token->type == R_REDIR)
-	{
-		fill_redirections(redirections, token);
-		*i -= 1;
-	}
-	else if (token->type == SEP || token->type == PIPE_SYM)
-		return (1);
-	return (0);
 }
 
 char			**fill_node(t_lexer *token, t_redir **redirections,

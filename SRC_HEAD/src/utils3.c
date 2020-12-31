@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_handling.c                                   :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 02:38:24 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 16:34:03 by oelazzou         ###   ########.fr       */
+/*   Created: 2020/12/31 17:38:56 by oelazzou          #+#    #+#             */
+/*   Updated: 2020/12/31 17:48:23 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-char			*get_content_quote(char *buffer, char c,
-	t_pointt *coord, int flag)
+char			*get_left_fd_(char *buf)
 {
-	const char	*tmp;
-	char		*str;
+	int			len;
+	int			i;
+	char		*ret;
 
-	tmp = buffer;
-	if (buffer)
+	len = 0;
+	while (ft_isdigit(buf[len]))
+		len++;
+	if (!len || !(ret = ft_strnew(len + 1)))
+		return (NULL);
+	i = 0;
+	while (buf[i] && len)
 	{
-		while (*buffer != c)
-			buffer++;
-		str = ft_strsub(tmp, 0, buffer - tmp);
-		if (!flag)
-			flag = !is_blank(buffer[1]);
-		coord->no_space = flag;
-		return (str);
+		ret[i] = buf[i];
+		i++;
+		len--;
 	}
-	return (NULL);
+	return (ret);
+}
+
+int				ft_is_aggr(char c)
+{
+	if (c == '>' || c == '<')
+		return (1);
+	return (0);
 }

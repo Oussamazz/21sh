@@ -6,52 +6,11 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 01:33:51 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/30 18:38:02 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 15:35:32 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-static size_t		countall_arr(char **agg, size_t delime_len)
-{
-	int				len;
-	int				i;
-
-	len = 0;
-	i = 0;
-	if (agg)
-	{
-		while (agg[i])
-		{
-			if (i > 0 && ft_strequ(agg[i - 1], "<<"))
-				len = (len - ft_strlen(agg[i])) + delime_len + 1;
-			len = len + ft_strlen(agg[i]);
-			i++;
-		}
-		return (len);
-	}
-	return (-1);
-}
-
-char				*redirection_varname(char ***arr, char *str, size_t *i)
-{
-	size_t			c_len;
-	char			**agg;
-	char			*tmp;
-
-	tmp = NULL;
-	c_len = 0;
-	agg = *arr;
-	while (!is_blank(str[*i + c_len]) &&
-		str[*i + c_len] != ';' && str[*i + c_len] != '|' &&
-			str[*i + c_len] && !ft_is_there(AGG_REDI, str[*i + c_len]))
-		c_len++;
-	if (str[*i + c_len] == '&')
-		error_message("21sh: Error[1]: control jobs not handled yet...\n", 1);
-	tmp = ft_strsub(str, *i, c_len);
-	*i = *i + c_len;
-	return (tmp);
-}
 
 static int			split_agg(t_split_redir *v, char *str)
 {
@@ -103,23 +62,6 @@ static int			split_herdoc2(t_split_redir *v, char *str)
 	return (Break);
 }
 
-static int			split_herdoc(t_split_redir *v, char *str)
-{
-	if ((v->i + 2 < v->len) && ((str[v->i + 2] == str[v->i]) ||
-		(str[v->i + 2] == ';' || str[v->i + 2] == '|')))
-	{
-		ft_free_arr(v->agg);
-		err_ret("21sh: syntax error near unexpected token `> or <'\n", NULL);
-		return (ReturnNull);
-	}
-	v->agg[v->j][0] = str[v->i];
-	v->agg[v->j][1] = str[v->i];
-	v->active_word = 0;
-	v->j++;
-	v->i = v->i + 2;
-	return (Continue);
-}
-
 static int			split_redir_fd(t_split_redir *v, char *str)
 {
 	if (ft_isascii(str[v->i + 1]) && str[v->i + 1] != '<' &&
@@ -145,15 +87,6 @@ static int			split_redir_fd(t_split_redir *v, char *str)
 	}
 	v->j++;
 	return (Normal);
-}
-
-static int			split_varname(t_split_redir *v, char *str)
-{
-	ft_strdel(&v->agg[v->j]);
-	v->agg[v->j] = redirection_varname(&v->agg, str, &v->i);
-	v->j++;
-	v->active_word = 1;
-	return (Break);
 }
 
 static int			do_spliting(t_split_redir *v, char *str)
@@ -183,35 +116,6 @@ static int			do_spliting(t_split_redir *v, char *str)
 	if (ft_isascii(str[v->i]) && v->active_word)
 		return (Break);
 	return (Normal);
-}
-
-int					len_of_redir(char *str)
-{
-	int				count;
-	int				active_word;
-
-	count = 0;
-	active_word = 0;
-	while (*str)
-	{
-		while (*str && is_blank(*str))
-			str++;
-		if (ft_is_there(AGG_REDI, *str) && *str)
-			count++;
-		else if (ft_isalnum(*str) && !active_word)
-		{
-			active_word = 1;
-			while (ft_isalnum(*str))
-			{
-				count++;
-				str++;
-			}
-		}
-		if (!*str || (ft_is_there(AGG_REDI, *str) && active_word))
-			break ;
-		str++;
-	}
-	return (count);
 }
 
 char				**split_redir(char *str)

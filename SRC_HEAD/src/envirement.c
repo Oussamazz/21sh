@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 15:30:12 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/14 23:29:17 by oelazzou         ###   ########.fr       */
+/*   Updated: 2020/12/31 16:08:07 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ char		**list_to_tabs(t_env **env_list)
 		if (current->env_var_name && current->env_var_value)
 		{
 			str = ft_strjoin(current->env_var_name, "=");
-			tabs[i++] = ft_strjoin(str, current->env_var_value);
-			ft_strdel(&str);
+			tabs[i++] = ft_freejoin(str, current->env_var_value, 0);
 		}
 		current = current->next;
 	}
-	tabs[i] = NULL;
 	return (tabs);
 }
 
@@ -74,7 +72,7 @@ void		stock_env(char **env, t_env **head)
 
 	if (!env || !*env)
 	{
-		ft_putendl_fd_error("\033[1;33m", "Envirenment variables not set.", "\n", "\033[0m");
+		ft_putendl_fd_error(ERROR3, "\n", "\033[0m");
 		exit(1);
 	}
 	i = 0;
