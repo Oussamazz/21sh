@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_blt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:59:22 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/02 00:22:21 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void		cd_simple(char *path, t_env **env_list)
 	if (path && access(path, F_OK) == 0)
 	{
 		stat(path, &st);
-		if (!S_ISDIR(st.st_mode))
+		if (!S_ISDIR(st.st_mode) && ft_strrchr(path, '/'))
 		{
 			return (ft_putendl_fd_error("21sh: cd: not a directory: ",
 				ft_strrchr(path, '/') + 1, "\n", NULL));
@@ -33,11 +33,13 @@ static void		cd_simple(char *path, t_env **env_list)
 			gen_pwd((tmp2 = get_cwd()), env_list);
 			ft_strdel_2(&tmp, &tmp2);
 		}
-		else
+		else if (ft_strrchr(path, '/'))
 			ft_putendl_fd_error(ERROR5, ft_strrchr(path, '/') + 1, "\n", NULL);
 	}
-	else
+	else if (ft_strrchr(path, '/'))
 		ft_putendl_fd_error(ERROR6, ft_strrchr(path, '/') + 1, "\n", NULL);
+	else
+		ft_putendl_fd_error(ERROR6, path, "\n", NULL);
 }
 
 static void		cd_home(t_env **env_list)

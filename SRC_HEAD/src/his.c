@@ -12,27 +12,27 @@
 
 #include "sh.h"
 
-void			add_to_his(char *buffer, t_his **his)
-{
-	t_his		*last;
-	t_his		*ret;
+// void			add_to_his(char *buffer, t_his **his)
+// {
+// 	t_his		*last;
+// 	t_his		*ret;
 
-	if (buffer && !*buffer)
-		return ;
-	last = *his;
-	if (!(ret = (t_his *)ft_memalloc(sizeof(t_his))))
-		return ;
-	if (!(ret->data = ft_strdup(buffer)))
-		return ;
-	if (last == NULL)
-	{
-		*his = ret;
-		return ;
-	}
-	while (last->next != NULL)
-		last = last->next;
-	last->next = ret;
-}
+// 	if (buffer && !*buffer)
+// 		return ;
+// 	last = *his;
+// 	if (!(ret = (t_his *)ft_memalloc(sizeof(t_his))))
+// 		return ;
+// 	if (!(ret->data = ft_strdup(buffer)))
+// 		return ;
+// 	if (last == NULL)
+// 	{
+// 		*his = ret;
+// 		return ;
+// 	}
+// 	while (last->next != NULL)
+// 		last = last->next;
+// 	last->next = ret;
+// }
 
 char			*join_all_bufs(t_his *his)
 {
