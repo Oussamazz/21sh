@@ -75,7 +75,7 @@ int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s);
-void    			ft_strdel_2(char **s1, char **s2);
+void				ft_strdel_2(char **s1, char **s2);
 void				ft_putchar(char c);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr(char const *s);
@@ -107,10 +107,10 @@ int					get_next_line(const int fd, char **line);
 void				free_two_dim(char **arr, int size);
 char				*ft_strjoin_four(char const *s1, char const *s2,
 	char const *s3, char const *s4);
-int 				is_blank(int c);
-size_t 				get_arr_size(char **arr);
+int					is_blank(int c);
+size_t				get_arr_size(char **arr);
 char				*ft_print_until(const char *s, int c);
-void    			ft_putstr_c_str(char *str, char c, char *str2, int fd);
+void				ft_putstr_c_str(char *str, char c, char *str2, int fd);
 char				*ft_strchr_no_blanks(char *s, int c, int c2);
 char				*ft_freejoin(char *s1, char *s2, int num);
 #endif

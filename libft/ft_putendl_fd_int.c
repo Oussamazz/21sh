@@ -12,8 +12,8 @@
 
 #include "libft.h"
 
-int     ft_putendl_fd_int(const char *str, int fd, int ret)
+int	ft_putendl_fd_int(const char *str, int fd, int ret)
 {
-    ft_putendl_fd(str, fd);
-    return (ret);
+	ft_putendl_fd(str, fd);
+	return (ret);
 }
