@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 04:36:34 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/26 03:13:56 by oelazzou            ###   ########.fr       */
+/*   Updated: 2020/12/26 03:13:56 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int			word_count(char *s, char c)
 {
@@ -53,7 +52,7 @@ char				**ft_strsplit(char const *s, char c)
 	if (!s || !*s)
 		return (NULL);
 	word_countx = word_count((char *)s, c);
-	if (!(str = (char**)ft_memalloc(sizeof(char*) * (word_countx + 1))))
+	if (!(str = (char**)ft_memalloc(sizeof(char*) * word_countx + 1)))
 		return (NULL);
 	i = 0;
 	if (!str)

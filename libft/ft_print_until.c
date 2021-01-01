@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_until.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/20 11:17:25 by oelazzou             #+#    #+#             */
-/*   Updated: 2020/11/20 11:17:29 by oelazzou            ###   ########.fr       */
+/*   Created: 2019/04/06 00:32:27 by oelazzou          #+#    #+#             */
+/*   Updated: 2019/04/06 00:34:32 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*ft_print_until(const char *s, int c)
 	{
 		if (*s == (char)c)
 			return ((char *)s);
-        else
-            ft_putchar_fd(*s, 1);
+		else
+			ft_putchar_fd(*s, 1);
 		s++;
 	}
 	if ((char)c == '\0' && *s == '\0')

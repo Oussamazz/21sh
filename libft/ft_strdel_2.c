@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void    ft_strdel_2(char **s1, char **s2)
+void	ft_strdel_2(char **s1, char **s2)
 {
 	if (s1)
 		ft_strdel(s1);

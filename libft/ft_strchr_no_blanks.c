@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-char *ft_strchr_no_blanks(char *s, int c, int c2)
+char	*ft_strchr_no_blanks(char *s, int c, int c2)
 {
-    while (*s)
+	while (*s)
 	{
-        if (is_blank(*s))
-            return (NULL) ;
+		if (is_blank(*s))
+			return (NULL);
 		if (*s == (char)c || *s == (char)c2)
 			return ((char *)s);
 		s++;
