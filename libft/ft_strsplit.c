@@ -53,7 +53,7 @@ char				**ft_strsplit(char const *s, char c)
 	if (!s || !*s)
 		return (NULL);
 	word_countx = word_count((char *)s, c);
-	if (!(str = (char**)ft_memalloc(sizeof(char*) * word_countx + 1)))
+	if (!(str = (char**)ft_memalloc(sizeof(char*) * (word_countx + 1))))
 		return (NULL);
 	i = 0;
 	if (!str)

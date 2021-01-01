@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexercore.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 13:15:48 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 11:49:43 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char		*get_qoute_word(char *buf, t_mystruct *v)
 
 	quote = NULL;
 	if (is_quote(*buf) ||
-		(quote = ft_strchr_no_blanks(buf + 1, '\'', '\"')))
+		(*buf && (quote = ft_strchr_no_blanks(buf + 1, '\'', '\"'))))
 	{
 		position = quote_function(buf, &v->tokenz, &v->coord, quote);
 		if (position < 0)

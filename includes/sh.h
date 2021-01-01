@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 19:07:43 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 14:18:15 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ typedef struct			s_lexer
 typedef struct			s_his
 {
 	char				*data;
-	t_type				type;
 	struct s_his		*next;
 }						t_his;
 
@@ -301,7 +300,6 @@ int						ft_str_is_digit(char *lfd);
 int						check_builtins(char *cmd_name);
 int						check_args_no(char **cmd);
 void					type_builtin(char **cmd, t_env **env_list);
-void					add_to_his(char *buffer, t_his **g_his);
 char					*join_all_bufs(t_his *his);
 int						str_is_blank(char *buffer);
 char					*get_content_quote(char *buffer,

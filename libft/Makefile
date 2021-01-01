@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+         #
+#    By: macos <macos@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/30 03:33:28 by oelazzou          #+#    #+#              #
-#    Updated: 2020/12/30 18:25:36 by oelazzou         ###   ########.fr        #
+#    Updated: 2021/01/01 11:41:41 by macos            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ FILE = ft_atoi.c \
 	   ft_strdel_2.c \
 	   ft_putendl_fd_int.c \
 	   ft_freejoin.c 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 OBJ = $(FILE:.c=.o)
 
 $(NAME): 

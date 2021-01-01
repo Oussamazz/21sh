@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 14:17:24 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void			source_sh(t_env **head)
 	t_mystruct	v;
 
 	signal(SIGINT, ft_ctrlc);
+	g_his = NULL;
 	ft_bzero(&v, sizeof(t_mystruct));
 	v.status[0] = 1;
 	while (v.status[0] && g_tty_name)
@@ -90,13 +91,12 @@ void			source_sh(t_env **head)
 		ft_prompte();
 		if (!(v.str = get_full_cmd()))
 			continue;
-		add_to_his(v.str, &g_his);
 		v.tokenz = lexer(v.str, head, &v.coord);
 		v.status[1] = check_grammar_tokenz(v.tokenz);
 		if (v.tokenz && head && v.status[1] > 0)
 			v.status[1] = parse_commands(&v.ast, v.tokenz, head);
 		if (v.str[0] != '\0' && !str_is_blank(v.str))
-			add_to_history(v.tmp = join_all_bufs(g_his));
+			add_to_history(v.str);
 		if (v.status[1] > 0 && v.ast && head && v.ast->cmd)
 			v.status[0] = execute(v.ast, head);
 		free_vars(&v, (int[]){F_TMP, F_TOKENZ, F_AST, F_STR, F_G_HIS}, 5);

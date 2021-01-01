@@ -3,31 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   free1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 21:17:08 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 12:41:19 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-void			ft_free_his(t_his **g_his)
+void			ft_free_his(t_his **his)
 {
 	t_his		*cur;
 	t_his		*tmp;
 
+	(void)his;
 	if (g_his)
 	{
-		cur = *g_his;
+		cur = g_his;
+		g_his = NULL;
 		while (cur)
 		{
+			ft_putendl("his was freed");
 			tmp = cur;
-			ft_strdel(&(cur->data));
 			cur = cur->next;
+			ft_strdel(&(tmp->data));
 			free(tmp);
 		}
-		*g_his = NULL;
 	}
 }
 

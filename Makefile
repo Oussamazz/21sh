@@ -6,7 +6,7 @@ INC = ./includes/sh.h ./includes/readline.h
 SRC_DIR_PARSE:= ./SRC_HEAD/
 OBJ_DIR_HEAD:= ./objs/
 
-FLAGS= -Wall -Wextra -Werror
+FLAGS= -Wall -Wextra -Werror -g
 
 SRC_BUILTINS = blt_echo.o execute_builtins.o exit_blt.o type_blt.o cd_blt.o
 
