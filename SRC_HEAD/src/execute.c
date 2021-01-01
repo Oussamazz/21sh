@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 03:16:16 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 19:09:46 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 10:13:51 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int				ft_redirect_in_out_2(int fd, char *left_fd,
 			left = ft_atoi(left_fd);
 		else
 		{
-			ft_putendl_fd(ERROR4, 2);
+			ft_putstr_fd(ERROR4, 2);
 			ft_putendl_fd(ERROR44, 2);
 			return (-1);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:32:52 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 19:08:23 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 10:11:28 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void			blt_setenv(char **cmd, t_env **env_list)
 		return (ft_putendl_fd(ERROR1, 2));
 	else if (!check_varname(cmd[1]))
 	{
-		ft_putendl_fd(ERROR2, 2);
+		ft_putstr_fd(ERROR2, 2);
 		ft_putendl_fd(ERROR22, 2);
 		return ;
 	}

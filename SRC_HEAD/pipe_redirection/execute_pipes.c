@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 10:20:44 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void		execute_pip_child(t_miniast *tree, t_mypipe *pipes,
 	else if (tree->cmd[0][0] == '/' ||
 		(tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/'))
 		execute_direct(tree->cmd, tabs);
-	else
+	else if (tree->cmd[0] && env_list)
 		execute_undirect(tree->cmd, tabs, env_list);
 	exit(EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 18:10:21 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/01 10:36:43 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,26 +95,24 @@ char			*get_bin_file(char **cmd, t_env **env)
 	t_get_bin	v;
 
 	ft_bzero(&v, sizeof(t_get_bin));
-	if (cmd[0] && env)
+	if (!(v.env_path_value = get_value_expansion("PATH", env)))
+		return (NULL);
+	if (!(v.dirs = ft_strsplit(v.env_path_value, ':')))
+		return (NULL);
+	ft_strdel(&v.env_path_value);
+	v.i = -1;
+	while (v.dirs[++v.i] != NULL)
 	{
-		if (!(v.env_path_value = get_value_expansion("PATH", env)))
+		if (!(v.tmp = ft_strdup(v.dirs[v.i])))
 			return (NULL);
-		if (!(v.dirs = ft_strsplit(v.env_path_value, ':')))
+		v.tmp2 = ft_freejoin(v.tmp, "/", 0);
+		if (!(v.bin_file = ft_strjoin(v.tmp2, cmd[0])))
 			return (NULL);
-		ft_strdel(&v.env_path_value);
-		v.i = -1;
-		while (v.dirs[++v.i] != NULL)
-		{
-			if (!(v.tmp = ft_strdup(v.dirs[v.i])))
-				return (NULL);
-			v.tmp2 = ft_freejoin(v.tmp, "/", 0);
-			if (!(v.bin_file = ft_strjoin(v.tmp2, cmd[0])))
-				return (NULL);
-			if (access(v.bin_file, F_OK) == 0)
-				break ;
-			ft_strdel_2(&v.bin_file, &v.tmp2);
-		}
-		ft_free_arr(v.dirs);
+		ft_strdel(&v.tmp2);
+		if (access(v.bin_file, F_OK) == 0)
+			break ;
+		ft_strdel(&v.bin_file);
 	}
+	ft_free_arr(v.dirs);
 	return (v.bin_file);
 }
