@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:24:04 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/09 01:41:55 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static char		*ft_strjoin_until_char(char const *s1, char const *s2, char c)
 
 	lenstr = 0;
 	str = NULL;
-	new_strlen = ft_strlen_char_2((char *)s2, c, '$');
+	(void)c;
+	new_strlen = ft_strlen_delim((char *)s2, " ;$|><\n\t");
 	if (s1 && s2)
 	{
 		lenstr = ft_strlen((char *)s1) + new_strlen;
@@ -74,7 +75,7 @@ static void		after_exp(t_expansion *v, t_pointt *cor, t_lexer **token_node,
 	{
 		v->data = v->env_value;
 		v->env_value = ft_strjoin_until_char(v->env_value, v->buf + v->i, ' ');
-		v->data_size += ft_strlen_char_2(v->buf + v->i, ' ', '$');
+		v->data_size += ft_strlen_delim(v->buf + v->i, " ;$|><\n\t");
 		if (v->buf[v->data_size - 1] == '$')
 			cor->no_space = 1;
 		ft_strdel(&v->data);
@@ -115,6 +116,8 @@ int				expansion_parse(t_lexer **token_node, char *buf,
 		{
 			if (v.i == 0 && (ft_is_tilde(buf + v.i) || (buf[v.i] == '~')))
 				return (exp_tild(&v, token_node, env_list, cor));
+			if (ft_is_there(" ;$|><\n\t", buf[v.i]))
+				break ;
 			v.data[v.j++] = buf[v.i];
 			v.i++;
 		}

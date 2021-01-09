@@ -6,7 +6,7 @@
 /*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:59:22 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/02 00:25:45 by macos            ###   ########.fr       */
+/*   Updated: 2021/01/03 16:50:25 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ static void		cd_simple(char *path, t_env **env_list)
 		else if (ft_strrchr(path, '/'))
 			ft_putendl_fd_error(ERROR5, ft_strrchr(path, '/') + 1, "\n", NULL);
 	}
-	else if (ft_strrchr(path, '/'))
-		ft_putendl_fd_error(ERROR6, ft_strrchr(path, '/') + 1, "\n", NULL);
 	else
-		ft_putendl_fd_error(ERROR6, path, "\n", NULL);
+		ft_putendl_fd_error(ERROR6, ft_strrchr(path, '/') + 1, "\n", NULL);
+
 }
 
 static void		cd_home(t_env **env_list)
