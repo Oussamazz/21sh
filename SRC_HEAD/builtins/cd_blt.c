@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_blt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:59:22 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/03 16:50:25 by macos            ###   ########.fr       */
+/*   Updated: 2021/01/18 14:39:39 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		cd_simple(char *path, t_env **env_list)
 		if (!S_ISDIR(st.st_mode) && ft_strrchr(path, '/'))
 		{
 			return (ft_putendl_fd_error("21sh: cd: not a directory: ",
-				ft_strrchr(path, '/') + 1, "\n", NULL));
+				ft_strrchr(path, '/') + 1, NULL, NULL));
 		}
 		if (access(path, X_OK) == 0)
 		{
@@ -37,8 +37,7 @@ static void		cd_simple(char *path, t_env **env_list)
 			ft_putendl_fd_error(ERROR5, ft_strrchr(path, '/') + 1, "\n", NULL);
 	}
 	else
-		ft_putendl_fd_error(ERROR6, ft_strrchr(path, '/') + 1, "\n", NULL);
-
+		ft_putendl_fd_error(ERROR6, path, "\n", NULL);
 }
 
 static void		cd_home(t_env **env_list)

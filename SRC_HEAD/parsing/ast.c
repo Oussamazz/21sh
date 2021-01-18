@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 19:09:07 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/18 15:00:16 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void		parse_commands_sep_pipe(t_miniast **head,
 
 int				parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 {
+	static	int	i;	
 	char		**cmd;
 	t_miniast	*data;
 	t_redir		*redirections;
@@ -89,11 +90,14 @@ int				parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 				env, g_alltokenzsize)))
 				return (-2);
 			*head = data;
+			(*head)->node_index = i;
+			i++;
 		}
 		else
 			parse_commands_sep_pipe(head, tokenz, env);
 		tokenz = move_list(tokenz, g_alltokenzsize);
 	}
 	g_alltokenzsize = 0;
+	i = 0;
 	return (1);
 }

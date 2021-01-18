@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   sh.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/01 14:18:15 by macos            ###   ########.fr       */
+/*   Updated: 2021/01/18 14:48:44 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_H
 # define SH_H
 
+#include "error_msg.h"
 # include "libft.h"
 # include "readline.h"
 # include <sys/types.h>
@@ -31,20 +32,8 @@
 # define AGG_REDI "<>&"
 # define DEFAULT_FD_OUT "1"
 # define DEFAULT_FD_IN "0"
-# define ERR_BAD_FD "21sh: bad file descriptor.\n"
 # define MAX_INDEX 4096
 # define MIN_INDEX 1024
-# define WELCOME_MSG0 "\t\033[1;32m⬇⬇  w3lc0m3 70 7h3_qu173r "
-# define WELCOME_MSG1 "& ph30n1x 5h3ll ⚙️ ⬇⬇\033[0m\t\t"
-# define ERROR2 "21sh: setenv: Variable name must begin with a letter "
-# define ERROR22 "and contains only alpha-numeric characters."
-# define ERROR4 "21sh: Error: Left redirection must "
-# define ERROR44 "only contains digits characters."
-
-# define ERROR1 "21sh: Error: [setenv [var_name] [var_value]]."
-# define ERROR3 "Envirenment variables not set."
-# define ERROR5 "21sh: cd: permission denied: "
-# define ERROR6 "21sh: cd: no such file or directory: "
 
 enum {
 	F_TOKENZ,
@@ -138,6 +127,7 @@ typedef struct			s_redir
 typedef struct			s_miniast
 {
 	char				**cmd;
+	int					node_index;
 	int					no_space;
 	t_redir				*redirection;
 	struct s_miniast	*pipe;
@@ -265,8 +255,8 @@ void					execute_direct(char **cmd, char **tabs);
 void					execute_undirect(char **cmd, char **tabs, t_env **env);
 void					execute_blt_without_fork(t_miniast *tree,
 	char **cmd, char **tabs, t_env **env_list);
-void					execute_blt_with_fork(char **cmd, char **tabs,
-	t_env **env_list);
+void					execute_blt_with_fork(t_miniast *tree,
+ char **tabs, t_env **env_list);
 int						execute_redirection(t_redir *redirections,
 	char *tty_name);
 int						ft_redirect_in_out(t_redir *redirections,

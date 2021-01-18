@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/01 10:20:44 by macos            ###   ########.fr       */
+/*   Updated: 2021/01/18 14:43:20 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		execute_pip_child(t_miniast *tree, t_mypipe *pipes,
 	if (!tree->pipe && pipes->cmd_no)
 		close(pipes->temp);
 	if (check_builtins(tree->cmd[0]))
-		execute_blt_with_fork(tree->cmd, tabs, env_list);
+		execute_blt_with_fork(tree, tabs, env_list);
 	else if (tree->cmd[0][0] == '/' ||
 		(tree->cmd[0][0] == '.' && tree->cmd[0][1] == '/'))
 		execute_direct(tree->cmd, tabs);
@@ -48,7 +48,7 @@ static void		execute_pipes1(t_miniast *tree, t_mypipe *pipes,
 	char **tabs, t_env **env_list)
 {
 	if (tree->cmd && tree->cmd[0] && check_builtins_nfrk(tree->cmd[0]))
-		return (execute_blt_with_fork(tree->cmd, tabs, env_list));
+		return (execute_blt_with_fork(tree, tabs, env_list));
 	if (pipe(pipes->pipe) == -1)
 		return ;
 	if ((pipes->pid = fork()) == -1)

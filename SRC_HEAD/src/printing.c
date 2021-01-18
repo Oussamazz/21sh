@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 22:19:31 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 19:04:56 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:59:43 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,33 @@ void		starting_message(char **argv, char **user, time_t *now)
 		ft_putstr_fd(WELCOME_MSG1, 1);
 		ft_putendl_fd(ctime(now), 1);
 	}
+}
+
+void	print_arr(char **cmd)
+{
+	int i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		ft_putendl(cmd[i]);
+		i++;
+	}
+	return ;
+}
+
+void					print_btree(t_miniast *ast)
+{
+	if (!ast)
+		return ;
+	if (ast->cmd)
+	{
+		print_arr(ast->cmd);
+		ft_putnbr(ast->node_index);
+		ft_putchar('\n');
+	}
+	if (ast->pipe)
+		print_btree(ast->pipe);
+	else if (ast->sep)
+		print_btree(ast->sep);
 }

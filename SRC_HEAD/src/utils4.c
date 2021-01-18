@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/31 17:42:54 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:45:26 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ void			flag_g(char **av, t_env **env_list, time_t *now)
 
 int				check_builtins_nfrk(char *cmd_name)
 {
-	if (ft_strequ(cmd_name, "setenv") ||
-		ft_strequ(cmd_name, "unsetenv") ||
-		ft_strequ(cmd_name, "cd") || ft_strequ(cmd_name, "exit"))
+	if (ft_strequ(cmd_name, "unsetenv") || ft_strequ(cmd_name, "exit")
+		|| ft_strequ(cmd_name, "cd"))
 		return (1);
 	return (0);
 }

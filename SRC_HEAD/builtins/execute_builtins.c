@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:32:52 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/01 10:11:28 by macos            ###   ########.fr       */
+/*   Updated: 2021/01/18 15:01:20 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,23 @@ void			blt_setenv(char **cmd, t_env **env_list)
 	return ;
 }
 
-void			execute_blt_with_fork(char **cmd, char **tabs, t_env **env_list)
+void			execute_blt_with_fork(t_miniast *tree, char **tabs, t_env **env_list)
 {
-	if (cmd && tabs && *env_list)
+	if (tree->cmd && tabs && *env_list)
 	{
-		if (ft_strequ(cmd[0], "echo"))
-			blt_echo(cmd);
-		else if (ft_strequ(cmd[0], "env"))
+		if (ft_strequ(tree->cmd[0], "echo"))
+			blt_echo(tree->cmd);
+		else if (ft_strequ(tree->cmd[0], "env"))
 			print_env_list(env_list);
-		else if (ft_strequ(cmd[0], "type"))
-			type_builtin(cmd, env_list);
-		else if (ft_strequ(cmd[0], "cd"))
-			blt_cd(cmd, env_list);
-		else if (ft_strequ(cmd[0], "setenv"))
-			blt_setenv(cmd, env_list);
-		else if (ft_strequ(cmd[0], "unsetenv"))
-			blt_unsetenv(cmd, env_list);
-		else if (ft_strequ(cmd[0], "exit"))
+		else if (ft_strequ(tree->cmd[0], "type"))
+			type_builtin(tree->cmd, env_list);
+		else if (ft_strequ(tree->cmd[0], "cd"))
+			blt_cd(tree->cmd, env_list);
+		else if (ft_strequ(tree->cmd[0], "setenv"))
+			blt_setenv(tree->cmd, env_list);
+		else if (ft_strequ(tree->cmd[0], "unsetenv"))
+			blt_unsetenv(tree->cmd, env_list);
+		else if (ft_strequ(tree->cmd[0], "exit") && !tree->pipe && !tree->node_index)
 			exit(0);
 	}
 	return ;
