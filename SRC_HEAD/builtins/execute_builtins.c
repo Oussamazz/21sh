@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:32:52 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/18 15:01:20 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/19 02:30:50 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void			execute_blt_with_fork(t_miniast *tree, char **tabs, t_env **env_list)
 			blt_setenv(tree->cmd, env_list);
 		else if (ft_strequ(tree->cmd[0], "unsetenv"))
 			blt_unsetenv(tree->cmd, env_list);
-		else if (ft_strequ(tree->cmd[0], "exit") && !tree->pipe && !tree->node_index)
+		else if (ft_strequ(tree->cmd[0], "exit") && (!tree->pipe && tree->node_index))
 			exit(0);
 	}
 	return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 19:09:07 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/18 15:00:16 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/19 02:26:28 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,10 @@ int				parse_commands(t_miniast **head, t_lexer *tokenz, t_env **env)
 				env, g_alltokenzsize)))
 				return (-2);
 			*head = data;
-			(*head)->node_index = i;
-			i++;
+			if (tokenz->type != SEP)
+				(*head)->node_index = 1;
+			else
+				(*head)->node_index = 0;
 		}
 		else
 			parse_commands_sep_pipe(head, tokenz, env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macos <macos@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:50:27 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/18 14:43:20 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/19 02:33:09 by macos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void		execute_pip_child(t_miniast *tree, t_mypipe *pipes,
 static void		execute_pipes1(t_miniast *tree, t_mypipe *pipes,
 	char **tabs, t_env **env_list)
 {
-	if (tree->cmd && tree->cmd[0] && check_builtins_nfrk(tree->cmd[0]))
+	if (tree->cmd && tree->cmd[0] && check_builtins_nfrk(tree->cmd[0]) && !tree->pipe)
 		return (execute_blt_with_fork(tree, tabs, env_list));
 	if (pipe(pipes->pipe) == -1)
 		return ;
