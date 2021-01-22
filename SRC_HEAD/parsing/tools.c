@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/31 15:15:23 by oelazzou          #+#    #+#             */
-/*   Updated: 2020/12/31 18:41:55 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:59:34 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int				get_the_word(char *buf, t_lexer **token_node, t_pointt *coord)
 
 	j = 0;
 	while (buf[j] && !ft_is_there(METACHARACTER, buf[j]) &&
-		!ft_is_aggr(buf[j]) && buf[j] != '|' && buf[j] != '$')
+		!ft_is_aggr(buf[j]) && buf[j] != '|' && buf[j] != '$' && buf[j] != '&')
 	{
 		tmp[j] = buf[j];
 		j++;
@@ -81,6 +81,11 @@ char			*get_splitter(char *buf, t_mystruct *v)
 			return (buf + position);
 		ft_free_tokenz(&v->tokenz);
 		return (NULL);
+	}
+	else if (*buf == '&')
+	{
+		ft_putendl("job control"); // <= job_control_function();
+		return (++buf);
 	}
 	return (buf);
 }

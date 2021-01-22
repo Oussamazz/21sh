@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/18 14:48:44 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/22 17:23:08 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ enum {
 	F_STR,
 	F_G_HIS
 };
+
 
 typedef enum	e_split{
 	Normal,
@@ -223,6 +224,15 @@ typedef struct			s_get_bin
 	char				*tmp;
 	char				*tmp2;
 }						t_get_bin;
+
+typedef	struct			s_job_ctrl
+{
+	pid_t	pid;
+	int		job_id;
+	int		status;
+	char	sign;
+	char	*full_cmd;
+}						t_job_ctrl;
 
 void					source_sh(t_env **head);
 char					*here_doc(char *delim);

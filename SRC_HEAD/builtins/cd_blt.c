@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:59:22 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/18 14:39:39 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/18 15:05:57 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void		cd_simple(char *path, t_env **env_list)
 		else if (ft_strrchr(path, '/'))
 			ft_putendl_fd_error(ERROR5, ft_strrchr(path, '/') + 1, "\n", NULL);
 	}
+	else if (ft_strrchr(path, '/'))
+		ft_putendl_fd_error(ERROR6, ft_strrchr(path, '/') + 1, "\n", NULL);
 	else
 		ft_putendl_fd_error(ERROR6, path, "\n", NULL);
 }

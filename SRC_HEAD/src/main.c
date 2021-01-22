@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/18 15:01:01 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/22 17:26:24 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static void		init_coord(t_pointt *cor)
 
 int				main(int ac, char **av, char **env)
 {
-	time_t		now;
 	t_env		*env_list;
+	time_t		now;
 
 	env_list = NULL;
 	stock_env(env, &env_list);
@@ -77,6 +77,18 @@ char			*get_full_cmd(void)
 	return (v.tmp ? v.cmd : NULL);
 }
 
+static void print_tokenz(t_lexer *tokenz)
+{
+	while (tokenz)
+	{
+		ft_putnbr(tokenz->type);
+		ft_putstr("=>");
+		ft_putendl(tokenz->data);
+		tokenz = tokenz->next;
+	}
+	return ;
+}
+
 void			source_sh(t_env **head)
 {
 	t_mystruct	v;
@@ -92,6 +104,7 @@ void			source_sh(t_env **head)
 		if (!(v.str = get_full_cmd()))
 			continue;
 		v.tokenz = lexer(v.str, head, &v.coord);
+		print_tokenz(v.tokenz);
 		v.status[1] = check_grammar_tokenz(v.tokenz);
 		if (v.tokenz && head && v.status[1] > 0)
 			v.status[1] = parse_commands(&v.ast, v.tokenz, head);
