@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 23:01:13 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/22 17:23:08 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/01/23 18:36:41 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "readline.h"
 # include <sys/types.h>
 # include <sys/stat.h>
+#include <sys/wait.h>
 # include <stdbool.h>
 # include <dirent.h>
 # include <unistd.h>

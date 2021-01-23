@@ -1,0 +1,4 @@
+
+kill -s SIGNAME PID
+ps o pid,pgid,comm
+pkill cmd_name
