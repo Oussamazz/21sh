@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/01/22 17:26:24 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/02/27 14:29:47 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void			source_sh(t_env **head)
 		if (!(v.str = get_full_cmd()))
 			continue;
 		v.tokenz = lexer(v.str, head, &v.coord);
-		print_tokenz(v.tokenz);
+		// print_tokenz(v.tokenz);
 		v.status[1] = check_grammar_tokenz(v.tokenz);
 		if (v.tokenz && head && v.status[1] > 0)
 			v.status[1] = parse_commands(&v.ast, v.tokenz, head);
