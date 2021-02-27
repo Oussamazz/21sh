@@ -6,7 +6,7 @@
 /*   By: oelazzou <oelazzou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:13:38 by oelazzou          #+#    #+#             */
-/*   Updated: 2021/02/27 14:29:47 by oelazzou         ###   ########.fr       */
+/*   Updated: 2021/02/27 14:30:55 by oelazzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ char			*get_full_cmd(void)
 	return (v.tmp ? v.cmd : NULL);
 }
 
-static void print_tokenz(t_lexer *tokenz)
-{
-	while (tokenz)
-	{
-		ft_putnbr(tokenz->type);
-		ft_putstr("=>");
-		ft_putendl(tokenz->data);
-		tokenz = tokenz->next;
-	}
-	return ;
-}
+// static void print_tokenz(t_lexer *tokenz)
+// {
+// 	while (tokenz)
+// 	{
+// 		ft_putnbr(tokenz->type);
+// 		ft_putstr("=>");
+// 		ft_putendl(tokenz->data);
+// 		tokenz = tokenz->next;
+// 	}
+// 	return ;
+// }
 
 void			source_sh(t_env **head)
 {
